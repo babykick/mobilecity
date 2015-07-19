@@ -1,0 +1,1 @@
+set PYTHONPATH=%PYTHONPATH%;D:\workspace\python\mobilecity
