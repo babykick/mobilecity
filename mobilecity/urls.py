@@ -20,4 +20,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', include('mainsite.urls')),   # 主站
+    url(r'dev/', include('devmng.urls')), # 项目开发管理
 ]

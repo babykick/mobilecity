@@ -4,12 +4,24 @@
 {% load staticfiles %}
 
 {% block content %}
-{{ block.super }}
-  <style>
-    .iphone iframe{width: 950px;height: 564px;border: none;overflow: hidden;margin: 10px 0 0 32px;}
-  </style>
-  <div class="iphone">
-	<iframe id="iphone_iframe" src="http://m.amap.com/navi/?dest=116.470098,39.992838&amp;destName=阜通西&amp;hideRouteIcon=1&amp;key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
-  </div>
+    {{ block.super }}
+    {# Banner #}
+    <div class="jumbotron">
+                <h1>Enjoy the city!</h1>
+                <p class="lead">Mobile City is focused on helping people to find their interested information arround in their cities.
+                </p>
+                <p>
+                    <a class="btn btn-lg btn-success" href="#" role="button">Android客户端</a>
+                   <a class="btn btn-lg btn-success" href="#" role="button">IOS客户端</a>
+                </p>
+    </div>
+             
+	｛# Show a map #｝
+	 <style>
+	   .iphone iframe{width: 950px;height: 564px;border: none;overflow: hidden;margin: 10px 0 0 32px;}
+	 </style>
+	 <div class="iphone">
+	   <iframe id="iphone_iframe" src="http://m.amap.com/navi/?dest=116.470098,39.992838&amp;destName=阜通西&amp;hideRouteIcon=1&amp;key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
+	 </div>
  
 {% endblock %}
