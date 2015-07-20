@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    # For django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'bootstrap3',
+    
+    # Project apps 
     'business',
 )
 
@@ -57,7 +61,7 @@ ROOT_URLCONF = 'mobilecity.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +74,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'mobilecity.wsgi.application'
 
 
@@ -79,7 +84,7 @@ WSGI_APPLICATION = 'mobilecity.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mobilecity',
+        'NAME': 'mobilecity_test',
         'USER': 'postgres',
         'PASSWORD':'Hacker1218',
     },

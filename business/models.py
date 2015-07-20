@@ -7,11 +7,15 @@ class GeoModel(models.Model):
     lat = models.FloatField()
     objects = models.GeoManager()
     
-
+    class Meta:
+        abstract = True
+    
 class Shop(GeoModel):
     name = models.CharField(max_length=100)
     description = models.TextField()
 
-class BaseStation(models.Model):
-    name = models.CharField(max_length=100)
-    height = models.FloatField()
+class BaseStation(GeoModel):
+    site_name = models.CharField(max_length=100)
+    
+    cluster = models.CharField(max_length=30)
+    

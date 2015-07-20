@@ -1,0 +1,51 @@
+{% extends 'bootstrap.html' %}
+
+{% load url from future %}
+
+{% load bootstrap3 %}
+
+{# load CSS and Javascript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block bootstrap3_content %}
+    <div class="container">           
+        {% bootstrap_messages %}
+        {% block content %}
+           <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Mobile City</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                  </ul>
+                </div><!--/.nav-collapse -->
+              </div>
+            </nav>
+           
+           <div class="jumbotron">
+                <h1>Enjoy the city!</h1>
+                <p class="lead">Mobile City is focused on helping people to find their interested information arround in their cities.
+                </p>
+                <p>
+                    <a class="btn btn-lg btn-success" href="#" role="button">Android客户端</a>
+                   <a class="btn btn-lg btn-success" href="#" role="button">IOS客户端</a>
+                </p>
+           </div>
+             
+            
+         
+        {% endblock %}
+    </div>
+
+{% endblock %}

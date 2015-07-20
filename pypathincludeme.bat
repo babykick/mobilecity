@@ -1,1 +1,1 @@
-set PYTHONPATH=%PYTHONPATH%;D:\workspace\python\mobilecity
+set PYTHONPATH=%PYTHONPATH%;F:\programing\python\app\webprojects\django\mobilecity\
