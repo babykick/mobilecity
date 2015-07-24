@@ -14,9 +14,14 @@ class Migration(migrations.Migration):
             name='BaseStation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=100)),
-                ('height', models.FloatField()),
+                ('lon', models.FloatField()),
+                ('lat', models.FloatField()),
+                ('site_name', models.CharField(max_length=100)),
+                ('cluster', models.CharField(max_length=30)),
             ],
+            options={
+                'abstract': False,
+            },
         ),
         migrations.CreateModel(
             name='Shop',
