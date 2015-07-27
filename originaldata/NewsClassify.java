@@ -1,16 +1,16 @@
 package com.topnews.bean;
 
 /**
- * ĞÂÎÅ·ÖÀàÀ¸Ä¿ÊôĞÔ
+ * æ–°é—»åˆ†ç±»æ ç›®å±æ€§
  * */
 public class NewsClassify {
-	/** ĞÂÎÅid */
+	/** æ–°é—»id */
 	public Integer id;
-	/** ĞÂÎÅÀàĞÍ */
+	/** æ–°é—»ç±»å‹ */
 	public String type;
-	/** ĞÂÎÅ±êÌâ */
+	/** æ–°é—»æ ‡é¢˜ */
 	public String title;
-	/** ÊÇ·ñ¸ĞĞËÈ¤ */
+	/** æ˜¯å¦æ„Ÿå…´è¶£ */
 	public Boolean is_myinterest;
 
 	public Integer getId() {
