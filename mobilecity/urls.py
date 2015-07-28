@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+ 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -23,3 +24,5 @@ urlpatterns = [
     url(r'dev/', include('devmng.urls')), # 项目开发管理
     url(r'api/', include('api.urls')), # API 发布
 ]
+
+ 
