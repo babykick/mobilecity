@@ -6,4 +6,10 @@ from .models import RecommendItem
 class RcmdItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecommendItem
-        fields = ('title', 'content', 'summary', 'comment', 'picOne', 'picTwo', 'picThr')
+        fields = ('title',
+                  'content',
+                  'summary',
+                  'comment',
+                  'picOneURL',
+                  'picTwoURL'
+                  )

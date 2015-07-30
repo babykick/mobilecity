@@ -15,7 +15,7 @@ from recommendation.serializers import RcmdItemSerializer
 
 class RecommendList(APIView):
     """
-    List all recommendation, or create a new recommend.
+    List all recommendations, or create a new recommendation.
     """
     permission_classes = (IsAuthenticatedOrReadOnly,)
     # authentication_classes = (authentication.TokenAuthentication,)
@@ -30,7 +30,8 @@ class RecommendList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = RcmdItemSerializer(data=request.data)
+        data = request.data
+        serializer = RcmdItemSerializer()
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

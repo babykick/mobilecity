@@ -1,6 +1,6 @@
 #coding=utf-8
 from django.db import models
-
+#from django.contrib.sites.models import Site
 # Create your models here.
 
 class RecommendItem(models.Model):
@@ -33,6 +33,22 @@ class RecommendItem(models.Model):
     # 感兴趣状态 
     interestedStatus = models.CharField(max_length=50, default="")
     
+    
     def hotestComment():
         return ""
+    
+    def absoluteImageUrl(self, imgname):
+        return 'http://111.8.186.228:8000/static/images/%s' % imgname
+    
+     
+    def _picOneURL(self):
+        return self.absoluteImageUrl(self.picOne)
+    
+    def _picTwoURL(self):
+        return self.absoluteImageUrl(self.picTwo)
+    
+    # Additional properties
+    picOneURL = property(_picOneURL)
+    picTwoURL = property(_picTwoURL)
+    
     
