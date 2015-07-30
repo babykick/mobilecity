@@ -134,6 +134,9 @@ STATICFILES_DIRS = [
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# Custom image url
+IMAGE_URL = '/static/images/'
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.

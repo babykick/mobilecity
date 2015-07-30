@@ -1,5 +1,6 @@
 #coding=utf-8
 from django.db import models
+from django.conf import settings
 #from django.contrib.sites.models import Site
 # Create your models here.
 
@@ -38,7 +39,7 @@ class RecommendItem(models.Model):
         return ""
     
     def absoluteImageUrl(self, imgname):
-        return 'http://111.8.186.228:8000/static/images/%s' % imgname
+        return 'http://111.8.186.228:8000%s%s' % (settings.IMAGE_URL, imgname)
     
      
     def _picOneURL(self):
