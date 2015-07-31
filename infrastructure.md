@@ -6,7 +6,8 @@ Django 1.8/geodjango
 
 with:
 django-bootstrap3
-
+djangorestframework
+djangorestframework-oauth
 
 ### Database:
 Postgresql 9.3/postgis

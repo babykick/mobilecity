@@ -37,12 +37,13 @@ class RecommendItem(models.Model):
     
     # 作者
     author = models.ForeignKey(Author, verbose_name="author for the recommendation",
-                               related_name="recommendations", default=None)
+                               related_name="recommendations", null=True)
     
  
     
     def hotestComment():
         return ""
+    
     
     def absoluteImageUrl(self, imgname):
         if imgname.startswith('http'):

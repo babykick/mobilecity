@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
- 
+
+
 # Create your models here.
 class Author(models.Model):
     """
@@ -13,7 +14,7 @@ class Author(models.Model):
     """
     nickname = models.CharField(max_length=50)
     mobilephone = models.CharField(max_length=30)
-    user = models.OneToOneField(User, default=None)
+    user = models.OneToOneField(User, null=True)
  
  
     def __unicode__(self):

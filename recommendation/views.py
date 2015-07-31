@@ -7,7 +7,10 @@ from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from users.auth import TokenedURLAuthentication
+
 from recommendation.models import RecommendItem
 from recommendation.serializers import RcmdItemEntrySerializer,RcmdDetailSerializer
 from django.http import HttpResponse
@@ -17,22 +20,18 @@ class RecommendList(APIView):
     """
     List all recommendations, or create a new recommendation.
     """
-    permission_classes = (IsAuthenticatedOrReadOnly,)
-    # authentication_classes = (authentication.TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    #authentication_classes = (SessionAuthentication, BasicAuthentication)
+    authentication_classes = (TokenedURLAuthentication,)
     # permission_classes = (permissions.IsAdminUser,)
     #renderer_classes = (JSONRenderer, )
     
-    def toUTF8(self, data):
-        for record in data:
-            record['title'] 
-          
-    def toHttpResponse(self, data): 
-        return HttpResponse(json.dumps(self.toUTF8(data),ensure_ascii="False"), content_type='application/json; charset=utf-8')
-    
+
     def get(self, request, format=None):
         """
            http://127.0.0.1:8000/api/rcmdlist/?format=json
         """
+        print request.auth, request.user
         rcmds = RecommendItem.objects.all()
         serializer = RcmdItemEntrySerializer(rcmds, many=True)
         return Response(serializer.data)
@@ -51,7 +50,7 @@ class RecommendDetail(APIView):
     """
     Retrieve, update or delete a recommendation instance.
     """
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,  )
     
     def get_object(self, pk):
         try:

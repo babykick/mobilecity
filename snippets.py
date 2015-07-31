@@ -16,7 +16,11 @@ class JSONResponse(HttpResponse):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
-        
+
+ 
+def toHttpResponse(self, data): 
+        return HttpResponse(json.dumps(self.toUTF8(data),ensure_ascii="False"), content_type='application/json; charset=utf-8')
+            
         
 @csrf_exempt
 def rcmd_list(request):

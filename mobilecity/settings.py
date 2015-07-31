@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     # Third parties
     'bootstrap3',
     'rest_framework',
+    'rest_framework.authtoken',
     
     # My apps
     'devmng', # Developing management
@@ -152,5 +153,9 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-    )    
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
 }
