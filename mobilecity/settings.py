@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'devmng', # Developing management
     'business', # define the business entity as recommending target
     'recommendation', # core recommendation
+    'users',  # users management
 )
 
 MIDDLEWARE_CLASSES = (
@@ -92,13 +93,16 @@ DATABASES = {
         'NAME': 'mobilecity_debug',
         'USER': 'postgres',
         'PASSWORD':'Hacker1218',
+        'TEST': {
+                    'charset': 'utf-8',
+                     },
     },
-    'geodjango':{
-         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'NAME': 'geodjango',
-         'USER': 'postgres',
-         'PASSWORD':'hacker',
-    }
+    # 'geodjango':{
+    #      'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    #      'NAME': 'geodjango',
+    #      'USER': 'postgres',
+    #      'PASSWORD':'Hacker1218',
+    # }
 }
 
  
@@ -142,6 +146,11 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        
+    ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )    
 }

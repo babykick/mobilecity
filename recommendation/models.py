@@ -34,7 +34,7 @@ class RecommendItem(models.Model):
     # 感兴趣状态 
     interestedStatus = models.CharField(max_length=50, default="")
     
-    
+     
     def hotestComment():
         return ""
     
