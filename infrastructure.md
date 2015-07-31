@@ -4,8 +4,9 @@
 ### Web framework
 Django 1.8/geodjango
 
-### django thirdparty packages
+with:
 django-bootstrap3
+
 
 ### Database:
 Postgresql 9.3/postgis
@@ -14,7 +15,8 @@ Postgresql 9.3/postgis
 redis
 
 ### Backend
-Nginx
+Nginx 
+gunicorn
 
 ### Web Front
 Bootstrap

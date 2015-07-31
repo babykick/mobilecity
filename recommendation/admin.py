@@ -10,7 +10,7 @@ make_published.short_description = "Mark selected stories as published"
 
 
 class RecommendItemAdmin(admin.ModelAdmin):
-    list_display = ['title', 'content', 'summary', 'picOne', 'picTwo']
+    list_display = ['title', 'content', 'summary', 'picOne', 'picTwo', 'picThr']
     ordering = ['title']
     actions = [make_published]
 admin.site.register(RecommendItem, RecommendItemAdmin)

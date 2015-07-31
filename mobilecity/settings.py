@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'rest_framework',
     
-    # Project apps
+    # My apps
     'devmng', # Developing management
     'business', # define the business entity as recommending target
     'recommendation', # core recommendation
@@ -128,14 +128,15 @@ USE_TZ = True
 STATICFILES_DIRS = [
     'G:/Download/static',
     os.path.join(BASE_DIR, 'recommendation/static'),
-    #os.path.join(BASE_DIR, 'static')
 ]
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Custom image url
-IMAGE_URL = '/static/images/'
+IMAGE_URL = 'images/'
+STATIC_IMAGE_ROOT = os.path.join(BASE_DIR, 'images/static/')
+
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

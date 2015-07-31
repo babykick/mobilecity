@@ -39,7 +39,9 @@ class RecommendItem(models.Model):
         return ""
     
     def absoluteImageUrl(self, imgname):
-        return 'http://111.8.186.228:8000%s%s' % (settings.IMAGE_URL, imgname)
+        if imgname.startswith('http'):
+            return imgname
+        return 'http://111.8.186.228:8000/static/images/%s' % imgname   
     
      
     def _picOneURL(self):
@@ -48,8 +50,13 @@ class RecommendItem(models.Model):
     def _picTwoURL(self):
         return self.absoluteImageUrl(self.picTwo)
     
+    def _picThrURL(self):
+        return self.absoluteImageUrl(self.picThr)
+    
+    
     # Additional properties
     picOneURL = property(_picOneURL)
     picTwoURL = property(_picTwoURL)
+    picThrURL = property(_picThrURL)
     
     

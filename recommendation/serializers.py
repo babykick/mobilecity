@@ -11,5 +11,6 @@ class RcmdItemSerializer(serializers.ModelSerializer):
                   'summary',
                   'comment',
                   'picOneURL',
-                  'picTwoURL'
+                  'picTwoURL',
+                  'picThrURL'
                   )

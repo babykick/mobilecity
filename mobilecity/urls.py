@@ -21,11 +21,11 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', include('mainsite.urls')),   # 主站
-    url(r'dev/', include('devmng.urls')), # 项目开发管理
-    url(r'api/', include('api.urls')), # API 发布
+    url(r'^admin/', include(admin.site.urls)), # Admin
+    url(r'^$', include('mainsite.urls')),      # 主站
+    url(r'dev/', include('devmng.urls')),      # 项目开发管理
+    url(r'api/', include('api.urls')),         # API 发布
 ]
 
+# For development
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
- 
