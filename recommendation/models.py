@@ -1,40 +1,46 @@
 #coding=utf-8
 from django.db import models
 from django.conf import settings
+from users.models import Author
 #from django.contrib.sites.models import Site
 # Create your models here.
 
 class RecommendItem(models.Model):
     # 推荐标题
-    title = models.CharField(max_length=50, default="")
+    title = models.CharField(max_length=100)
     # 摘要
-    summary = models.CharField(max_length=100, default="")
+    summary = models.CharField(max_length=500, default="",blank=True)
     # 内容
-    content = models.CharField(max_length=100, default="")
+    content = models.CharField(max_length=1000, default="")
     # 评论
-    comment = models.CharField(max_length=100, default="")
+    comment = models.CharField(max_length=100, default="",blank=True)
     # 图片列表字符串 
-    picListString = models.CharField(max_length=100, default="")
+    picListString = models.CharField(max_length=100, default="",blank=True)
     # 图片1 URL 
-    picOne = models.CharField(max_length=100, default="")
+    picOne = models.CharField(max_length=100, default="",blank=True)
     # 图片2 URL 
-    picTwo = models.CharField(max_length=100, default="")
+    picTwo = models.CharField(max_length=100, default="",blank=True)
     # 图片3 URL 
-    picThr = models.CharField(max_length=100, default="")
+    picThr = models.CharField(max_length=100, default="",blank=True)
     # 图片 列表 
-    picList = models.CharField(max_length=100, default="")
+    picList = models.CharField(max_length=100, default="",blank=True)
     # 图片类型是否为大图 
-    isLarge = models.CharField(max_length=100, default="")
+    isLarge = models.CharField(max_length=100, default="",blank=True)
     # 阅读状态 ，读过的话显示灰色背景 
-    readStatus = models.CharField(max_length=100, default="")
+    readStatus = models.CharField(max_length=100, default="",blank=True)
     # 收藏状态 
-    collectStatus = models.CharField(max_length=50, default="")
+    collectStatus = models.CharField(max_length=50, default="",blank=True)
     # 喜欢 状态 
-    likeStatus = models.CharField(max_length=50, default="")
+    likeStatus = models.CharField(max_length=50, default="",blank=True)
     # 感兴趣状态 
-    interestedStatus = models.CharField(max_length=50, default="")
+    interestedStatus = models.CharField(max_length=50, default="",blank=True)
     
-     
+    # 作者
+    author = models.ForeignKey(Author, verbose_name="author for the recommendation",
+                               related_name="recommendations", default=None)
+    
+ 
+    
     def hotestComment():
         return ""
     

@@ -16,6 +16,4 @@ class Shop(GeoModel):
 
 class BaseStation(GeoModel):
     site_name = models.CharField(max_length=100)
-    
-    cluster = models.CharField(max_length=30)
-    
+   
