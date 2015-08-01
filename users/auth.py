@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 
 
 
-class TokenedURLAuthentication(authentication.BaseAuthentication):
+class TokenizedURLAuthentication(authentication.BaseAuthentication):
     """
        Customed Authentication for url token authentification, example:
            http://127.0.0.1:8000/api/rcmdlist/?token=fdsfdsafdsf

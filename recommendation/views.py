@@ -9,12 +9,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from users.auth import TokenedURLAuthentication
+from users.auth import TokenizedURLAuthentication
 
 from recommendation.models import RecommendItem
 from recommendation.serializers import RcmdItemEntrySerializer,RcmdDetailSerializer
 from django.http import HttpResponse
- 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class RecommendList(APIView):
     """
@@ -22,18 +22,26 @@ class RecommendList(APIView):
     """
     permission_classes = (IsAuthenticated,)
     #authentication_classes = (SessionAuthentication, BasicAuthentication)
-    authentication_classes = (TokenedURLAuthentication,)
+    authentication_classes = (TokenizedURLAuthentication,)
     # permission_classes = (permissions.IsAdminUser,)
     #renderer_classes = (JSONRenderer, )
     
 
     def get(self, request, format=None):
         """
-           http://127.0.0.1:8000/api/rcmdlist/?format=json
+           doc:  http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&token=d16a8d11c10afef6592264be5457b3c669467adb
+           json: http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afef6592264be5457b3c669467adb
+           TokenizedURLAuthentication gives out (request.auth, request.user)
         """
-        print request.auth, request.user
+        page = request.GET.get('page', 1)
+        eachnum = request.GET.get('n', 10)
         rcmds = RecommendItem.objects.all()
-        serializer = RcmdItemEntrySerializer(rcmds, many=True)
+        paginator = Paginator(rcmds, eachnum) # Show 25 contacts per page
+        try:
+            rs = paginator.page(page)
+        except EmptyPage:
+            rs = paginator.page(paginator.num_pages)
+        serializer = RcmdItemEntrySerializer(rs, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -51,6 +59,8 @@ class RecommendDetail(APIView):
     Retrieve, update or delete a recommendation instance.
     """
     permission_classes = (IsAuthenticatedOrReadOnly,  )
+    authentication_classes = (TokenizedURLAuthentication,)
+    
     
     def get_object(self, pk):
         try:
