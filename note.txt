@@ -1,0 +1,6 @@
+ForiegnKey：
+   解决一对多、多对一的关系，relative_name解决一个对多个的引用
+
+OneToOneField：映射，扩展作用
+Author有一个ForiegnKey到User，那么可以使用User的Auth，然后又可以有自己的属性
+django-restframework中的Token也是， 一个token关联一个User，token到user形成了映射关系
