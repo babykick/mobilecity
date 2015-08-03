@@ -9,7 +9,7 @@ from business.models import GeoEntity
 
 class RecommendItem(models.Model):
     # 推荐标题
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=500)
     # 摘要
     summary = models.CharField(max_length=500, default="",blank=True)
     # 内容
@@ -47,7 +47,7 @@ class RecommendItem(models.Model):
     # 地理位置
     geo = models.OneToOneField(GeoEntity, null=True, blank=True)
     
-    def publishLocaltime(self):
+    def LocalPublishtime(self):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime
@@ -76,11 +76,16 @@ class RecommendItem(models.Model):
     picOneURL = property(picOneURL)
     picTwoURL = property(picTwoURL)
     picThrURL = property(picThrURL)
-    publishLocaltime = property(publishLocaltime)
+    LocalPublishtime = property(LocalPublishtime)
     
     
     def __unicode__(self):
         return "%s %s" % (self.id, self.title)
+    
+    
+    class Meta:
+        #ordering = ["publishTime"]
+        pass
     
     
 class Comment(models.Model):
@@ -90,7 +95,7 @@ class Comment(models.Model):
      # 发布时间 UTC
      publishTime = models.DateTimeField(auto_now_add=True, null=True)
      
-     def publishLocaltime(self):
+     def LocalPublishtime(self):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime

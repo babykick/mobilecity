@@ -10,10 +10,10 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'title',
                   'content',
                   'summary',
-                  'comment',
                   'picOneURL',
                   'picTwoURL',
-                  'picThrURL'
+                  'picThrURL',
+                  'LocalPublishtime',
                   )
         
         
@@ -24,9 +24,9 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'title',
                   'content',
                   'summary',
-                  'comment',
                   'picOneURL',
                   'picTwoURL',
                   'picThrURL',
                   'readStatus',
+                  'LocalPublishtime',
                   )
