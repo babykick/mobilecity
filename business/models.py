@@ -1,21 +1,21 @@
-from django.contrib.gis.db import models  
- 
+from django.contrib.gis.db import models as geomodels
+from django.db  import models 
  
 # Create your models here.
-class GeoModel(models.Model):
-    lon = models.FloatField()
-    lat = models.FloatField()
-    objects = models.GeoManager()
+class GeoEntity(geomodels.Model):
+    lon = models.FloatField(default=0)
+    lat = models.FloatField(default=0)
+    objects = geomodels.GeoManager()
+  
     
-    class Meta:
-        abstract = True
-    
-class Shop(GeoModel):
+class Shop(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-
-class BaseStation(GeoModel):
-    site_name = models.CharField(max_length=100)
+    geo = models.OneToOneField(GeoEntity, null=True)
     
+    
+class BaseStation(models.Model):
+    site_name = models.CharField(max_length=100)
     cluster = models.CharField(max_length=30)
+    geo = models.OneToOneField(GeoEntity, null=True)
     

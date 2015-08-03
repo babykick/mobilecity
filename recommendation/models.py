@@ -4,6 +4,8 @@ from django.conf import settings
 from users.models import Author
 #from django.contrib.sites.models import Site
 # Create your models here.
+from django.utils.timezone import localtime
+from business.models import GeoEntity
 
 class RecommendItem(models.Model):
     # 推荐标题
@@ -13,7 +15,7 @@ class RecommendItem(models.Model):
     # 内容
     content = models.CharField(max_length=1000, default="")
     # 评论
-    comment = models.CharField(max_length=100, default="",blank=True)
+    # "comments" rative_name from Comment
     # 图片列表字符串 
     picListString = models.CharField(max_length=100, default="",blank=True)
     # 图片1 URL 
@@ -35,13 +37,22 @@ class RecommendItem(models.Model):
     # 感兴趣状态 
     interestedStatus = models.CharField(max_length=50, default="",blank=True)
     
+    # 发布时间 UTC
+    publishTime = models.DateTimeField( auto_now=True, null=True)
+    
     # 作者
     author = models.ForeignKey(Author, verbose_name="author for the recommendation",
                                related_name="recommendations", null=True)
     
- 
+    # 地理位置
+    geo = models.OneToOneField(GeoEntity, null=True, blank=True)
     
-    def hotestComment():
+    def publishLocaltime(self):
+        if self.publishTime is not None:
+            return localtime(self.publishTime)
+        return self.publishTime
+    
+    def hotestComment(self):
         return ""
     
     
@@ -51,20 +62,22 @@ class RecommendItem(models.Model):
         return 'http://111.8.186.228:8000/static/images/%s' % imgname   
     
      
-    def _picOneURL(self):
+    def picOneURL(self):
         return self.absoluteImageUrl(self.picOne)
     
-    def _picTwoURL(self):
+    def picTwoURL(self):
         return self.absoluteImageUrl(self.picTwo)
     
-    def _picThrURL(self):
+    def picThrURL(self):
         return self.absoluteImageUrl(self.picThr)
     
     
     # Additional properties
-    picOneURL = property(_picOneURL)
-    picTwoURL = property(_picTwoURL)
-    picThrURL = property(_picThrURL)
+    picOneURL = property(picOneURL)
+    picTwoURL = property(picTwoURL)
+    picThrURL = property(picThrURL)
+    publishLocaltime = property(publishLocaltime)
+    
     
     def __unicode__(self):
         return "%s %s" % (self.id, self.title)
@@ -74,4 +87,10 @@ class Comment(models.Model):
      content = models.CharField(max_length=500)
      author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True)
      recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="comments", null=True)
-    
+     # 发布时间 UTC
+     publishTime = models.DateTimeField(auto_now_add=True, null=True)
+     
+     def publishLocaltime(self):
+        if self.publishTime is not None:
+            return localtime(self.publishTime)
+        return self.publishTime
