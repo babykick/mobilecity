@@ -18,7 +18,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class RecommendList(APIView):
     """
-    List all recommendations, or create a new recommendation.
+    List all recommendations, or create a new recommendation.<br>
+    API Parameters<br>
+    =============<br>
+    n: Item num in a page </BR>
+    page: Page index  </BR>
+    format: json   </BR>
+    token: required, as a developer, should be with the url at invoking, example: </BR></BR>
+    http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afeabcdef64be5457b3c669467adb  </BR>
     """
     permission_classes = (IsAuthenticated,)
     #authentication_classes = (SessionAuthentication, BasicAuthentication)
@@ -56,7 +63,8 @@ class RecommendList(APIView):
 
 class RecommendDetail(APIView):
     """
-    Retrieve, update or delete a recommendation instance.
+    Retrieve a recommendation with detailed information,
+    or update/delete a recommendation instance.
     """
     permission_classes = (IsAuthenticatedOrReadOnly,  )
     authentication_classes = (TokenizedURLAuthentication,)

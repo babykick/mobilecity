@@ -1,0 +1,1 @@
+python manage.py loaddata data_import.json

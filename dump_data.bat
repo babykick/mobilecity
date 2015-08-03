@@ -1,0 +1,1 @@
+python manage.py dumpdata -e contenttypes > data_import.json
