@@ -22,7 +22,7 @@ class RecommendList(APIView):
     API Parameters<br>
     =============<br>
     n: Item num in a page </BR>
-    page: Page index  </BR>
+    page: Page index, start from 1  </BR>
     format: json   </BR>
     token: required, as a developer, should be with the url at invoking, example: </BR></BR>
     http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afeabcdef64be5457b3c669467adb  </BR>

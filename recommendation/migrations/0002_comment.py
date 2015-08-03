@@ -7,21 +7,17 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('business', '0002_delete_basestation'),
+        ('users', '0001_initial'),
+        ('recommendation', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BaseStation',
+            name='Comment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('lon', models.FloatField()),
-                ('lat', models.FloatField()),
-                ('name', models.CharField(max_length=100)),
-                ('height', models.FloatField()),
+                ('content', models.CharField(max_length=500)),
+                ('author', models.ForeignKey(related_name='comments', verbose_name=b'comment author', to='users.Author')),
             ],
-            options={
-                'abstract': False,
-            },
         ),
     ]

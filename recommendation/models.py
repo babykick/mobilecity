@@ -66,4 +66,12 @@ class RecommendItem(models.Model):
     picTwoURL = property(_picTwoURL)
     picThrURL = property(_picThrURL)
     
+    def __unicode__(self):
+        return "%s %s" % (self.id, self.title)
+    
+    
+class Comment(models.Model):
+     content = models.CharField(max_length=500)
+     author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True)
+     recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="comments", null=True)
     
