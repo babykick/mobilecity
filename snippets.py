@@ -7,7 +7,31 @@
 	   <iframe id="iphone_iframe" src="http://m.amap.com/navi/?dest=116.470098,39.992838&amp;destName=阜通西&amp;hideRouteIcon=1&amp;key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
 	 </div>
 
-"""     
+"""
+
+
+def import_data():
+    import os
+    import django
+    import json
+    
+    # Setup django standalone environment
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'lordrecommender.settings'
+    django.setup()
+    from recommendation.models import RecommendItem
+    
+    jsondata = json.load(open('webscraper/data/meituan_food2.json'))
+    for a in jsondata:
+        item = RecommendItem()
+        item.picOne = a.get('imgurl')[0]
+        item.picTwo = item.picOne 
+        item.picThr = item.picOne 
+        item.title = a.get('title')[0]
+        item.summary = item.title
+        item.content = item.title
+        item.save()
+
+
 class JSONResponse(HttpResponse):
     """
     An HttpResponse that renders its content into JSON.
@@ -39,10 +63,7 @@ def rcmd_list(request):
             serializer.save()
             return JSONResponse(serializer.data, status=201)
         return JSONResponse(serializer.errors, status=400)        
-
-
-
-
+ 
 @csrf_exempt
 def rcmd_detail(request, pk):
     """
