@@ -14,8 +14,7 @@ class RecommendItem(models.Model):
     summary = models.CharField(max_length=500, default="",blank=True)
     # 内容
     content = models.CharField(max_length=1000, default="")
-    # 评论
-    # "comments" rative_name from Comment
+  
     # 图片列表字符串 
     picListString = models.CharField(max_length=100, default="",blank=True)
     # 图片1 URL 
@@ -42,10 +41,13 @@ class RecommendItem(models.Model):
     
     # 作者
     author = models.ForeignKey(Author, verbose_name="author for the recommendation",
-                               related_name="recommendations", null=True)
+                               related_name="recommendations", null=True, default=1) # Default is the supper user(id=1)
     
     # 地理位置
     geo = models.OneToOneField(GeoEntity, null=True, blank=True)
+    
+    # rative_name from other models
+    # "comments"   ---评论 from Comment
     
     @property
     def LocalPublishtime(self):
@@ -58,6 +60,10 @@ class RecommendItem(models.Model):
         if self.comments.all():
             return self.comments.latest('publishTime').content
         return None
+    
+    @property
+    def authorName(self):
+        return self.author.user.username
     
     
     def absoluteImageUrl(self, imgname):
@@ -94,7 +100,7 @@ class Comment(models.Model):
          Comments
      """
      content = models.CharField(max_length=500)
-     author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True)
+     author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True, default=1)
      recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="comments", null=True)
      # 发布时间 UTC
      publishTime = models.DateTimeField(auto_now_add=True, null=True)

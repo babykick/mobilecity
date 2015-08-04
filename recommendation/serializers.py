@@ -15,6 +15,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'picThrURL',
                   'latestComment',
                   'LocalPublishtime',
+                  'authorName',
                   )
         
         
