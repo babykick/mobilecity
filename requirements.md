@@ -26,6 +26,7 @@ Bootstrap
 Gearman
 pyapns
 
-# Spider
+# Web scraper
 scrapy
 scrapy-redis
+scrapy-djangoitem

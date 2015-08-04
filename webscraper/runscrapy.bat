@@ -1,1 +1,1 @@
-scrapy crawl meituan_spider -o data/meituan_food.json
+scrapy crawl meituan_spider
