@@ -1,6 +1,8 @@
 #coding=utf-8
 import scrapy
 from webscraper.items import MeituanItemEntry
+from .. import djangostandalonesetup
+from business.models import GeoEntity
 
 class MeituanSpider(scrapy.Spider):
     name = 'meituan_spider'
@@ -18,6 +20,9 @@ class MeituanSpider(scrapy.Spider):
                 item['content'] = item['title']
                 item['picOne'] = sel.xpath(".//img[@class='J-webp']/@src").extract()[0]
                 item['picTwo'] = item['picOne']
-                item['picThr'] = item['picOne'] 
+                item['picThr'] = item['picOne']
+                taglist = sel.xpath(".//div[@class='tag-list']/a/text()").extract()
+                #item['geo'] = GeoEntity(description=taglist[1])
+                item['category'] = taglist[0]
                 yield item
          

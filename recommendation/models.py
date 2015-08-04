@@ -8,6 +8,12 @@ from django.utils.timezone import localtime
 from business.models import GeoEntity
 
 class RecommendItem(models.Model):
+    CATEGORY_CHOICES = (
+        ('WESTFOOD', u'西餐'),
+        ('CHINESEFOOD', u'中餐'),
+        
+    )
+    
     # 推荐标题
     title = models.CharField(max_length=500)
     # 摘要
@@ -35,10 +41,11 @@ class RecommendItem(models.Model):
     likeStatus = models.CharField(max_length=50, default="",blank=True)
     # 感兴趣状态 
     interestedStatus = models.CharField(max_length=50, default="",blank=True)
-    
+    # 类别
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, null=True)
     # 发布时间 UTC
     publishTime = models.DateTimeField( auto_now=True, null=True)
-    
+
     # 作者
     author = models.ForeignKey(Author, verbose_name="author for the recommendation",
                                related_name="recommendations", null=True, default=1) # Default is the supper user(id=1)
@@ -83,7 +90,10 @@ class RecommendItem(models.Model):
     def picThrURL(self):
         return self.absoluteImageUrl(self.picThr)
     
-     
+    @property
+    def avatar(self):
+        return self.author.avatar
+    
     
     def __unicode__(self):
         return "%s %s" % (self.id, self.title)

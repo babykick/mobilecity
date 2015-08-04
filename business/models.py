@@ -5,7 +5,8 @@ from django.db  import models
 class GeoEntity(models.Model):
     lon = models.FloatField(default=0)
     lat = models.FloatField(default=0)
-     
+    description = models.CharField(max_length=200, null=True) 
+    
     
 class Shop(models.Model):
     name = models.CharField(max_length=100)

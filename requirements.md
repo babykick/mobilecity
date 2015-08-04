@@ -30,3 +30,4 @@ pyapns
 scrapy
 scrapy-redis
 scrapy-djangoitem
+pip install service_identity

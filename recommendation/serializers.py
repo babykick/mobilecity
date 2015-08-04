@@ -16,6 +16,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'latestComment',
                   'LocalPublishtime',
                   'authorName',
+                  'avatar'
                   )
         
         
