@@ -63,7 +63,7 @@ class RecommendItem(models.Model):
     
     @property
     def authorName(self):
-        return self.author.user.username
+        return self.author.nickname
     
     
     def absoluteImageUrl(self, imgname):
