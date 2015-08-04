@@ -11,5 +11,5 @@ from scrapy_djangoitem import DjangoItem
 class SaveItemToDBPipeline(object):
     def process_item(self, item, spider):
        if isinstance(item, DjangoItem):
-            #item.save()
+            item.save()
             print 'process item'

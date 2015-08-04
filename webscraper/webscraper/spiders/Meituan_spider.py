@@ -13,7 +13,7 @@ class MeituanSpider(scrapy.Spider):
         for sel in response.xpath("//div[contains(concat(' ', @class, ' '), ' poi-tile-nodeal ')]"):
             if sel:
                 item = MeituanItemEntry()
-                title = sel.xpath(".//div[@class='basic cf']/a/text()").extract()[0]
+                item['title'] = sel.xpath(".//div[@class='basic cf']/a/text()").extract()[0]
                 item['summary'] = item['title']
                 item['content'] = item['title']
                 item['picOne'] = sel.xpath(".//img[@class='J-webp']/@src").extract()[0]
