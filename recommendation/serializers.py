@@ -13,6 +13,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'picOneURL',
                   'picTwoURL',
                   'picThrURL',
+                  'latestComment',
                   'LocalPublishtime',
                   )
         

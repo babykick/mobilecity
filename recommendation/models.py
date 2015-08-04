@@ -47,13 +47,17 @@ class RecommendItem(models.Model):
     # 地理位置
     geo = models.OneToOneField(GeoEntity, null=True, blank=True)
     
+    @property
     def LocalPublishtime(self):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime
     
-    def hotestComment(self):
-        return ""
+    @property
+    def latestComment(self):
+        if self.comments.all():
+            return self.comments.latest('publishTime').content
+        return None
     
     
     def absoluteImageUrl(self, imgname):
@@ -61,23 +65,19 @@ class RecommendItem(models.Model):
             return imgname
         return 'http://111.8.186.228:8000/static/images/%s' % imgname   
     
-     
+    @property 
     def picOneURL(self):
         return self.absoluteImageUrl(self.picOne)
     
+    @property
     def picTwoURL(self):
         return self.absoluteImageUrl(self.picTwo)
     
+    @property
     def picThrURL(self):
         return self.absoluteImageUrl(self.picThr)
     
-    
-    # Additional properties
-    picOneURL = property(picOneURL)
-    picTwoURL = property(picTwoURL)
-    picThrURL = property(picThrURL)
-    LocalPublishtime = property(LocalPublishtime)
-    
+     
     
     def __unicode__(self):
         return "%s %s" % (self.id, self.title)
@@ -85,7 +85,7 @@ class RecommendItem(models.Model):
     
     class Meta:
         #ordering = ["publishTime"]
-        pass
+        get_latest_by = 'publishTime'
     
     
 class Comment(models.Model):
@@ -99,3 +99,8 @@ class Comment(models.Model):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime
+    
+     class Meta:
+        #ordering = ["publishTime"]
+        get_latest_by = 'publishTime'
+    
