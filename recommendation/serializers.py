@@ -1,9 +1,10 @@
 #coding=utf-8
 from rest_framework import serializers
 from .models import RecommendItem
-
+from users.serializers import AuthorSerializer
 
 class RcmdItemEntrySerializer(serializers.ModelSerializer):
+    author = AuthorSerializer( read_only=True)
     class Meta:
         model = RecommendItem
         fields = ('id',
@@ -15,8 +16,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'picThrURL',
                   'latestComment',
                   'LocalPublishtime',
-                  'authorName',
-                  'avatar'
+                  'author',
                   )
         
         
