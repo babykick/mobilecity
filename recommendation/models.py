@@ -88,19 +88,24 @@ class RecommendItem(models.Model):
         get_latest_by = 'publishTime'
     
     
+    
 class Comment(models.Model):
+     """
+         Comments
+     """
      content = models.CharField(max_length=500)
      author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True)
      recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="comments", null=True)
      # 发布时间 UTC
      publishTime = models.DateTimeField(auto_now_add=True, null=True)
      
+     @property
      def LocalPublishtime(self):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime
     
      class Meta:
-        #ordering = ["publishTime"]
+        ordering = ["publishTime"]
         get_latest_by = 'publishTime'
     
