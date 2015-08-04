@@ -5,7 +5,10 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
+from scrapy_djangoitem import DjangoItem
 
-class DatascrawlerPipeline(object):
+
+class SaveItemToDBPipeline(object):
     def process_item(self, item, spider):
-        return item
+       if isinstance(item, DjangoItem):
+            item.save()

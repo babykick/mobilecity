@@ -1,6 +1,6 @@
 #coding=utf-8
 import scrapy
-from webscraper.items import MeituanItem
+from webscraper.items import MeituanItemEntry
 
 class MeituanSpider(scrapy.Spider):
     name = 'meituan_spider'
@@ -11,8 +11,18 @@ class MeituanSpider(scrapy.Spider):
     
     def parse(self, response):
         for sel in response.xpath("//div[contains(concat(' ', @class, ' '), ' poi-tile-nodeal ')]"):
-            item = MeituanItem()
-            item['imgurl'] = sel.xpath(".//img[@class='J-webp']/@src").extract()
-            item['title'] = sel.xpath(".//div[@class='basic cf']/a/text()").extract()
-            yield item
+            if sel:
+                item = MeituanItemEntry()
+                # item['picOne'] = sel.xpath(".//img[@class='J-webp']/@src").extract()[0]
+                # item['picTwo'] = item['picOne']
+                # item['picThr'] = item['picOne'] 
+                title = sel.xpath(".//div[@class='basic cf']/a/text()")
+                if title:
+                    item['title'] = title.extract()[0]
+                else:
+                    item['title'] = "No title"
+                # item['summary'] = item['title']
+                # item['content'] = item['title']
+                 
+                yield item
          
