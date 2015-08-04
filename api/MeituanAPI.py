@@ -17,8 +17,7 @@ class MeituanAPI(object):
         #print content
         doc = lxml.html.fromstring(content)
         return doc.xpath("//div[contains(concat(' ', @class, ' '), ' deal-tile ')]")
-        
-        
+       
 if __name__ == '__main__':
     print MeituanAPI.search('口味虾')
     

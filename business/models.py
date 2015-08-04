@@ -1,12 +1,11 @@
-from django.contrib.gis.db import models as geomodels
+#from django.contrib.gis.db import models as geomodels
 from django.db  import models 
  
 # Create your models here.
-class GeoEntity(geomodels.Model):
+class GeoEntity(models.Model):
     lon = models.FloatField(default=0)
     lat = models.FloatField(default=0)
-    objects = geomodels.GeoManager()
-  
+     
     
 class Shop(models.Model):
     name = models.CharField(max_length=100)
