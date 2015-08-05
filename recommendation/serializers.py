@@ -23,7 +23,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class RcmdItemEntrySerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
-    #comments = CommentSerializer(many=True, read_only=True)
+    
     
     class Meta:
         model = RecommendItem
@@ -41,11 +41,13 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'downCount',
                   'tags',
                   'commentCount',
-                  #'comments',
+          
                   )
         
         
 class RcmdDetailSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True, read_only=True)
+    
     class Meta:
         model = RecommendItem
         fields = ('id',
@@ -57,6 +59,7 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'picThrURL',
                   'readStatus',
                   'LocalPublishtime',
+                  'comments',
                   )
 
 
