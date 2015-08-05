@@ -74,6 +74,10 @@ class RecommendItem(models.Model):
             return self.comments.latest('publishTime').content
         return None
     
+    @property
+    def commentCount(self):
+        return self.comments.all().count()
+    
     # 最热的评论（获赞数最多的）
     @property
     def hotestComment(self):
