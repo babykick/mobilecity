@@ -6,6 +6,8 @@ from users.models import Author
 # Create your models here.
 from django.utils.timezone import localtime
 from business.models import GeoEntity
+from django.db.models import Max
+
 
 class RecommendItem(models.Model):
     CATEGORY_CHOICES = (
@@ -45,58 +47,74 @@ class RecommendItem(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, null=True)
     # 发布时间 UTC
     publishTime = models.DateTimeField( auto_now=True, null=True)
-
     # 作者
     author = models.ForeignKey(Author, verbose_name="author for the recommendation",
                                related_name="recommendations", null=True, default=1) # Default is the supper user(id=1)
-    
+    # 获赞数
+    upCount = models.IntegerField(default=0)
+    # 获贬数
+    downCount = models.IntegerField(default=0)
     # 地理位置
     geo = models.OneToOneField(GeoEntity, null=True, blank=True)
+    # 评论 rative_name from other models
+    """comments"""
     
-    # rative_name from other models
-    # "comments"   ---评论 from Comment
-    
+    # 发布时间
     @property
     def LocalPublishtime(self):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime
     
+    # 最近的评论
     @property
     def latestComment(self):
         if self.comments.all():
             return self.comments.latest('publishTime').content
         return None
     
+    # 最热的评论（获赞数最多的）
+    @property
+    def hotestComment(self):
+        maxUpCount = self.comments.all().aggregate(Max('upCount'))['upCount__max']
+        if maxUpCount > 0:
+            return self.comments.all().get(upCount=maxUpCount).content
+         
+          
+    # 作者的名字
     @property
     def authorName(self):
         return self.author.nickname
     
-    
+    # 图片url 
     def absoluteImageUrl(self, imgname):
         if imgname.startswith('http'):
             return imgname
         return 'http://111.8.186.228:8000/static/images/%s' % imgname   
     
+    # picOne url
     @property 
     def picOneURL(self):
         return self.absoluteImageUrl(self.picOne)
     
+    # picTwo url
     @property
     def picTwoURL(self):
         return self.absoluteImageUrl(self.picTwo)
     
+    # picThr url
     @property
     def picThrURL(self):
         return self.absoluteImageUrl(self.picThr)
     
+    # 头像
     @property
     def avatar(self):
         return self.author.avatar
     
     
     def __unicode__(self):
-        return "%s %s" % (self.id, self.title)
+        return "#%s %s" % (self.id, self.title)
     
     
     class Meta:
@@ -109,12 +127,20 @@ class Comment(models.Model):
      """
          Comments
      """
+     # 内容
      content = models.CharField(max_length=500)
+     # 作者
      author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True, default=1)
+     # 推荐项
      recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="comments", null=True)
      # 发布时间 UTC
      publishTime = models.DateTimeField(auto_now_add=True, null=True)
+     # 获赞数
+     upCount = models.IntegerField(default=0)
+     # 获贬数
+     downCount = models.IntegerField(default=0)
      
+     # 本地发布时间
      @property
      def LocalPublishtime(self):
         if self.publishTime is not None:

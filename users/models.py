@@ -16,7 +16,8 @@ class Author(models.Model):
     mobilephone = models.CharField(max_length=30)
     user = models.OneToOneField(User, null=True)
     avatar = models.CharField(max_length=100, null=True)
- 
+    level = models.IntegerField(default=1)
+     
     def __unicode__(self):
         return self.user.username
     

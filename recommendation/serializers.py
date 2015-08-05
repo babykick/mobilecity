@@ -4,7 +4,8 @@ from .models import RecommendItem
 from users.serializers import AuthorSerializer
 
 class RcmdItemEntrySerializer(serializers.ModelSerializer):
-    author = AuthorSerializer( read_only=True)
+    author = AuthorSerializer(read_only=True)
+    
     class Meta:
         model = RecommendItem
         fields = ('id',
@@ -14,7 +15,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'picOneURL',
                   'picTwoURL',
                   'picThrURL',
-                  'latestComment',
+                  'hotestComment',
                   'LocalPublishtime',
                   'author',
                   )

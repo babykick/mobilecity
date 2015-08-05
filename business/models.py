@@ -1,6 +1,7 @@
 #from django.contrib.gis.db import models as geomodels
 from django.db  import models 
- 
+
+
 # Create your models here.
 class GeoEntity(models.Model):
     lon = models.FloatField(default=0)
