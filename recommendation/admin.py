@@ -5,16 +5,20 @@ from .models import Comment
 
 # Register your models here.
 
-def make_published(modeladmin, request, queryset):
-    queryset.update(status='p')
-    make_published.short_description = "Mark selected stories as published"
-make_published.short_description = "Mark selected stories as published"
+# Actions
+def make_like_status_hot(modeladmin, request, queryset):
+    """
+      Make all selected items likeStatus="HOT"
+    """
+    queryset.update(likeStatus='HOT')
+make_like_status_hot.short_description = "Mark like status as HOT"
 
 
+  
 class RecommendItemAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'content', 'summary', 'picOne', 'picTwo', 'picThr']
     ordering = ['publishTime']
-    actions = [make_published]
+    actions = [make_like_status_hot]
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('content', 'recommendItem')
