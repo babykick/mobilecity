@@ -17,7 +17,13 @@ class Author(models.Model):
     user = models.OneToOneField(User, null=True)
     avatar = models.CharField(max_length=100, null=True)
     level = models.IntegerField(default=1)
-     
+    isAdmin = models.BooleanField(default=False)
+    isDeveloper = models.BooleanField(default=False)
+    
+    @property
+    def username(self):
+        return self.user.username
+    
     def __unicode__(self):
         return self.user.username
     
