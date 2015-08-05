@@ -12,5 +12,5 @@ class SaveItemToDBPipeline(object):
     def process_item(self, item, spider):
        if isinstance(item, DjangoItem):
             item.save()
-            print 'item saved(#%s)' % item['id']
+            print 'item saved' 
             

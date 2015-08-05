@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import RecommendItem
-from .models import Comment
+from .models import Comment, Tag
 
 
 # Register your models here.
@@ -23,6 +23,13 @@ class RecommendItemAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('content', 'recommendItem')
     
+class TagInline(admin.TabularInline):
+    model = Tag
+
+class PublisherAdmin(admin.ModelAdmin):
+    #inlines = [TagInline]
+    list_display = ["id", "name"]
     
 admin.site.register(RecommendItem, RecommendItemAdmin)
-admin.site.register(Comment, CommentAdmin) 
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Tag, PublisherAdmin)

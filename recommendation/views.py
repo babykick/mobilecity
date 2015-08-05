@@ -42,7 +42,7 @@ class RecommendList(APIView):
         """
         page = request.GET.get('page', 1)
         eachnum = request.GET.get('n', 10)
-        rcmds = RecommendItem.objects.all().order_by('publishTime')
+        rcmds = RecommendItem.objects.all().order_by('-upCount')
         paginator = Paginator(rcmds, eachnum) # Show 25 contacts per page
         try:
             rs = paginator.page(page)

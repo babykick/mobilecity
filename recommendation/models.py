@@ -44,7 +44,7 @@ class RecommendItem(models.Model):
     # 感兴趣状态 
     interestedStatus = models.CharField(max_length=50, default="",blank=True)
     # 类别
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, null=True)
+    category = models.CharField(max_length=20, null=True, blank=True)
     # 发布时间 UTC
     publishTime = models.DateTimeField( auto_now=True, null=True)
     # 作者
@@ -56,9 +56,10 @@ class RecommendItem(models.Model):
     downCount = models.IntegerField(default=0)
     # 地理位置
     geo = models.OneToOneField(GeoEntity, null=True, blank=True)
-    # 评论 rative_name from other models
+    # 评论 rative_name from Comment
     """comments"""
-    
+     # 标签 rative_name from Tag
+    """tags"""
     # 发布时间
     @property
     def LocalPublishtime(self):
@@ -151,3 +152,8 @@ class Comment(models.Model):
         ordering = ["publishTime"]
         get_latest_by = 'publishTime'
     
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=30)
+     # 推荐项
+    recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="tags", null=True)
