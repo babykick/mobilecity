@@ -4,13 +4,21 @@ from .models import RecommendItem
 from .models import Comment, Tag
 from users.serializers import AuthorSerializer
 
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('name',
                   )
-    
-
+        
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id',
+                  'content',
+                  'author'
+                 )
+ 
 class RcmdItemEntrySerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     tags = TagSerializer(many=True, read_only=True)

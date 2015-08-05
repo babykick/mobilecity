@@ -9,12 +9,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework import generics
 from users.auth import TokenizedURLAuthentication
 
-from recommendation.models import RecommendItem
-from recommendation.serializers import RcmdItemEntrySerializer,RcmdDetailSerializer
+from recommendation.models import RecommendItem, Comment
+from recommendation.serializers import RcmdItemEntrySerializer, RcmdDetailSerializer, CommentSerializer
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 class RecommendList(APIView):
     """
@@ -95,3 +97,10 @@ class RecommendDetail(APIView):
     #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class CommentList(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,  )
+    authentication_classes = (TokenizedURLAuthentication,)
+    
+    

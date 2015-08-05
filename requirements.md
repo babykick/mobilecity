@@ -31,3 +31,6 @@ scrapy
 scrapy-redis
 scrapy-djangoitem
 pip install service_identity
+
+# 分词
+jieba
