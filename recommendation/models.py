@@ -62,7 +62,7 @@ class RecommendItem(models.Model):
     """tags"""
     # 发布时间
     @property
-    def LocalPublishtime(self):
+    def localPublishTime(self):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime
@@ -143,7 +143,7 @@ class Comment(models.Model):
      
      # 本地发布时间
      @property
-     def LocalPublishtime(self):
+     def localPublishTime(self):
         if self.publishTime is not None:
             return localtime(self.publishTime)
         return self.publishTime
