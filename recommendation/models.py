@@ -69,10 +69,8 @@ class RecommendItem(models.Model):
     
     # 最近的评论
     @property
-    def latestComment(self):
-        if self.comments.all():
-            return self.comments.latest('publishTime').content
-        return None
+    def latestComments(self):
+        return self.comments.all().order_by('-publishTime')[:5]
     
     @property
     def commentCount(self):
@@ -84,7 +82,9 @@ class RecommendItem(models.Model):
         maxUpCount = self.comments.all().aggregate(Max('upCount'))['upCount__max']
         if maxUpCount > 0:
             return self.comments.all().get(upCount=maxUpCount).content
-         
+    
+ 
+    
           
     # 作者的名字
     @property

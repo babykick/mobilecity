@@ -1,8 +1,8 @@
-#Infrastructure
-
-
+# Requirement && Infrastructure 
+ 
 ### Web framework
-Django 1.8/geodjango
+Django 1.8
+geodjango
 
 with:
 django-bootstrap3
