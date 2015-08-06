@@ -17,6 +17,6 @@ class TokenizedURLAuthentication(authentication.BaseAuthentication):
         try:
             token = Token.objects.get(key=token)
         except Token.DoesNotExist:
-            raise exceptions.AuthenticationFailed('No such token')
+            raise exceptions.AuthenticationFailed('Token authentication failed')
 
         return (token.user, None)
