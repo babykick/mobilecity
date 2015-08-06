@@ -27,10 +27,10 @@ def login():
     r = s.post('http://zzkf.bigcloudsys.cn:8088/user/loginDo', cookies=cloned_cookies, data=payload)
     print r.content
  
-def grab_all_project_links():
+def grab_all_projects():
     numeachpage = 12
     page = 0
-    links = []
+    items = []
     while True:
         print 'Scanning page', page + 1
         r = s.get(project_url, params={'start': numeachpage * page + 1
@@ -44,24 +44,25 @@ def grab_all_project_links():
             for elem in elems:
                 try:
                     item = Item()
-                    item.link = elem.xpath(".//li[1]/a")[0].attrib.get('href').replace(r'\"', "").replace("\\", '')
-                    item.title = elem.xpath(".//li[2]/a")[0].text#.replace(r"\r\n", "").strip()
-                    item.summary = elem.xpath(".//li[3]/a")[0].text#.replace(r"\r\n", "").strip()
+                    item.link = elem.xpath(".//li[1]/a")[0].attrib.get('href').replace(r'\"', "").replace("\\", '').strip()
+                    item.title = elem.xpath(".//li[2]/a")[0].text#.strip()
+                    item.summary = elem.xpath(".//li[3]/a")[0].text#.strip()
                     item.pubtime = elem.xpath(".//li[5]/a[2]")[0].text.replace(r"\r\n", "").strip()
-                    pprint.pprint(item)
+                    items.append(item)
                 except Exception, e:
                     print e
                 
                 #print elem.xpath("./li[contains(@class,'project-titile')]/a")[0].attrib.get('title').strip(r'\"')
         else: break
         page += 1
-    return links
+    return items
 
-def process_link(link):
-    print link
+def process(items):
+    for item in items:
+        pprint.pprint(item)
     
     
 if __name__ == '__main__':
     login()
-    for link in grab_all_project_links():
-        process_link(link)
+    items = grab_all_projects()
+    process(items)
