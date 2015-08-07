@@ -6,13 +6,18 @@ import requests
 import lxml.html
 import lxml.etree
 import pprint
+import scrapy 
 
 project_url = "http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?&csrf_tname=0f3bbabaf48ad97496572d00d57453ae"
 s = requests.Session()
   
-class Item:
-    def __repr__(self):
-        return str(dict(self.__dict__.iteritems()))
+class Item(scrapy.Item):
+     link = scrapy.Field()
+     title = scrapy.Field() 
+     summary = scrapy.Field()
+     pubtime = scrapy.Field()
+     
+     
        
 def login():
     s.get("http://zzkf.bigcloudsys.cn:8088/user/login")
@@ -25,44 +30,54 @@ def login():
         'loginPwd':	'Hacker1218',
     }
     r = s.post('http://zzkf.bigcloudsys.cn:8088/user/loginDo', cookies=cloned_cookies, data=payload)
-    print r.content
+    msg = r.json()['msg']
+    return msg == u'登录成功'
  
+
 def grab_all_projects():
+    """
+       抓取所有项目
+    """
     numeachpage = 12
     page = 0
     items = []
     while True:
         print 'Scanning page', page + 1
-        r = s.get(project_url, params={'start': numeachpage * page + 1
+        url = 'http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?&csrf_tname=2d85a35e4b576e09f0eb9411c2920ecf'
+        r = s.get(url, params={'start': numeachpage * page + 1
                                }
           )
-        content = r.text
-        #print content
-        doc =lxml.html.fromstring(content)
-        elems = doc.xpath("//ul[contains(@class,'project-one')]")
-        if elems:
-            for elem in elems:
-                try:
-                    item = Item()
-                    item.link = elem.xpath(".//li[1]/a")[0].attrib.get('href').replace(r'\"', "").replace("\\", '').strip()
-                    item.title = elem.xpath(".//li[2]/a")[0].text#.strip()
-                    item.summary = elem.xpath(".//li[3]/a")[0].text#.strip()
-                    item.pubtime = elem.xpath(".//li[5]/a[2]")[0].text.replace(r"\r\n", "").strip()
-                    items.append(item)
-                except Exception, e:
-                    print e
-                
-                #print elem.xpath("./li[contains(@class,'project-titile')]/a")[0].attrib.get('title').strip(r'\"')
-        else: break
+        content = r.json()['msg']
+        if content:
+            doc =lxml.html.fromstring(content)
+            elems = doc.xpath("//ul[contains(@class,'project-one')]")
+            if elems:
+                for elem in elems:
+                    try:
+                        item = Item()
+                        item["link"] = elem.xpath(".//li[1]/a")[0].attrib.get('href').replace(r'\"', "").replace("\\", '').strip()
+                        item["title"] = elem.xpath(".//li[2]/a")[0].text 
+                        item["summary"] = elem.xpath(".//li[3]/a")[0].text_content().strip()
+                        item["pubtime"] = elem.xpath(".//li[5]/a[2]")[0].text.replace(r"\r\n", "").strip()
+                        items.append(item)
+                    except Exception, e:
+                        print e
+                     
+        else:
+            break
         page += 1
     return items
 
 def process(items):
     for item in items:
-        pprint.pprint(item)
-    
+         for k,v in item.items():
+             print k.encode('utf-8'),":", v.encode('utf-8')
+         print ""
     
 if __name__ == '__main__':
-    login()
-    items = grab_all_projects()
-    process(items)
+    suc = login()
+    if suc:
+        items = grab_all_projects()
+        process(items)
+    else:
+        print u"登录失败"

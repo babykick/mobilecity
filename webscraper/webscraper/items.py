@@ -14,6 +14,14 @@ class MeituanItemEntry(DjangoItem):
     django_model = RecommendItem
 
 
+class ProjectItem(scrapy.Item):
+     link = scrapy.Field()
+     title = scrapy.Field() 
+     summary = scrapy.Field()
+     pubtime = scrapy.Field()
+     
+     
+
 # class MeituanItem(scrapy.Item):
 #     # define the fields for your item here like:
 #     title = scrapy.Field()

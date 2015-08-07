@@ -1,1 +1,2 @@
-scrapy crawl meituan_spider
+Rem scrapy crawl meituan_spider
+scrapy crawl projectspider 

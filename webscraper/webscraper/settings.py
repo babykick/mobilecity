@@ -63,6 +63,7 @@ NEWSPIDER_MODULE = 'webscraper.spiders'
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'webscraper.pipelines.SaveItemToDBPipeline': 1,
+   'webscraper.pipelines.SaveProjectsPipeline': 2,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
