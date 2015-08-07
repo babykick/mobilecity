@@ -25,7 +25,7 @@ class SaveProjectsPipeline(object):
         
     def process_item(self, item, spider):
         if item is not None:
-            item = {k: v.encode("utf-8") for k,v in item.items()}
+            item = {k: v.encode("gb2312") for k,v in item.items()}
             self.csvwriter.writerow(item)
         return item  # pass to next pipeline
             
