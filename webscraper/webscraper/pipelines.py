@@ -22,6 +22,7 @@ class SaveProjectsPipeline(object):
     def __init__(self):
         fields = ['title', 'summary', 'link', 'pubtime']
         self.csvwriter = csv.DictWriter(open('items.csv', 'wb'), fields)
+        self.csvwriter.writeheader()
         
     def process_item(self, item, spider):
         if item is not None:
