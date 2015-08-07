@@ -71,7 +71,8 @@ class ProjectSpider(InitSpider):
                                     })
             yield Request(url, callback=self.parse_page)
             page += 1
-            if page > 1: break
+            if page > 400 / 12 :
+                break
         
     def parse_page(self, response):
         html = json.loads(response.body_as_unicode())['msg']
