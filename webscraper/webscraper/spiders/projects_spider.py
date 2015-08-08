@@ -16,12 +16,13 @@ from bs4 import BeautifulSoup
 cloned_cookies = dict(sign='CFj72NzSIr', csrf_cname='76e61f7e9e1b966f96b753ed5bb87dbe', session_name='20991504217384047261787419691597258114', spksrc_ut='61f06092747ae7f5b477998e7b931a72', session_flag='2', duoshuo_token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzaG9ydF9uYW1lIjoiY3JlYXRpdmUiLCJ1c2VyX2tleSI6IjI4NDg1MCIsIm5hbWUiOiIxMzkwNzMwOTIwNiJ9.xlMwz-ZyzdTz2qvHfAGSUCMRUQdGKY5M3TraZNlAL00', sso_token='e694513609d7392922144c753152f02e22175834')
   
 
-class ProjectSpider(InitSpider):
+class ProjectSpider(scrapy.Spider):
     name = 'projectspider'
     allowed_domains = ['bigcloudsys.cn']
     login_page = 'http://zzkf.bigcloudsys.cn:8088/user/login' # login page url
     login_url = 'http://zzkf.bigcloudsys.cn:8088/user/loginDo' # url for post
-    start_urls = ['http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?&csrf_tname=2d85a35e4b576e09f0eb9411c2920ecf']
+    home_page = 'http://zzkf.bigcloudsys.cn:8088'
+    #start_urls = ['http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?&csrf_tname=2d85a35e4b576e09f0eb9411c2920ecf']
     
     
     # rules = (
@@ -29,14 +30,9 @@ class ProjectSpider(InitSpider):
     #          callback='parse_item', follow=True),
     # )
 
-    def init_request(self):
-        #request.meta['proxy'] = "http://YOUR_PROXY_IP:PORT"
-        """This function is called before crawling starts."""
-        return Request(url=self.login_page,
-                       cookies=cloned_cookies,
-                       callback=self.login)
+   
 
-    def login(self, response):
+    def start_requests(self):
         """Generate a login request."""
         payload = {
             'ajax':	'2',
@@ -44,11 +40,11 @@ class ProjectSpider(InitSpider):
             'loginName':	'13907309206',
             'loginPwd':	'Hacker1218',
         }
-        return FormRequest.from_response(response,
-                                         formdata=payload,
-                                         callback=self.check_login_response,
-                                         url=self.login_url
-                                         )
+ 
+        return [FormRequest(url=self.login_url,
+                            formdata=payload,
+                            cookies=cloned_cookies,
+                            callback=self.check_login_response)]
 
 
     def check_login_response(self, response):
@@ -59,13 +55,13 @@ class ProjectSpider(InitSpider):
         if u"登录成功" in msg:
             self.log("Successfully logged in. Let's start crawling!")
             # Now the crawling can begin..
-            return self.initialized()
+            return Request(url=self.home_page, callback=self.parse_links)
         else:
             self.log("Bad times :(")
             # Something went wrong, we couldn't log in, so nothing happens.
 
 
-    def parse(self, response):
+    def parse_links(self, response):
         """
           Construct each page url to distribute 
         """
@@ -80,7 +76,7 @@ class ProjectSpider(InitSpider):
             url += urllib.urlencode({'start': numeachpage * page + 1,
                                      'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
                                     })
-            yield Request(url, callback=self.parse_page)
+            yield Request(url, callback=self.parse_page) # each page as a request
             page += 1
             if page > 400 / 9 :
                 break
