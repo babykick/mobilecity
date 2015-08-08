@@ -81,7 +81,7 @@ class ProjectSpider(InitSpider):
                                     })
             yield Request(url, callback=self.parse_page)
             page += 1
-            if page > 400 / 12 :
+            if page > 400 / 9 :
                 break
         
     def parse_page(self, response):
