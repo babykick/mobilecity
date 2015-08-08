@@ -8,7 +8,8 @@ from webscraper.items import ProjectItem
 import json
 import urllib
 import os
-
+from bs4 import BeautifulSoup
+ 
 # os.environ["http_proxy"] = "http://127.0.0.1:8087"
 # os.environ["https_proxy"] = "https://127.0.0.1:8087"
 
@@ -95,10 +96,15 @@ class ProjectSpider(InitSpider):
             for elem in sel.xpath("//ul[contains(@class,'project-one')]"):
                 try:
                     item = ProjectItem()
-                    item["link"] = elem.xpath(".//li[1]/a/@href").extract()[0]#.replace(r'\"', "").replace("\\", '').strip()
-                    item["title"] = elem.xpath(".//li[2]/a/text()").extract()[0]
-                    item["summary"] = elem.xpath(".//li[3]/a//text()").extract()[0]
-                    item["pubtime"] = elem.xpath(".//li[5]/a[2]/text()").extract()[0]
+                    # item["link"] = elem.xpath(".//li[1]/a/@href").extract()[0]#.replace(r'\"', "").replace("\\", '').strip()
+                    # item["title"] = elem.xpath(".//li[2]/a/text()").extract()[0]
+                    # item["summary"] = elem.xpath(".//li[3]/a//text()").extract()[0]
+                    # item["pubtime"] = elem.xpath(".//li[5]/a[2]/text()").extract()[0]
+                    item["link"] = ''.join(elem.xpath(".//li[@class='project-thumbnail']/a/@href").extract())
+                    item["title"] = ''.join(elem.xpath(".//li[@class='project-titile']/a/text()").extract())
+                    item["summary"]  = BeautifulSoup(''.join(elem.xpath(".//li[@class='project-descrip']/a/@title").extract())).text
+                    item["pubtime"] = ''.join(elem.xpath(".//li[@class='project-list-stats']/a[@class='p-time']/text()").extract())
+                    
                     yield item
                 except Exception, e:
                     print e
