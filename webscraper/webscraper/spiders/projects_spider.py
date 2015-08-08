@@ -23,7 +23,7 @@ class ProjectSpider(scrapy.Spider):
     login_url = 'http://zzkf.bigcloudsys.cn:8088/user/loginDo' # url for post
     home_page = 'http://zzkf.bigcloudsys.cn:8088'
     #start_urls = ['http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?&csrf_tname=2d85a35e4b576e09f0eb9411c2920ecf']
-    
+    ajax_prefix = 'http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?'
     
     # rules = (
     #     Rule(SgmlLinkExtractor(allow=r'-\w+.html$'),
@@ -55,57 +55,35 @@ class ProjectSpider(scrapy.Spider):
         if u"登录成功" in msg:
             self.log("Successfully logged in. Let's start crawling!")
             # Now the crawling can begin..
-            return Request(url=self.home_page, callback=self.parse_links)
+            numeachpage = 12
+            page = 0
+            while numeachpage * page < 400: 
+                url = self.ajax_prefix + urllib.urlencode({'start': numeachpage * page + 1,
+                                         'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
+                                        })
+                yield Request(url=url, callback=self.parse_page)
+                page += 1  
         else:
             self.log("Bad times :(")
             # Something went wrong, we couldn't log in, so nothing happens.
 
-
-    def parse_links(self, response):
-        """
-          Construct each page url to distribute 
-        """
-        #request.meta['proxy'] = "http://YOUR_PROXY_IP:PORT"
-        self.log("Start parsing!!!!!!!!!")
-        numeachpage = 12
-        page = 0
-        items = []
-        while True:
-            print 'Scanning page', page + 1
-            url = 'http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?'
-            url += urllib.urlencode({'start': numeachpage * page + 1,
-                                     'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
-                                    })
-            yield Request(url, callback=self.parse_page) # each page as a request
-            page += 1
-            if page > 400 / 9 :
-                break
-        
+          
     def parse_page(self, response):
         """
            Parse each page
         """
         html = json.loads(response.body_as_unicode())['msg']
-        #print 'html: ', html
         if html.strip():
             sel = Selector(text=html, type="html")
             for elem in sel.xpath("//ul[contains(@class,'project-one')]"):
                 try:
                     item = ProjectItem()
-                    # item["link"] = elem.xpath(".//li[1]/a/@href").extract()[0]#.replace(r'\"', "").replace("\\", '').strip()
-                    # item["title"] = elem.xpath(".//li[2]/a/text()").extract()[0]
-                    # item["summary"] = elem.xpath(".//li[3]/a//text()").extract()[0]
-                    # item["pubtime"] = elem.xpath(".//li[5]/a[2]/text()").extract()[0]
                     item["link"] = ''.join(elem.xpath(".//li[@class='project-thumbnail']/a/@href").extract())
                     item["title"] = ''.join(elem.xpath(".//li[@class='project-titile']/a/text()").extract())
                     item["summary"]  = BeautifulSoup(''.join(elem.xpath(".//li[@class='project-descrip']/a/@title").extract())).text
                     item["pubtime"] = ''.join(elem.xpath(".//li[@class='project-list-stats']/a[@class='p-time']/text()").extract())
-                    
                     yield item
                 except Exception, e:
                     print e
         
-        
-                    
-         
    
