@@ -24,13 +24,7 @@ class ProjectSpider(scrapy.Spider):
     home_page = 'http://zzkf.bigcloudsys.cn:8088'
     #start_urls = ['http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?&csrf_tname=2d85a35e4b576e09f0eb9411c2920ecf']
     ajax_prefix = 'http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?'
-    
-    # rules = (
-    #     Rule(SgmlLinkExtractor(allow=r'-\w+.html$'),
-    #          callback='parse_item', follow=True),
-    # )
-
-   
+     
 
     def start_requests(self):
         """Generate a login request."""
