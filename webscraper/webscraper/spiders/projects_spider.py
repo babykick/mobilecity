@@ -50,13 +50,12 @@ class ProjectSpider(scrapy.Spider):
             self.log("Successfully logged in. Let's start crawling!")
             # Now the crawling can begin..
             numeachpage = 12
-            page = 0
-            while numeachpage * page < 400: 
-                url = self.ajax_prefix + urllib.urlencode({'start': numeachpage * page + 1,
+            total = 400
+            for start in range(1, total, numeachpage):
+                url = self.ajax_prefix + urllib.urlencode({'start': start,
                                          'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
                                         })
                 yield Request(url=url, callback=self.parse_page)
-                page += 1  
         else:
             self.log("Bad times :(")
             # Something went wrong, we couldn't log in, so nothing happens.
