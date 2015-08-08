@@ -19,6 +19,7 @@ class SaveItemToDBPipeline(object):
             
             
 class SaveProjectsPipeline(object):
+    # use CsvItemExporter
     def __init__(self):
         fields = ['title', 'summary', 'link', 'pubtime']
         self.csvwriter = csv.DictWriter(open('items.csv', 'wb'), fields)
