@@ -8,6 +8,7 @@ with:
 django-bootstrap3
 djangorestframework
 djangorestframework-oauth
+pip install django-rest-swagger
 
 ### Database:
 Postgresql 9.3/postgis
