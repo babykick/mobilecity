@@ -3,6 +3,7 @@ import scrapy
 from webscraper.items import MeituanItemEntry
 from .. import djangostandalonesetup
 from business.models import GeoEntity
+from scrapy.linkextractors import LinkExtractor
 
 class MeituanSpider(scrapy.Spider): 
     name = 'meituan_spider'
@@ -10,10 +11,6 @@ class MeituanSpider(scrapy.Spider):
     start_urls = [
        "http://yy.meituan.com/category/meishi?mtt=1.index%2Ffloornew.nc.1.icwt533g"
     ]
-    # rules = (
-    #     Rule(SgmlLinkExtractor(allow=r'-\w+.html$'),
-    #          callback='parse_page', follow=True),
-    # )
     
     def parse(self, response):
         for sel in response.xpath("//div[contains(concat(' ', @class, ' '), ' poi-tile-nodeal ')]"):

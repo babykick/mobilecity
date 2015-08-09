@@ -27,7 +27,7 @@ Gearman
 pyapns
 
 # Web scraper
-scrapy
+scrapy 1.0
 scrapy-redis
 scrapy-djangoitem
 pip install service_identity
