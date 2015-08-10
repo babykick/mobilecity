@@ -9,7 +9,8 @@ import json
 import urllib
 import os
 from bs4 import BeautifulSoup
- 
+import lxml.etree
+
 # os.environ["http_proxy"] = "http://127.0.0.1:8087"
 # os.environ["https_proxy"] = "https://127.0.0.1:8087"
 
@@ -70,11 +71,15 @@ class ProjectSpider(scrapy.Spider):
             sel = Selector(text=html, type="html")
             for elem in sel.xpath("//ul[contains(@class,'project-one')]"):
                 try:
+                     
                     item = ProjectItem()
-                    item["link"] = ''.join(elem.xpath(".//li[@class='project-thumbnail']/a/@href").extract())
-                    item["title"] = ''.join(elem.xpath(".//li[@class='project-titile']/a/text()").extract())
-                    item["summary"]  = BeautifulSoup(''.join(elem.xpath(".//li[@class='project-descrip']/a/@title").extract())).text
-                    item["pubtime"] = ''.join(elem.xpath(".//li[@class='project-list-stats']/a[@class='p-time']/text()").extract())
+                    item["link"] = elem.xpath(".//li[@class='project-thumbnail']/a/@href").extract_first(default='')
+                    item["title"] = elem.xpath(".//li[@class='project-titile']/a/text()").extract_first(default='')
+                    item["summary"]  = BeautifulSoup(elem.xpath(".//li[@class='project-descrip']/a/@title").extract_first(default='')).text
+                    item["pubtime"] = elem.xpath(".//li[@class='project-list-stats']/a[@class='p-time']/text()").extract_first(default='')
+                    # item["department"]
+                    #print elem.xpath(".//li[contains(@class, 'project-function')]/p").extract()#.re(r'span(.*?)span')
+                    #print elem.xpath(".//li[contains(@class, 'project-function')]/p/comment()").extract()
                     yield item
                 except Exception, e:
                     print e

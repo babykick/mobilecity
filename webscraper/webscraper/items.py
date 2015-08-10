@@ -19,5 +19,6 @@ class ProjectItem(scrapy.Item):
      title = scrapy.Field() 
      summary = scrapy.Field()
      pubtime = scrapy.Field()
+     department = scrapy.Field()
      
       
