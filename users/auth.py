@@ -20,3 +20,10 @@ class TokenizedURLAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed('Token authentication failed')
 
         return (token.user, None)
+    
+    
+class SMSVerifyAuthentication(object):
+    def authenticate(self,):
+        token = request.POST.get('code')
+        return None
+    
