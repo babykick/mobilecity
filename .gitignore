@@ -1,2 +1,3 @@
 *.pyc
 items_out.csv
+*.uploading.cfg
