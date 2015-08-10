@@ -25,8 +25,9 @@ class ProjectSpider(scrapy.Spider):
     home_page = 'http://zzkf.bigcloudsys.cn:8088'
     #start_urls = ['http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?&csrf_tname=2d85a35e4b576e09f0eb9411c2920ecf']
     ajax_prefix = 'http://zzkf.bigcloudsys.cn:8088/welcome/ajax_get/?'
-     
-
+    rank_url_prefix = 'http://zzkf.bigcloudsys.cn:8088/project/ajax_lists'
+    
+    
     def start_requests(self):
         """Generate a login request."""
         payload = {
@@ -35,12 +36,13 @@ class ProjectSpider(scrapy.Spider):
             'loginName':	'13907309206',
             'loginPwd':	'Hacker1218',
         }
+        self.prefix = self.rank_url_prefix
+        self.pgIndexName = 'start_info'
  
         return [FormRequest(url=self.login_url,
                             formdata=payload,
                             cookies=cloned_cookies,
                             callback=self.check_login_response)]
-
 
     def check_login_response(self, response):
         """Check the response returned by a login request to see if we are
@@ -49,19 +51,36 @@ class ProjectSpider(scrapy.Spider):
         msg = json.loads(response.body_as_unicode())['msg']
         if u"登录成功" in msg:
             self.log("Successfully logged in. Let's start crawling!")
-            # Now the crawling can begin..
-            numeachpage = 12
-            total = 400
-            for start in range(1, total, numeachpage):
-                url = self.ajax_prefix + urllib.urlencode({'start': start,
-                                         'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
-                                        })
-                yield Request(url=url, callback=self.parse_page)
+            return Request(url=self.home_page, callback=self.parse_ranked_links)
         else:
             self.log("Bad times :(")
             # Something went wrong, we couldn't log in, so nothing happens.
-
-          
+    
+    
+    def parse_all_projects_links(self, response):
+        # Now the crawling can begin..
+        numeachpage = 12
+        total = 400
+        for start in range(1, total, numeachpage):
+            url = self.prefix + urllib.urlencode({'start': self.pgIndexName,
+                                     'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
+                                    })
+            yield Request(url=url, callback=self.parse_page)
+            
+    
+    def parse_ranked_links(self, response):
+         # Now the crawling can begin..
+        pageTotal = 10
+        for pg in range(1, pageTotal, 1):
+            url = self.rank_url_prefix + '/0/0/3/%s?' % pg + \
+                   urllib.urlencode({'start_info': pg,
+                                     'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
+                                   })
+            req = Request(url=url, callback=self.parse_page)
+            req.meta['page'] = pg
+            yield req
+     
+        
     def parse_page(self, response):
         """
            Parse each page
@@ -69,18 +88,20 @@ class ProjectSpider(scrapy.Spider):
         html = json.loads(response.body_as_unicode())['msg']
         if html.strip():
             sel = Selector(text=html, type="html")
+            index = 1
             for elem in sel.xpath("//ul[contains(@class,'project-one')]"):
                 try:
-                     
                     item = ProjectItem()
                     item["link"] = elem.xpath(".//li[@class='project-thumbnail']/a/@href").extract_first(default='')
                     item["title"] = elem.xpath(".//li[@class='project-titile']/a/text()").extract_first(default='')
                     item["summary"]  = BeautifulSoup(elem.xpath(".//li[@class='project-descrip']/a/@title").extract_first(default='')).text
                     item["pubtime"] = elem.xpath(".//li[@class='project-list-stats']/a[@class='p-time']/text()").extract_first(default='')
+                    item["rank"] = str((response.meta['page'] -1) * 8 + index)
                     # item["department"]
                     #print elem.xpath(".//li[contains(@class, 'project-function')]/p").extract()#.re(r'span(.*?)span')
                     #print elem.xpath(".//li[contains(@class, 'project-function')]/p/comment()").extract()
                     yield item
+                    index += 1
                 except Exception, e:
                     print e
         

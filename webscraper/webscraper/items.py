@@ -20,5 +20,5 @@ class ProjectItem(scrapy.Item):
      summary = scrapy.Field()
      pubtime = scrapy.Field()
      department = scrapy.Field()
-     
+     rank = scrapy.Field()
       
