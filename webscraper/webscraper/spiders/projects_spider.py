@@ -70,7 +70,7 @@ class ProjectSpider(scrapy.Spider):
     
     def parse_ranked_links(self, response):
          # Now the crawling can begin..
-        pageTotal = 10
+        pageTotal = 40
         for pg in range(1, pageTotal, 1):
             url = self.rank_url_prefix + '/0/0/3/%s?' % pg + \
                    urllib.urlencode({'start_info': pg,
