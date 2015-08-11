@@ -33,5 +33,6 @@ scrapy-redis
 scrapy-djangoitem
 pip install service_identity
 
-# 分词
+# 分词, NLP
 jieba
+nltk
