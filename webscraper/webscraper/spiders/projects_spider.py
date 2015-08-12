@@ -4,7 +4,7 @@ from scrapy.spiders.init import InitSpider
 from scrapy.http import Response, FormRequest, Request
 from scrapy import Selector
 from scrapy.exceptions import CloseSpider
-from webscraper.items import ProjectItem
+from webscraper.items import ProjectItem, DocItem
 import json
 import urllib
 import os
@@ -100,9 +100,21 @@ class ProjectSpider(scrapy.Spider):
                     # item["department"]
                     #print elem.xpath(".//li[contains(@class, 'project-function')]/p").extract()#.re(r'span(.*?)span')
                     #print elem.xpath(".//li[contains(@class, 'project-function')]/p/comment()").extract()
+                    yield Request(url=item["link"], callback=self.parse_detail)
                     yield item
                     index += 1
                 except Exception, e:
                     print e
         
-   
+        
+    def parse_detail(self, response):
+        docs = response.xpath(".//ul[@class='i_d_s']//li[contains(@style, '#E5E5E5')]")
+        fileUrls = []
+        for doc in docs:
+            fname = doc.xpath(".//span/text()").extract_first().strip()
+            dlink = doc.xpath(".//a/@href").extract_first()
+            print fname, dlink
+            fileUrls.append({'file_url':dlink, 'file_name':fname})
+        yield DocItem(file_urls=fileUrls)
+        
+    

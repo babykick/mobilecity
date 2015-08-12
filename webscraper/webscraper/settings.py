@@ -8,7 +8,7 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-
+import os
 BOT_NAME = 'webscraper'
 
 SPIDER_MODULES = ['webscraper.spiders']
@@ -64,7 +64,10 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    'webscraper.pipelines.SaveItemToDBPipeline': 1,
    'webscraper.pipelines.SaveProjectsPipeline': 2,
+   'scrapy.pipelines.files.FilesPipeline': 3,
 }
+
+FILES_STORE = os.path.join(os.path.abspath(__file__), os.pardir, 'downloads')
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

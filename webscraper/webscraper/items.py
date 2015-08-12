@@ -9,6 +9,7 @@ import scrapy
 from scrapy_djangoitem import DjangoItem
 import djangostandalonesetup
 from recommendation.models import RecommendItem
+
  
 class MeituanItemEntry(DjangoItem):
     django_model = RecommendItem
@@ -21,4 +22,7 @@ class ProjectItem(scrapy.Item):
      pubtime = scrapy.Field()
      department = scrapy.Field()
      rank = scrapy.Field()
-      
+
+class DocItem(scrapy.Item):
+    file_urls = scrapy.Field()
+    fiels = scrapy.Field()
