@@ -70,7 +70,7 @@ class ProjectSpider(scrapy.Spider):
     
     def parse_ranked_links(self, response):
          # Now the crawling can begin..
-        pageTotal = 40
+        pageTotal = 50
         for pg in range(1, pageTotal, 1):
             url = self.rank_url_prefix + '/0/0/3/%s?' % pg + \
                    urllib.urlencode({'start_info': pg,
@@ -113,7 +113,6 @@ class ProjectSpider(scrapy.Spider):
         for doc in docs:
             fname = doc.xpath(".//span/text()").extract_first().strip()
             dlink = doc.xpath(".//a/@href").extract_first()
-            print fname, dlink
             fileUrls.append({'file_url':dlink, 'file_name':fname})
         yield DocItem(file_urls=fileUrls)
         
