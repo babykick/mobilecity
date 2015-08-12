@@ -64,7 +64,7 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    'webscraper.pipelines.SaveItemToDBPipeline': 1,
    'webscraper.pipelines.SaveProjectsInfoPipeline': 2,
-   'webscraper.pipelines.SaveProjectDocsPipeline': 3,
+   'webscraper.pipelines.DownloadProjectDocsPipeline': 3,
 }
 
 FILES_STORE = os.path.join(os.path.abspath(__file__), os.pardir, 'downloads')

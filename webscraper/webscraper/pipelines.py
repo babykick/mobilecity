@@ -4,13 +4,15 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
-
+import os
+import csv
+import cStringIO
 from scrapy.pipelines.files import FilesPipeline
 from scrapy.http import Request
 from scrapy_djangoitem import DjangoItem
+from scrapy.utils.project import get_project_settings
 from webscraper.items import ProjectItem, DocItem
-import csv
-import cStringIO
+
  
  
 class SaveItemToDBPipeline(object):
@@ -35,9 +37,10 @@ class SaveProjectsInfoPipeline(object):
         return item  # pass to next pipeline
             
             
-class SaveProjectDocsPipeline(FilesPipeline):
+class DownloadProjectDocsPipeline(FilesPipeline):
     """ Save file pipeline
     """
+  
     def get_media_requests(self, item, info):
         if isinstance(item, DocItem):
             for finfo in item['file_urls']:
