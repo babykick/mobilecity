@@ -5,7 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-from scrapy.contrib.pipeline.files import FilesPipeline
+from scrapy.pipelines.files import FilesPipeline
 from scrapy.http import Request
 from scrapy_djangoitem import DjangoItem
 from webscraper.items import ProjectItem, DocItem
@@ -21,7 +21,7 @@ class SaveItemToDBPipeline(object):
        return item  # pass to next pipeline
             
             
-class SaveProjectsPipeline(object):
+class SaveProjectsInfoPipeline(object):
     # use CsvItemExporter
     def __init__(self):
         fields = ['rank', 'pubtime', 'title', 'summary', 'department', 'link']
@@ -35,14 +35,20 @@ class SaveProjectsPipeline(object):
         return item  # pass to next pipeline
             
             
-class SaveItemToDBPipeline(FilesPipeline):
+class SaveProjectDocsPipeline(FilesPipeline):
     """ Save file pipeline
     """
     def get_media_requests(self, item, info):
         if isinstance(item, DocItem):
-            for file_spec in item['file_urls']:
-                yield Request(url=file_spec["file_url"], meta={"file_spec": file_spec})
+            for finfo in item['file_urls']:
+                yield Request(url=finfo['url'], meta={"file_name": finfo['fname']})
+           
                 
     def file_path(self, request, response=None, info=None):
-        return request.meta["file_spec"]["file_name"]
+        return request.meta["file_name"] 
+    
+    
+    # def item_completed(self, results, item, info):
+    #     pass
+    #     #return item
         

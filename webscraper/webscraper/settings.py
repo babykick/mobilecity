@@ -63,11 +63,13 @@ DOWNLOADER_MIDDLEWARES = {
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'webscraper.pipelines.SaveItemToDBPipeline': 1,
-   'webscraper.pipelines.SaveProjectsPipeline': 2,
-   'scrapy.pipelines.files.FilesPipeline': 3,
+   'webscraper.pipelines.SaveProjectsInfoPipeline': 2,
+   'webscraper.pipelines.SaveProjectDocsPipeline': 3,
 }
 
 FILES_STORE = os.path.join(os.path.abspath(__file__), os.pardir, 'downloads')
+#IMAGES_STORE = os.path.join(os.path.abspath(__file__), os.pardir, 'downloads')
+FILES_EXPIRES = 0
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

@@ -76,11 +76,9 @@ class ProjectSpider(scrapy.Spider):
                    urllib.urlencode({'start_info': pg,
                                      'csrf_tname':'2d85a35e4b576e09f0eb9411c2920ecf'
                                    })
-            req = Request(url=url, callback=self.parse_page)
-            req.meta['page'] = pg
-            yield req
-     
-        
+            yield Request(url=url, callback=self.parse_page, meta={'page':pg})
+              
+              
     def parse_page(self, response):
         """
            Parse each page
@@ -109,11 +107,13 @@ class ProjectSpider(scrapy.Spider):
         
     def parse_detail(self, response):
         docs = response.xpath(".//ul[@class='i_d_s']//li[contains(@style, '#E5E5E5')]")
-        fileUrls = []
+        fileURLs = []
+        names = []
         for doc in docs:
             fname = doc.xpath(".//span/text()").extract_first().strip()
             dlink = doc.xpath(".//a/@href").extract_first()
-            fileUrls.append({'file_url':dlink, 'file_name':fname})
-        yield DocItem(file_urls=fileUrls)
+            fileURLs.append({'url':dlink, 'fname':fname})
+           
+        yield DocItem(file_urls=fileURLs )
         
     

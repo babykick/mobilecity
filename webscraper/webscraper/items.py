@@ -25,4 +25,5 @@ class ProjectItem(scrapy.Item):
 
 class DocItem(scrapy.Item):
     file_urls = scrapy.Field()
-    fiels = scrapy.Field()
+    files = scrapy.Field()
+     
