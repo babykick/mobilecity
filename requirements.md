@@ -13,8 +13,14 @@ pip install django-rest-swagger
 ### Database:
 Postgresql 9.3/postgis
 
-### Cache, Queue
+### NoSQL:
+couchdb
+pip install couchdbkit
+
+### Cache, Queue & push notification
 redis
+gearman
+pyapns
 
 ### Backend
 Nginx 
@@ -23,9 +29,6 @@ gunicorn
 ### Web Front
 Bootstrap
 
-### Task queue & push notification
-Gearman
-pyapns
 
 # Web scraper
 scrapy 1.0
