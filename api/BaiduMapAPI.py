@@ -1,7 +1,11 @@
 #coding=utf-8
 import requests
-import json
-
+try:
+    import ujson as json
+except ImportError:
+    print "simplejson instead"
+    import simplejson as json
+    
 class BaiduMap:
     """ 百度地图API
         
