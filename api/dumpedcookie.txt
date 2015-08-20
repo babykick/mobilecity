@@ -1,0 +1,13 @@
+aburl	Received	1	/	.dianping.com	Fri, 19-Aug-2016 08:42:04 GMT	Server	No	No
+s_ViewType	Received	10	/	.dianping.com	Sat, 19-Aug-2017 08:42:04 GMT	Server	No	No
+cy	Received	196	/	.dianping.com	Fri, 19-Aug-2016 08:42:04 GMT	Server	No	No
+JSESSIONID	Received	B149F06028077FF3BFB54D636B839434	/	.www.dianping.com	(Session)	Server	No	No
+cye	Received	yueyang	/	.dianping.com	Fri, 19-Aug-2016 08:42:04 GMT	Server	No	No
+_hc.v	Sent	"\"886688bf-23d3-4846-a490-e48fab701d61.1440059681\""	/	.dianping.com	Sun, 17-Aug-2025 08:34:41 GMT	Stored	No	No
+showNav	Sent	#nav-tab|0|0						
+PHOENIX_ID	Sent	0a0309bd-14f4a4566a3-2dbef	/	.dianping.com	(Session)		No	No
+aburl	Sent	1	/	.dianping.com	Fri, 19-Aug-2016 08:41:46 GMT	Stored	No	No
+s_ViewType	Sent	10	/	.dianping.com	Sat, 19-Aug-2017 08:41:46 GMT	Stored	No	No
+cy	Sent	196	/	.dianping.com	Fri, 19-Aug-2016 08:41:46 GMT	Stored	No	No
+JSESSIONID	Sent	241B6B233A227348C621481562647066	/	.www.dianping.com	(Session)		No	No
+cye	Sent	yueyang	/	.dianping.com	Fri, 19-Aug-2016 08:41:46 GMT	Stored	No	No
