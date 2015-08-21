@@ -35,7 +35,7 @@ class DzdpHTMLAPI:
            pg: 页码，从1开始
         """
         url = u"http://www.dianping.com/search/keyword/%s/0_%s/%s" % (cityid, q, pg)
-        content = requests.get(url,cookies=build_cookie() ).content
+        content = requests.get(url,cookies=build_cookie()).content
         print content
         doc = lxml.html.fromstring(content)
         for li in doc.xpath("//div[@id='shop-all-list']/ul/li"):
