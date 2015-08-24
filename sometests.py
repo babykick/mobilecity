@@ -11,7 +11,7 @@ def test_list_api():
    
 def test_redis():
     import redis
-    r = redis.Redis(host='192.168.1.10', db=0)
+    r = redis.Redis(host='127.0.0.1', db=0)
     r.sadd("testset", "apple")
     
 if __name__ == "__main__":
