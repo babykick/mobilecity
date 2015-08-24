@@ -23,7 +23,6 @@ class MeituanSpider(scrapy.Spider):
                 item['picTwo'] = item['picOne']
                 item['picThr'] = item['picOne']
                 taglist = sel.xpath(".//div[@class='tag-list']/a/text()").extract()
-                print taglist
                 # geo = GeoEntity(description=taglist[1])
                 # geo.save()
                 # item['geo'] = geo
