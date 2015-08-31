@@ -1,5 +1,6 @@
 #coding=utf-8
 import requests
+import ujson
 
 class DoubanAPI(object):
     """
@@ -14,7 +15,7 @@ class DoubanAPI(object):
     def querybook(self, **kargs):
         r = requests.get(self.BOOK_SEARCH, params=kargs)
         if r.status_code == 200:
-            return r.content
+            return ujson.loads(r.text)
     
     def queryMovie(self, **kargs):
         pass

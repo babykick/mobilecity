@@ -58,8 +58,14 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'picTwoURL',
                   'picThrURL',
                   'readStatus',
-                  'LocalPublishtime',
+                  'localPublishTime',
                   'comments',
+                  'author',
+                  'upCount',
+                  'downCount',
+                  'tags',
+                  'commentCount',
+                  'latestComments',
                   )
 
 

@@ -31,11 +31,12 @@ class BaiduMap:
                   'ak': self.token,
                   'scope': 2
         }
-        return json.loads(requests.get(url, params=params).text)
+        ret = requests.get(url, params=params).text
+        return json.loads(ret)
     
 
 if __name__ == '__main__':
-    res = BaiduMap().search(u'饭店', (39.915,116.404), radius=1000)
+    res = BaiduMap().search(q=u'饭店', loc=(39.915,116.404), radius=1000)
     print res
     
     
