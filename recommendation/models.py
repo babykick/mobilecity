@@ -7,46 +7,59 @@ from users.models import Author
 from django.utils.timezone import localtime
 from business.models import GeoEntity
 from django.db.models import Max
-from datetime import datetime
+from datetime import datetime 
+from django.utils import timezone
 
 class RecommendItem(models.Model):
     CATEGORY_CHOICES = (
         ('WESTFOOD', u'西餐'),
-        ('CHINESEFOOD', u'中餐'),
-        
+        ('CHINESEFOOD', u'中餐'), 
     )
     
     # 推荐标题
     title = models.CharField(max_length=500)
+    
     # 摘要
     summary = models.CharField(max_length=500, default="",blank=True)
+    
     # 内容
     content = models.CharField(max_length=1000, default="")
   
     # 图片列表字符串 
     picListString = models.CharField(max_length=100, default="",blank=True)
+    
     # 图片1 URL 
     picOne = models.CharField(max_length=100, default="",blank=True)
+    
     # 图片2 URL 
     picTwo = models.CharField(max_length=100, default="",blank=True)
+    
     # 图片3 URL 
     picThr = models.CharField(max_length=100, default="",blank=True)
+    
     # 图片 列表 
     picList = models.CharField(max_length=100, default="",blank=True)
+    
     # 图片类型是否为大图 
     isLarge = models.CharField(max_length=100, default="",blank=True)
+    
     # 阅读状态 ，读过的话显示灰色背景 
     readStatus = models.CharField(max_length=100, default="",blank=True)
+    
     # 收藏状态 
     collectStatus = models.CharField(max_length=50, default="",blank=True)
+    
     # 喜欢 状态 
     likeStatus = models.CharField(max_length=50, default="",blank=True)
+    
     # 感兴趣状态 
     interestedStatus = models.CharField(max_length=50, default="",blank=True)
+    
     # 类别
     category = models.CharField(max_length=20, null=True, blank=True)
+    
     # 发布时间 UTC
-    publishTime = models.DateTimeField( auto_now=True, null=True)
+    publishTime = models.DateTimeField(auto_now_add=True, null=True)
     # 作者
     author = models.ForeignKey(Author, verbose_name="author for the recommendation",
                                related_name="recommendations", null=True, default=1) # Default is the supper user(id=1)
@@ -56,10 +69,12 @@ class RecommendItem(models.Model):
     downCount = models.IntegerField(default=0)
     # 地理位置
     geo = models.OneToOneField(GeoEntity, null=True, blank=True)
+    
     # 评论 rative_name from Comment
-    """comments"""
+    """self.comments"""
+    
      # 标签 rative_name from Tag
-    """tags"""
+    """self.tags"""
     # 发布时间
     @property
     def localPublishTime(self):
@@ -67,6 +82,22 @@ class RecommendItem(models.Model):
             return localtime(self.publishTime).strftime("%Y-%m-%d %H:%M:%S")
         return self.publishTime
     
+    # 发布已过去的时间
+    @property
+    def pubElapse(self):
+        """
+           刚刚：1小时内
+           一周前：7天前
+        """
+        elapse = datetime.now(timezone.utc) - self.publishTime 
+        if elapse.days >= 7:
+            return u'一周前'
+        else:
+            if elapse.days >= 1:
+                return u'最近'
+            return u"刚刚"
+           
+        
     # 最近的评论
     @property
     def latestComments(self):
@@ -82,9 +113,6 @@ class RecommendItem(models.Model):
         maxUpCount = self.comments.all().aggregate(Max('upCount'))['upCount__max']
         if maxUpCount > 0:
             return self.comments.all().get(upCount=maxUpCount).content
-    
- 
-    
           
     # 作者的名字
     @property
