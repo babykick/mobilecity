@@ -123,9 +123,13 @@ class RecommendDetail(APIView):
 
 
 class CommentList(generics.ListAPIView):
+    """ 评论列表，继承generic view,<br>
+        /api/comments/530/?pgsize=10&page=2
+        
+    """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,  )
+    #permission_classes = (IsAuthenticatedOrReadOnly,  )
     authentication_classes = (TokenizedURLAuthentication,)
     paginate_by = 10
     paginate_by_param = 'pgsize'

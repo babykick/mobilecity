@@ -46,7 +46,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
         
         
 class RcmdDetailSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
+    #comments = CommentSerializer(many=True, read_only=True)
     
     class Meta:
         model = RecommendItem
@@ -59,13 +59,13 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'picThrURL',
                   'readStatus',
                   'localPublishTime',
-                  'comments',
+                  #'comments',
                   'author',
                   'upCount',
                   'downCount',
                   'tags',
-                  'commentCount',
-                  'latestComments',
+                  #'commentCount',
+                  #'latestComments',
                   )
 
 
