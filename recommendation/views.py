@@ -91,7 +91,10 @@ class RecommendList(APIView):
 class RecommendDetail(APIView):
     """
     Retrieve a recommendation with detailed information,
-    or update/delete a recommendation instance.
+    or update/delete a recommendation instance.<br>
+    example:<br>
+    http://111.8.186.228:8000/api/rcmdlist/530/?token=d16a8d11c10afef6592264be5457b3c669467adb
+    
     """
     permission_classes = (IsAuthenticatedOrReadOnly,  )
     authentication_classes = (TokenizedURLAuthentication,)

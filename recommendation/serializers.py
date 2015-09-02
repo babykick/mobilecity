@@ -40,7 +40,6 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
         model = RecommendItem
         fields = ('id',
                   'title',
-                  'content',
                   'summary',
                   'picOneURL',
                   'picTwoURL',
@@ -57,7 +56,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
         
         
 class RcmdDetailSerializer(serializers.ModelSerializer):
-    #comments = CommentSerializer(many=True, )
+    author = AuthorSerializer(read_only=True)
     class Meta:
         model = RecommendItem
         fields = ('id',
@@ -69,7 +68,7 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'picThrURL',
                   'readStatus',
                   'localPublishTime',
-                   #'comments',
+                  'author',
                   'author',
                   'upCount',
                   'downCount',

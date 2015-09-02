@@ -64,13 +64,13 @@ class RecommendItem(models.Model):
     @property
     def localPublishTime(self):
         if self.publishTime is not None:
-            return localtime(self.publishTime)
+            return localtime(self.publishTime).strftime("%Y-%m-%d %H:%M:%S")
         return self.publishTime
     
     # 最近的评论
     @property
     def latestComments(self):
-        return self.comments.all().order_by('-publishTime')[:5]
+        return self.comments.all().order_by('-publishTime')[:1]
     
     @property
     def commentCount(self):

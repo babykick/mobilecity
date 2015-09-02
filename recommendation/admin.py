@@ -25,7 +25,7 @@ class RecommendItemAdmin(admin.ModelAdmin):
     inlines = [TagInline]
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('content', 'recommendItem')
+    list_display = ('id', 'content', 'recommendItem')
     
 class TagAdmin(admin.ModelAdmin):
     #inlines = [TagInline]
