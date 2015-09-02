@@ -131,5 +131,9 @@ class CommentList(generics.ListAPIView):
     paginate_by_param = 'pgsize'
     max_paginate_by = 100
     
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Comment.objects.filter(recommendItem=pk)
+    
     
     
