@@ -8,8 +8,10 @@ with:
 django-bootstrap3
 djangorestframework
 djangorestframework-oauth
+pip install djangorestframework-gis
 pip install django-rest-swagger
 pip install django-redis
+
 
 ### Database:
 Postgresql 9.3/postgis

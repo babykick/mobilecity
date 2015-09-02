@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',   # for doc generation
+    #'rest_framework_gis',
     
     # My apps
     'devmng', # Developing management

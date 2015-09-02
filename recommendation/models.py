@@ -7,7 +7,7 @@ from users.models import Author
 from django.utils.timezone import localtime
 from business.models import GeoEntity
 from django.db.models import Max
-
+from datetime import datetime
 
 class RecommendItem(models.Model):
     CATEGORY_CHOICES = (
@@ -149,7 +149,7 @@ class Comment(models.Model):
      @property
      def localPublishTime(self):
         if self.publishTime is not None:
-            return localtime(self.publishTime)
+            return localtime(self.publishTime).strftime("%Y-%m-%d %H:%M:%S")
         return self.publishTime
     
      class Meta:
