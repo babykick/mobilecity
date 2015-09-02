@@ -11,7 +11,7 @@ class DoubanSpider(scrapy.Spider):
     book_pattern = "https://api.douban.com/v2/book/series/%s/books"
     
     def start_requests(self):
-        for i in random.sample(range(1, 30, 1), 5):
+        for i in random.sample(range(1, 50, 1), 5):
             cate_url = self.book_pattern % i
             yield Request(url=cate_url, callback=self.parse_item)
     
