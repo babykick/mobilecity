@@ -9,7 +9,7 @@ import csv
 import cStringIO
 from scrapy.pipelines.files import FilesPipeline
 from scrapy.http import Request
-from scrapy_djangoitem import DjangoItem
+from webscraper.items import ItemEntry
 from scrapy.utils.project import get_project_settings
 from webscraper.items import ProjectItem, DocItem
 
@@ -17,11 +17,10 @@ from webscraper.items import ProjectItem, DocItem
  
 class SaveItemToDBPipeline(object):
     def process_item(self, item, spider):
-       if isinstance(item, DjangoItem):
+       if isinstance(item, ItemEntry):
             item.save()
-            print 'item saved'
+            print 'Recommendation item saved'
        return item  # pass to next pipeline
-            
             
 class SaveProjectsInfoPipeline(object):
     # use CsvItemExporter

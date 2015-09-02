@@ -18,7 +18,7 @@ cloned_cookies = dict(sign='CFj72NzSIr', csrf_cname='76e61f7e9e1b966f96b753ed5bb
   
 
 class ProjectSpider(scrapy.Spider):
-    name = 'projectspider'
+    name = 'project_spider'
     allowed_domains = ['bigcloudsys.cn']
     login_page = 'http://zzkf.bigcloudsys.cn:8088/user/login' # login page url
     login_url = 'http://zzkf.bigcloudsys.cn:8088/user/loginDo' # url for post
