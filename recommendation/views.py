@@ -127,5 +127,9 @@ class CommentList(generics.ListAPIView):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,  )
     authentication_classes = (TokenizedURLAuthentication,)
+    paginate_by = 10
+    paginate_by_param = 'pgsize'
+    max_paginate_by = 100
+    
     
     
