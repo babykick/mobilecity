@@ -12,8 +12,10 @@ from django.utils import timezone
 
 class RecommendItem(models.Model):
     CATEGORY_CHOICES = (
-        ('WESTFOOD', u'西餐'),
-        ('CHINESEFOOD', u'中餐'), 
+        (u'美食', u'美食'),
+        (u'服装', u'服装'),
+        (u'数码', u'数码'),
+        (u'图书', u'图书'),
     )
     
     # 推荐标题
@@ -56,7 +58,7 @@ class RecommendItem(models.Model):
     interestedStatus = models.CharField(max_length=50, default="",blank=True)
     
     # 类别
-    category = models.CharField(max_length=20, null=True, blank=True)
+    category = models.CharField(max_length=20, null=True, blank=True,  choices=CATEGORY_CHOICES)
     
     # 发布时间 UTC
     publishTime = models.DateTimeField(auto_now_add=True, null=True)

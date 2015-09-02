@@ -41,6 +41,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
         fields = ('id',
                   'title',
                   'summary',
+                  'category',
                   'picOneURL',
                   'picTwoURL',
                   'picThrURL',
