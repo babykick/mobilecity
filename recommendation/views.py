@@ -134,16 +134,10 @@ class POIDetail(APIView):
     authentication_classes = (TokenizedURLAuthentication,)
     
     def post(self, request, format='json'):
-        print 'in'
-        data = request.POST
-        print data
-        return Response({'result':'ok'})
-        serializer = RcmdItemEntrySerializer()
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        q = request.POST.get('q')
+        ret = BaiduMap.search_POI(q)
+        return Response(ret)
+        
 
 class CommentList(generics.ListAPIView):
     """ 评论列表，继承generic view,<br>
