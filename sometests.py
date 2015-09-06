@@ -16,8 +16,6 @@ def test_redis():
     
 if __name__ == "__main__":
     # test_redis()
-    r = requests.post('http://127.0.0.1:8000/api/poi/search/', data={"token":'d16a8d11c10afef6592264be5457b3c669467adb', "afsdf":'ttt'})
-    print r.text
-
+   
 
  

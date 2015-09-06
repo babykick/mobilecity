@@ -127,6 +127,9 @@ class RecommendDetail(APIView):
 
 
 class POIDetail(APIView):
+    """ 查询POI
+        q: 关键字
+    """
     permission_classes = (IsAuthenticatedOrReadOnly,  )
     authentication_classes = (TokenizedURLAuthentication,)
     
@@ -147,9 +150,9 @@ class CommentList(generics.ListAPIView):
         /api/comments/530/?pgsize=10&page=2
         
     """
-    queryset = Comment.objects.all()
+    #queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    #permission_classes = (IsAuthenticatedOrReadOnly,  )
+    permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenizedURLAuthentication,)
     paginate_by = 10
     paginate_by_param = 'pgsize'
