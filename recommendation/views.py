@@ -11,12 +11,11 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework import generics
 from users.auth import TokenizedURLAuthentication
-
 from recommendation.models import RecommendItem, Comment
 from recommendation.serializers import RcmdItemEntrySerializer, RcmdDetailSerializer, CommentSerializer
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from api.BaiduMapAPI import BaiduMap
 
 class RecommendList(APIView):
     """
@@ -81,6 +80,7 @@ class RecommendList(APIView):
     def post(self, request, format=None):
         data = request.data
         serializer = RcmdItemEntrySerializer()
+        BaiduMapAPI.search("q")
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -123,6 +123,23 @@ class RecommendDetail(APIView):
     #     rcmd = self.get_object(pk)
     #     rcmd.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class POIDetail(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,  )
+    authentication_classes = (TokenizedURLAuthentication,)
+    
+    def post(self, request, format='json'):
+        print 'in'
+        data = request.POST
+        print data
+        return Response({'result':'ok'})
+        serializer = RcmdItemEntrySerializer()
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CommentList(generics.ListAPIView):

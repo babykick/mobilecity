@@ -13,6 +13,8 @@ class BaiduMap:
         POI: http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-placeapi
     """
     token = "C2bfc69b56baa2abd66ae613966ed3d9"
+    
+    @classmethod
     def search(self, q, loc, radius):
         """ 搜索周边
             q: 搜索关键字，如公厕，饭店，餐馆，洗浴

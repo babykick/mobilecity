@@ -11,7 +11,9 @@ class TokenizedURLAuthentication(authentication.BaseAuthentication):
            http://127.0.0.1:8000/api/rcmdlist/?token=fdsfdsafdsf
     """
     def authenticate(self, request):
-        token = request.GET.get('token')
+        token1 = request.GET.get('token')
+        token2 = request.POST.get('token')
+        token = token1 or token2
         if not token:
             return None
         try:

@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'business', # define the business entity as recommending target
     'recommendation', # core recommendation
     'users',  # users management
+    'api',
 )
 
 MIDDLEWARE_CLASSES = (

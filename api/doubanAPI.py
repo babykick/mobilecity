@@ -12,6 +12,7 @@ class DoubanAPI(object):
     MOVIE_SEARCH = ''
     MUSIC_SEARCH = ''
     
+    
     def querybook(self, **kargs):
         r = requests.get(self.BOOK_SEARCH, params=kargs)
         if r.status_code == 200:
