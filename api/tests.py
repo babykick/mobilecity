@@ -22,7 +22,7 @@ class Test(TestCase):
         r = requests.post('http://127.0.0.1:8000/api/poi/search/', data=data)
         content = ujson.loads(r.text)
         pprint.pprint(content)
-        self.assertContains(content, 'title')
+        self.assertEqual(r.status_code, 200)
 
 
 
