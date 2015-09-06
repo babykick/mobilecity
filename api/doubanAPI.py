@@ -12,15 +12,17 @@ class DoubanAPI(object):
     MOVIE_SEARCH = ''
     MUSIC_SEARCH = ''
     
-    
+    @classmethod
     def querybook(self, **kargs):
         r = requests.get(self.BOOK_SEARCH, params=kargs)
         if r.status_code == 200:
             return ujson.loads(r.text)
     
+    @classmethod
     def queryMovie(self, **kargs):
         pass
     
+    @classmethod
     def queryMusic(self, **kargs):
         pass
     

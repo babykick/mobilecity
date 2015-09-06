@@ -16,6 +16,7 @@ from recommendation.serializers import RcmdItemEntrySerializer, RcmdDetailSerial
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from api.BaiduMapAPI import BaiduMap
+from api.doubanAPI import DoubanAPI
 
 class RecommendList(APIView):
     """
@@ -134,8 +135,14 @@ class POIDetail(APIView):
     authentication_classes = (TokenizedURLAuthentication,)
     
     def post(self, request, format='json'):
-        q = request.POST.get('q')
-        ret = BaiduMap.search_POI(q)
+        keyword = request.POST.get('q')
+        cate = request.POST.get('category')
+        if cate in (u'美食', ):
+            ret = BaiduMap.search_POI(keyword)
+        elif cate in (u'图书', ):
+            ret = DoubanAPI.querybook(q=keyword)
+        elif cate in (u'电影', ):
+            ret = DoubanAPI.querymovie(q=keyword)
         return Response(ret)
         
 
