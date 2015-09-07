@@ -3,10 +3,10 @@ import requests
 try:
     import ujson as json
 except ImportError:
-    print "simplejson instead"
+    print "ujson not found, use simplejson instead"
     import simplejson as json
 import lxml.html    
-    
+ 
 class BaiduMap:
     """ 百度地图API
         
@@ -66,7 +66,8 @@ class BaiduMap:
     
 
 if __name__ == '__main__':
-    res = BaiduMap.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000)
-    print BaiduMap.search_detail()
+    import pprint
+    pprint.pprint( BaiduMap.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000))
+    pprint.pprint(BaiduMap.search_detail())
     
     
