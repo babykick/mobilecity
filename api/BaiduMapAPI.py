@@ -37,10 +37,11 @@ class BaiduMap:
         url = 'http://map.baidu.com/detail?qt=caterphoto&uid=cd9d05dd7e197daf84420eb6&type=list&ugc_ver=1'
         doc = lxml.html.fromstring(requests.get(url).text)
         div = doc.xpath("//div[contains(@class, 'more-comments')]")[0]
-        dzdp, meituan, dcms, globalview, qqfood = div.xpath("./span/a/@href")
-        print dzdp, meituan, dcms, globalview, qqfood
-        print requests.get(meituan, allow_redirects=True).content 
-    
+        #dzdp, meituan, dcms, globalview, qqfood
+        links = div.xpath("./span/a/@href")
+        # print dzdp, meituan, dcms, globalview, qqfood
+        # print requests.get(meituan, allow_redirects=True).content 
+        
     
     @classmethod
     def search_distance(self, q, loc, radius):
