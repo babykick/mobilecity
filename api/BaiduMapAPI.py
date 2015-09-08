@@ -7,7 +7,7 @@ except ImportError:
     import simplejson as json
 import lxml.html    
  
-class BaiduMap:
+class BaiduAPI:
     """ 百度地图API
         
         官方文档：
@@ -70,10 +70,24 @@ class BaiduMap:
         ret = requests.get(self.url, params=params).text
         return json.loads(ret)
     
-
+    def search_nuomi(self):
+        """ 糯米商户信息及团购搜索
+            文档地址:http://apistore.baidu.com/apiworks/servicedetail/508.html
+        """
+        pass
+    
+    def search_movie(self):
+        """ 搜索影讯
+            文档地址：http://apistore.baidu.com/apiworks/servicedetail/189.html
+        """
+        pass
+    
+    
+    
+    
 if __name__ == '__main__':
     import pprint
-    pprint.pprint( BaiduMap.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000))
-    pprint.pprint(BaiduMap.search_detail())
+    pprint.pprint(BaiduAPI.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000))
+    pprint.pprint(BaiduAPI.search_detail())
     
     
