@@ -16,6 +16,7 @@ class BaiduMap:
     token = "C2bfc69b56baa2abd66ae613966ed3d9"
     url = "http://api.map.baidu.com/place/v2/search"
     
+    
     @classmethod
     def search_POI(self, q):
         """ 搜索poi
@@ -34,13 +35,17 @@ class BaiduMap:
     
     @classmethod
     def search_detail(self):
+        s = requests.Session()
         url = 'http://map.baidu.com/detail?qt=caterphoto&uid=cd9d05dd7e197daf84420eb6&type=list&ugc_ver=1'
-        doc = lxml.html.fromstring(requests.get(url).text)
+        r = requests.get(url)
+        cookies = r.cookies
+        doc = lxml.html.fromstring(r.text)
         div = doc.xpath("//div[contains(@class, 'more-comments')]")[0]
         #dzdp, meituan, dcms, globalview, qqfood
         links = div.xpath("./span/a/@href")
-        # print dzdp, meituan, dcms, globalview, qqfood
-        # print requests.get(meituan, allow_redirects=True).content 
+        dzdp, meituan, dcms, globalview, qqfood = links
+        print meituan
+        print s.get(meituan, cookies=cookies).content 
         
     
     @classmethod
