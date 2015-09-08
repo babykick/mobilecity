@@ -15,7 +15,7 @@ from recommendation.models import RecommendItem, Comment
 from recommendation.serializers import RcmdItemEntrySerializer, RcmdDetailSerializer, CommentSerializer
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from api.BaiduMapAPI import BaiduMap
+from api.baiduAPI import BaiduMap
 from api.doubanAPI import DoubanAPI
 
 class RecommendList(APIView):

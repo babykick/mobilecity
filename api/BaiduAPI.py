@@ -8,6 +8,8 @@ except ImportError:
 import lxml.html    
  
 MAIN_TOKEN = "C2bfc69b56baa2abd66ae613966ed3d9"
+
+
 class BaiduMap:
     """ 百度地图API
         
@@ -74,7 +76,7 @@ class BaiduMap:
 
 class BaiduAPIStore:
     """ 百度APIStore, api集合
-        doc: http://apistore.baidu.com/astore/classificationservicelist.html
+        doc: http://apistore.baidu.com/
     """
     token = MAIN_TOKEN
     
