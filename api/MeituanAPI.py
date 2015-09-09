@@ -38,7 +38,7 @@ class MeituanAPI(object):
         }
         content = requests.get(self.api_url, params=params).content
         doc = lxml.etree.fromstring(content)
-        return doc.xpath('//shop_name/text()')
+        return doc.xpath('//shops')
         
 if __name__ == '__main__':
     print MeituanAPI.search('口味虾')
