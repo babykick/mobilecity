@@ -21,7 +21,7 @@ class BaiduMap:
     
     
     @classmethod
-    def search_POI(self, q):
+    def search_POI(self, q, city):
         """ 搜索poi
             q: 搜索关键字，如公厕，饭店，餐馆，洗浴
         """
@@ -30,7 +30,7 @@ class BaiduMap:
                   'output':'json',
                   'ak': self.token,
                   'scope': 2,
-                  'region': u'岳阳'
+                  'region': city
         }
         ret = requests.get(self.url, params=params).text
         jsonobj = json.loads(ret)
@@ -109,7 +109,7 @@ class BaiduAPIStore:
     
 if __name__ == '__main__':
     import pprint
-    pprint.pprint(BaiduAPI.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000))
-    pprint.pprint(BaiduAPI.search_detail())
+    #pprint.pprint(BaiduMap.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000))
+    pprint.pprint(BaiduMap.search_POI(u'山上铺里', city=u'岳阳'))
     
     

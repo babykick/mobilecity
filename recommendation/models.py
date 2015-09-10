@@ -62,13 +62,16 @@ class RecommendItem(models.Model):
     
     # 发布时间 UTC
     publishTime = models.DateTimeField(auto_now_add=True, null=True)
+    
     # 作者
     author = models.ForeignKey(Author, verbose_name="author for the recommendation",
                                related_name="recommendations", null=True, default=1) # Default is the supper user(id=1)
     # 获赞数
     upCount = models.IntegerField(default=0)
+    
     # 获贬数
     downCount = models.IntegerField(default=0)
+    
     # 地理位置
     geo = models.OneToOneField(GeoEntity, null=True, blank=True)
     
