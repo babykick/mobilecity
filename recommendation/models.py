@@ -10,6 +10,8 @@ from django.db.models import Max
 from datetime import datetime 
 from django.utils import timezone
 
+
+
 class RecommendItem(models.Model):
     CATEGORY_CHOICES = (
         (u'美食', u'美食'),
