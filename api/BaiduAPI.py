@@ -36,6 +36,7 @@ class BaiduMap:
         jsonobj = json.loads(ret)
         return jsonobj
     
+    
     @classmethod
     def search_detail(self):
         s = requests.Session()
@@ -92,11 +93,13 @@ class BaiduAPIStore:
         """
         pass
     
+    
     def search_near(self):
         """ 搜索周边
             文档地址： http://apistore.baidu.com/apiworks/servicedetail/469.html
         """
         pass
+    
     
     def search_qunaer(self):
         """ 去哪儿景点门票查询
