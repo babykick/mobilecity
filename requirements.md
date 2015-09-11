@@ -11,7 +11,7 @@ djangorestframework-oauth
 pip install djangorestframework-gis
 pip install django-rest-swagger
 pip install django-redis
-
+python manage.py shell_plus
 
 ### Database:
 Postgresql 9.3/postgis

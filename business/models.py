@@ -15,10 +15,11 @@ from django.db  import models
 #    bdpoi_id = models.CharField(max_length=25, null=True, unique=True) # 百度POI ID, 返回json中uid项
 
 # Create your models here.
-class GeoEntity(models.Model):
+class Location(models.Model):
     lon = models.FloatField(default=0)
     lat = models.FloatField(default=0)
     description = models.CharField(max_length=200, null=True)
+    city = models.CharField(max_length=15, null=True)
     
     def __unicode__(self):
       return "%s %s" % (self.lat, self.lon)
@@ -26,11 +27,11 @@ class GeoEntity(models.Model):
 class Shop(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    geo = models.OneToOneField(GeoEntity, null=True)
+    geo = models.OneToOneField(Location, null=True)
     
     
 class BaseStation(models.Model):
     site_name = models.CharField(max_length=100)
     cluster = models.CharField(max_length=30)
-    geo = models.OneToOneField(GeoEntity, null=True)
+    geo = models.OneToOneField(Location, null=True)
     

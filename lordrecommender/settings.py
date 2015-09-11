@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     #'django.contrib.gis',
      
     # Third parties
+    'django_extensions',
     'bootstrap3',
     'rest_framework',
     'rest_framework.authtoken',

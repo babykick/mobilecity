@@ -5,7 +5,7 @@ from users.models import Author
 #from django.contrib.sites.models import Site
 # Create your models here.
 from django.utils.timezone import localtime
-from business.models import GeoEntity
+from business.models import Location
 from django.db.models import Max
 from datetime import datetime 
 from django.utils import timezone
@@ -73,7 +73,7 @@ class RecommendItem(models.Model):
     downCount = models.IntegerField(default=0)
     
     # 地理位置
-    geo = models.OneToOneField(GeoEntity, null=True, blank=True)
+    location = models.OneToOneField(Location, null=True, blank=True)
     
     # 评论 rative_name from Comment
     """self.comments"""

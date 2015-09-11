@@ -1,9 +1,9 @@
 from django.contrib import admin
-from business.models import GeoEntity
+from business.models import Location
 
 # Register your models here.
-class GeoEntityAdmin(admin.ModelAdmin):
+class LocationAdmin(admin.ModelAdmin):
     #inlines = [TagInline]
     list_display = ["id", "lat", 'lon']
     
-admin.site.register(GeoEntity, GeoEntityAdmin)
+admin.site.register(Location, LocationAdmin)

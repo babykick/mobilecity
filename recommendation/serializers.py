@@ -3,7 +3,9 @@ from rest_framework import serializers
 from .models import RecommendItem
 from .models import Comment, Tag
 from users.serializers import AuthorSerializer
-from business.models import GeoEntity
+from business.models import Location
+from business.serializers import LocationSerializer
+
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,11 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
                   'localPublishTime',
                  )
         
-class GeoEntitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GeoEntity
-        fields = ('lat',
-                  'lon',)
+
         
 class RcmdItemEntrySerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
@@ -56,7 +54,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
         
 class RcmdDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
-    geo = GeoEntitySerializer(read_only=True)
+    location = LocationSerializer(read_only=True)
     class Meta:
         model = RecommendItem
         fields = ('id',
@@ -69,7 +67,7 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'readStatus',
                   'localPublishTime',
                   'author',
-                  'geo',
+                  'location',
                   'upCount',
                   'downCount',
                   'tags',
