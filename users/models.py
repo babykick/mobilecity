@@ -28,6 +28,9 @@ class Author(models.Model):
     # 等级
     level = models.IntegerField(default=1)
     
+    # 家乡
+    hometown = models.CharField(max_length=20)
+    
     # 是否本地人(判断口味特点)
     isLocal = models.BooleanField(default=False)
     
