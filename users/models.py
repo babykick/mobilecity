@@ -29,7 +29,7 @@ class Author(models.Model):
     level = models.IntegerField(default=1)
     
     # 家乡
-    hometown = models.CharField(max_length=20)
+    hometown = models.CharField(max_length=20, null=True)
     
     # 是否本地人(判断口味特点)
     isLocal = models.BooleanField(default=False)
