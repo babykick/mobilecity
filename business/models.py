@@ -7,18 +7,27 @@ from django.contrib.gis.geos import Point, GEOSGeometry
 
 class POI(geomodels.Model):
    """ 兴趣点
-       based on 百度POI ID
+       based on 百度POI
    """
+   # 名称
    name = geomodels.CharField(max_length=100)
-   lon = geomodels.FloatField(default=0)
-   lat = geomodels.FloatField(default=0)
+     
+   # 经纬度
    coordinate = geomodels.PointField(null=True)
-   description = geomodels.CharField(max_length=200, null=True) 
-   vote_num = geomodels.IntegerField(default=0)
-   visited_freq = geomodels.IntegerField(default=0)
-   bdpoi_id = geomodels.CharField(max_length=25, null=True, unique=True) # 百度POI ID, 返回json中uid项
-   objects = geomodels.GeoManager()
    
+   # 描述
+   description = geomodels.CharField(max_length=200, null=True)
+   
+   # 投票数
+   vote_num = geomodels.IntegerField(default=0)
+   
+   # 访问频率
+   visited_freq = geomodels.IntegerField(default=0)
+   
+   # 百度POI ID, 返回json中uid项
+   bdpoi_id = geomodels.CharField(max_length=25, null=True, unique=True) 
+   
+   objects = geomodels.GeoManager()
    
    def __unicode__(self):
       return self.name
