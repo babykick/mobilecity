@@ -1,5 +1,5 @@
 #coding=utf-8
-#from django.contrib.gis.db import models as geomodels
+from django.contrib.gis.db import models as geomodels
 from django.db  import models 
 
 # class POI(models.Model):

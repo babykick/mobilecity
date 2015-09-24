@@ -47,15 +47,17 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',   # for doc generation
-    #'rest_framework_gis',
+    'rest_framework_gis',
     
     # My apps
     'devmng', # Developing management
     'business', # define the business entity as recommending target
     'recommendation', # core recommendation
     'users',  # users management
-    'api',
+    'api', 
 )
+
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
