@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.gis',
+    'django.contrib.gis',
      
     # Third parties
     'django_extensions',
@@ -113,11 +113,11 @@ DATABASES = {
     # }
 }
 
- 
+
 
 # Setting for geodjango (Perhaps not needed)
-#GEOS_LIBRARY_PATH = 'C:/OSGeo4W/share/gdal'
-
+#GEOS_LIBRARY_PATH = 'D:/GEOLibs/OSGeo4W/share/gdal'
+GDAL_LIBRARY_PATH = 'D:/GEOLibs/OSGeo4W/bin/gdal111.dll'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
