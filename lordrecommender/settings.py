@@ -99,7 +99,8 @@ WSGI_APPLICATION = 'lordrecommender.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', 
         'NAME': 'lordrecommender_debug',
         'USER': 'postgres',
         'PASSWORD':'Hacker1218',

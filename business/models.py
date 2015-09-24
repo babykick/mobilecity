@@ -1,6 +1,8 @@
 #coding=utf-8
 from django.contrib.gis.db import models as geomodels
 from django.db  import models 
+from django.contrib.gis.geos import Point, GEOSGeometry
+
 
 
 class POI(geomodels.Model):
@@ -10,6 +12,7 @@ class POI(geomodels.Model):
    name = geomodels.CharField(max_length=100)
    lon = geomodels.FloatField(default=0)
    lat = geomodels.FloatField(default=0)
+   coordinate = geomodels.PointField(null=True)
    description = geomodels.CharField(max_length=200, null=True) 
    vote_num = geomodels.IntegerField(default=0)
    visited_freq = geomodels.IntegerField(default=0)
