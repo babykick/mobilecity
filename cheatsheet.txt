@@ -2,3 +2,4 @@ python manage.py createsuperuser
 python manage.py makemigrations <app>
 createdb -T template_postgis <db name>
 python manage.py dumpdata > data_dump.json
+chcp 936          #中国 - 简体中文(GB2312)
