@@ -188,12 +188,19 @@ REST_FRAMEWORK = {
 
 CACHES = {
     # This uses local memory for development
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-        'TIMEOUT': 60 * 30,
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000
+    # 'debug': {
+    #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    #     'LOCATION': 'unique-snowflake',
+    #     'TIMEOUT': 60 * 30,
+    #     'OPTIONS': {
+    #         'MAX_ENTRIES': 1000
+    #     }
+    # },
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://%s/1" % REDIS_SERVER,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
