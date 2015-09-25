@@ -20,15 +20,15 @@ app = Celery('lordrecommender')
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
-#For the database backend you must use:
-app.conf.update(
-    CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
-)
-
-#For the cache backend you can use:
-app.conf.update(
-    CELERY_RESULT_BACKEND='djcelery.backends.cache:CacheBackend',
-)
+# #For the database backend you must use:
+# app.conf.update(
+#     CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
+# )
+# 
+# #For the cache backend you can use:
+# app.conf.update(
+#     CELERY_RESULT_BACKEND='djcelery.backends.cache:CacheBackend',
+# )
 
 @app.task(bind=True)
 def debug_task(self):

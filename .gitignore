@@ -2,3 +2,4 @@
 items_out.csv
 *.uploading.cfg
 downloads/
+*.log
