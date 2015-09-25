@@ -12,11 +12,11 @@ pip install djangorestframework-gis
 pip install django-rest-swagger
 pip install django-redis
 pip install shell_plus
-pip uninstall south # not use south in django 1.8, keep will throws error in django-celery
+pip uninstall south # not use south in django 1.8, keep it may throws error in django-celery
 pip install django-celery
 
 ### Database:
-Postgresql 9.3/postgis
+Postgresql 9.3 or 9.4 with postgis
 
 ### NoSQL:
 couchdb
