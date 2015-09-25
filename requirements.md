@@ -11,7 +11,9 @@ djangorestframework-oauth
 pip install djangorestframework-gis
 pip install django-rest-swagger
 pip install django-redis
-python manage.py shell_plus
+pip install shell_plus
+pip uninstall south # not use south in django 1.8, keep will throws error in django-celery
+pip install django-celery
 
 ### Database:
 Postgresql 9.3/postgis
@@ -22,6 +24,7 @@ pip install couchdbkit
 
 ### Cache, Queue & push notification
 redis
+celery-with-redis
 gearman
 pyapns
 

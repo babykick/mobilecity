@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import djcelery
+djcelery.setup_loader() 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -48,6 +50,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework_swagger',   # for doc generation
     'rest_framework_gis',
+    'djcelery',
+    
     
     # My apps
     'devmng', # Developing management
@@ -121,6 +125,9 @@ DATABASES = {
 # Setting for geodjango (Perhaps not needed)
 #GEOS_LIBRARY_PATH = 'D:/GEOLibs/OSGeo4W/share/gdal'
 GDAL_LIBRARY_PATH = 'D:/GEOLibs/OSGeo4W/bin/gdal111.dll'
+
+# Celery settings
+ 
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
