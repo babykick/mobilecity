@@ -1,3 +1,4 @@
+#coding=utf-8
 """
 Django settings for lordrecommender project.
 
@@ -131,7 +132,12 @@ djcelery.setup_loader()
 REDIS_SERVER = '192.168.1.8:6379'
 BROKER_URL = 'redis://%s/0' % REDIS_SERVER
 CELERY_RESULT_BACKEND = 'redis://%s/0' % REDIS_SERVER
-
+# CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+# CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
+# CELERY_ENABLE_UTC = False # 不是用UTC
+# CELERY_TIMEZONE = 'Asia/Shanghai' 
+# CELERY_TASK_RESULT_EXPIRES = 10 #任务结果的时效时间
+# CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml'] # 允许的格式
 
 
 # Internationalization
@@ -201,6 +207,7 @@ CACHES = {
         "LOCATION": "redis://%s/1" % REDIS_SERVER,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            #"IGNORE_EXCEPTIONS": True,
         }
     }
 }
