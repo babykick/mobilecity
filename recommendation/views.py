@@ -17,6 +17,9 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from api.baiduAPI import BaiduMap
 from api.doubanAPI import DoubanAPI
+from .tasks import add
+
+
 
 class RecommendList(APIView):
     """
@@ -115,6 +118,8 @@ class RecommendDetail(APIView):
     def get(self, request, pk, format=None):
         r = self.get_object(pk)
         serializer = RcmdDetailSerializer(r)
+        # Test celery task
+        add.delay(2, 2) 
         return Response(serializer.data)
 
     # def put(self, request, pk, format=None):
