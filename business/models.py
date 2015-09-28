@@ -2,7 +2,7 @@
 from django.contrib.gis.db import models as geomodels
 from django.db  import models 
 from django.contrib.gis.geos import Point, GEOSGeometry
-
+from api.baiduAPI import BaiduMap
 
 
 class POI(geomodels.Model):
@@ -14,6 +14,9 @@ class POI(geomodels.Model):
      
    # 经纬度
    coordinate = geomodels.PointField(null=True)
+   
+   # 城市
+   city = geomodels.CharField(max_length=20, null=False)
    
    # 描述
    description = geomodels.CharField(max_length=200, null=True)
@@ -28,6 +31,12 @@ class POI(geomodels.Model):
    bdpoi_id = geomodels.CharField(max_length=25, null=True, unique=True) 
    
    objects = geomodels.GeoManager()
+   
+   # 搜索周边
+   def bd_around_search(self, q, loc, radius=1000):
+      return BaiduMap.search_distance(q, loc, radius)
+      
+   
    
    def __unicode__(self):
       return self.name

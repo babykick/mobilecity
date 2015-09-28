@@ -112,7 +112,7 @@ class BaiduAPIStore:
     
 if __name__ == '__main__':
     import pprint
-    #pprint.pprint(BaiduMap.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000))
-    pprint.pprint(BaiduMap.search_POI(u'山上铺里', city=u'岳阳'))
+    pprint.pprint(BaiduMap.search_distance(q=u'饭店', loc=(39.915,116.404), radius=1000))
+    #pprint.pprint(BaiduMap.search_POI(u'山上铺里', city=u'岳阳'))
     
     

@@ -129,7 +129,7 @@ GDAL_LIBRARY_PATH = 'D:/GEOLibs/OSGeo4W/bin/gdal111.dll'
 # Celery settings
 import djcelery
 djcelery.setup_loader()
-REDIS_SERVER = '192.168.1.8:6379'
+REDIS_SERVER = '192.168.1.4:6379'
 BROKER_URL = 'redis://%s/0' % REDIS_SERVER
 CELERY_RESULT_BACKEND = 'redis://%s/0' % REDIS_SERVER
 # CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
@@ -207,7 +207,7 @@ CACHES = {
         "LOCATION": "redis://%s/1" % REDIS_SERVER,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            #"IGNORE_EXCEPTIONS": True,
+            "IGNORE_EXCEPTIONS": True,
         }
     }
 }
