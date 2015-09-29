@@ -19,7 +19,7 @@ from api.baiduAPI import BaiduMap
 from api.doubanAPI import DoubanAPI
 from .tasks import add
 
-
+# First, define the Manager subclass.
 
 class RecommendList(APIView):
     """

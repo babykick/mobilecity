@@ -5,6 +5,26 @@ from django.contrib.gis.geos import Point, GEOSGeometry
 from api.baiduAPI import BaiduMap
 
 
+class POIManager(models.Manager):
+    def get_queryset(self):
+        return super(POIManager, self).get_queryset().filter(coordinate='Roald Dahl')
+
+    # 搜索周边
+    def search(self, q, loc, radius=1000):
+       pois = BaiduMap.search_distance(q, loc, radius)
+       for item in pois['results']:
+           # print item
+           # print item['name']
+           # print item['location']
+           uid = item.get('uid')
+           # print uid
+           info = super(POIManager, self).get_queryset().filter(bdpoi_id=uid)
+           if info is not None:
+               item.update({'vote':info[0].vote_num})
+           return pois
+       
+      
+      
 class POI(geomodels.Model):
    """ 兴趣点
        based on 百度POI
@@ -30,14 +50,13 @@ class POI(geomodels.Model):
    # 百度POI ID, 返回json中uid项
    bdpoi_id = geomodels.CharField(max_length=25, null=True, unique=True) 
    
+   # default manager
    objects = geomodels.GeoManager()
    
-   # 搜索周边
-   def bd_around_search(self, q, loc, radius=1000):
-      return BaiduMap.search_distance(q, loc, radius)
-      
-   
-   
+   # poi manager，用于merge百度map api poi查询结果和本地数据库查询结果,
+   # 返回周边的poi信息
+   arounds = POIManager() 
+    
    def __unicode__(self):
       return self.name
 
