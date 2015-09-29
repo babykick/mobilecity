@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Location, POI
+from .models import POI, Location
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -15,8 +15,9 @@ class POISerializer(serializers.ModelSerializer):
     class Meta:
         model = POI
         fields = ('id',
-                  'name',
-                  'city',
-                  'description',
+                  #'name',
+                  #'city',
+                  #'description',
                   'bdpoi_id',
+                  'vote_num'
                   )

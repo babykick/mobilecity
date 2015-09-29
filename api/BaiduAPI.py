@@ -65,7 +65,7 @@ class BaiduMap:
         """
         url = "http://api.map.baidu.com/place/v2/search"
         params = {'query': q, # 饭店
-                  'location': "%s,%s" % loc, #39.915,116.404,
+                  'location': "%s,%s" % tuple(loc), #39.915,116.404,
                   'radius':radius,
                   'output':'json',
                   'ak': self.token,

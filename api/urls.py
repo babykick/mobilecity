@@ -8,7 +8,8 @@ urlpatterns = [
     url(r'^rcmdlist/(?P<pk>[0-9]+)/$', views.RecommendDetail.as_view()),
     url(r'^comments/(?P<pk>[0-9]+)/$', views.CommentList.as_view()),
     url(r'^docs/', include('rest_framework_swagger.urls')),
-    url(r'^poi/search/$', views.POIDetail.as_view()),
+    url(r'^poi/', include('business.urls')),
+   
 ]
 
 #urlpatterns += static('rcmdlist/static/', document_root=settings.STATIC_ROOT)

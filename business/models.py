@@ -3,14 +3,15 @@ from django.contrib.gis.db import models as geomodels
 from django.db  import models 
 from django.contrib.gis.geos import Point, GEOSGeometry
 from api.baiduAPI import BaiduMap
-
+ 
 
 class POIManager(models.Manager):
     def get_queryset(self):
-        return super(POIManager, self).get_queryset().filter(coordinate='Roald Dahl')
-
+        pass
+      
     # 搜索周边
     def search(self, q, loc, radius=1000):
+       from .serializers import POISerializer
        pois = BaiduMap.search_distance(q, loc, radius)
        for item in pois['results']:
            # print item
@@ -19,9 +20,10 @@ class POIManager(models.Manager):
            uid = item.get('uid')
            # print uid
            info = super(POIManager, self).get_queryset().filter(bdpoi_id=uid)
-           if info is not None:
-               item.update({'vote':info[0].vote_num})
-           return pois
+           if info:
+               info = info[0]
+               item.update(POISerializer(info).data)
+       return pois
        
       
       
