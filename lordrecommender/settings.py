@@ -129,7 +129,7 @@ GDAL_LIBRARY_PATH = 'D:/GEOLibs/OSGeo4W/bin/gdal111.dll'
 # Celery settings
 import djcelery
 djcelery.setup_loader()
-REDIS_SERVER = '192.168.1.4:6379'
+REDIS_SERVER = '192.168.1.11:6379'
 BROKER_URL = 'redis://%s/0' % REDIS_SERVER
 CELERY_RESULT_BACKEND = 'redis://%s/0' % REDIS_SERVER
 # CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
@@ -193,21 +193,21 @@ REST_FRAMEWORK = {
 
 
 CACHES = {
-    # This uses local memory for development
-    # 'debug': {
-    #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    #     'LOCATION': 'unique-snowflake',
-    #     'TIMEOUT': 60 * 30,
-    #     'OPTIONS': {
-    #         'MAX_ENTRIES': 1000
-    #     }
-    # },
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://%s/1" % REDIS_SERVER,
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "IGNORE_EXCEPTIONS": True,
+    #This uses local memory for development
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 60 * 30,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
         }
-    }
+    },
+    # "default": {
+    #     "BACKEND": "django_redis.cache.RedisCache",
+    #     "LOCATION": "redis://%s/1" % REDIS_SERVER,
+    #     "OPTIONS": {
+    #         "CLIENT_CLASS": "django_redis.client.DefaultClient",
+    #         "IGNORE_EXCEPTIONS": True,
+    #     }
+    # }
 }
