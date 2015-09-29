@@ -29,6 +29,9 @@ class RecommendItem(models.Model):
     # 内容
     content = models.CharField(max_length=1000, default="")
   
+    # 百度 POI uid
+    bdpoi_id = models.CharField(max_length=25, null=True, unique=True)
+     
     # 图片列表字符串 
     picListString = models.CharField(max_length=100, default="",blank=True)
     
@@ -76,6 +79,8 @@ class RecommendItem(models.Model):
     
     # 地理位置
     location = models.OneToOneField(Location, null=True, blank=True)
+    
+    
     
     # 评论 rative_name from Comment
     """self.comments"""
