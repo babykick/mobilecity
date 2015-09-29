@@ -9,7 +9,7 @@ from business.models import Location
 from django.db.models import Max
 from datetime import datetime 
 from django.utils import timezone
-
+from business.models import POI
 
 
 class RecommendItem(models.Model):
@@ -19,6 +19,9 @@ class RecommendItem(models.Model):
         (u'数码', u'数码'),
         (u'图书', u'图书'),
     )
+     
+    # 相关的POI id
+    poi = models.ForeignKey(POI, related_name="recommendations", null=True)
     
     # 推荐标题
     title = models.CharField(max_length=500)
@@ -28,10 +31,7 @@ class RecommendItem(models.Model):
     
     # 内容
     content = models.CharField(max_length=1000, default="")
-  
-    # 百度 POI uid  
-    bduid = models.CharField(max_length=25, null=True, unique=True)
-     
+   
     # 图片列表字符串 
     picListString = models.CharField(max_length=100, default="",blank=True)
     
@@ -79,9 +79,7 @@ class RecommendItem(models.Model):
     
     # 地理位置
     location = models.OneToOneField(Location, null=True, blank=True)
-    
-    
-    
+     
     # 评论 rative_name from Comment
     """self.comments"""
     
