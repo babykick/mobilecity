@@ -29,7 +29,7 @@ class RecommendItem(models.Model):
     # 内容
     content = models.CharField(max_length=1000, default="")
   
-    # 百度 POI uid
+    # 百度 POI uid  
     bdpoi_id = models.CharField(max_length=25, null=True, unique=True)
      
     # 图片列表字符串 
