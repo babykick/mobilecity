@@ -119,7 +119,7 @@ class RecommendDetail(APIView):
         r = self.get_object(pk)
         serializer = RcmdDetailSerializer(r)
         # Test celery task
-        add.delay(2, 2) 
+        #add.delay(2, 2) 
         return Response(serializer.data)
 
     # def put(self, request, pk, format=None):
