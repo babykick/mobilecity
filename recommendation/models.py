@@ -78,7 +78,7 @@ class RecommendItem(models.Model):
     downCount = models.IntegerField(default=0)
     
     # 地理位置
-    location = models.OneToOneField(Location, null=True, blank=True)
+    #location = models.OneToOneField(Location, null=True, blank=True)
      
     # 评论 rative_name from Comment
     """self.comments"""

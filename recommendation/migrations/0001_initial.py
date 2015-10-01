@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 ('upCount', models.IntegerField(default=0)),
                 ('downCount', models.IntegerField(default=0)),
                 ('author', models.ForeignKey(related_name='recommendations', default=1, verbose_name=b'author for the recommendation', to='users.Author', null=True)),
-                ('location', models.OneToOneField(null=True, blank=True, to='business.Location')),
+                ('poi', models.ForeignKey(related_name='recommendations', to='business.POI', null=True)),
             ],
             options={
                 'get_latest_by': 'publishTime',
