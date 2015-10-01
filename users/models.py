@@ -19,8 +19,8 @@ class Author(models.Model):
     # 手机号码
     mobilephone = models.CharField(max_length=30)
     
-    # 连接用户
-    user = models.OneToOneField(User, null=True)
+    # to User model for auth
+    userAuth = models.OneToOneField(User, null=True)
     
     # 头像
     avatar = models.CharField(max_length=100, null=True)
@@ -39,6 +39,9 @@ class Author(models.Model):
     
     # 是否开发者
     isDeveloper = models.BooleanField(default=False)
+    
+    #是否掌柜
+    isShopkeeper = models.BooleanField(default=False)
     
     # 返回用户名
     @property
