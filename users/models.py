@@ -20,7 +20,7 @@ class Author(models.Model):
     mobilephone = models.CharField(max_length=30)
     
     # to User model for auth
-    userAuth = models.OneToOneField(User, null=True)
+    userAuth = models.OneToOneField(User, null=True, related_name='author')
     
     # 头像
     avatar = models.CharField(max_length=100, null=True)
