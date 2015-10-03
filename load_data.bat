@@ -1,1 +1,1 @@
-python manage.py loaddata data_import.json --ignorenonexistent
+python manage.py loaddata db_data.json --ignorenonexistent
