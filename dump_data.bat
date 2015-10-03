@@ -1,1 +1,1 @@
-python manage.py dumpdata -e contenttypes --natural-foreign > db_data.json
+python manage.py dumpdata --exclude=contenttypes --exclude=auth.Permission > db_data.json
