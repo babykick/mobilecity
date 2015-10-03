@@ -1,1 +1,1 @@
-python manage.py dumpdata -e contenttypes > data_import.json
+python manage.py dumpdata -e contenttypes --natural-foreign > db_data.json
