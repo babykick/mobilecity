@@ -31,7 +31,7 @@ class AuthorAdmin(admin.ModelAdmin):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created and instance.isDeveloper:
         print "Create token for", instance.user.username
-        Token.objects.create(user=instance.user)
+        Token.objects.get_or_create(user=instance.user)
 
 # admin.site.unregister(User)
 # admin.site.register(User, UserAdmin)
