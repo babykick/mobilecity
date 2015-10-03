@@ -123,9 +123,8 @@ DATABASES = {
 
 
 # Setting for geodjango 
-GDAL_LIBRARY_PATH = 'D:/GEOLibs/OSGeo4W/bin/gdal111.dll'
-#GDAL_LIBRARY_PATH = 'C:/OSGeo4W/bin/gdal111.dll'
-
+GDAL_LIBRARY_PATH = os.path.join(os.environ['OSGEO4W_ROOT'], 'bin\gdal111.dll')
+ 
 # Celery settings
 import djcelery
 djcelery.setup_loader()
