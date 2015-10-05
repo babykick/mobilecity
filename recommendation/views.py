@@ -87,9 +87,7 @@ class RecommendList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        data = request.data
-        serializer = RcmdItemEntrySerializer()
-        BaiduMapAPI.search("q")
+        serializer = RcmdItemEntrySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
