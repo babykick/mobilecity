@@ -14,6 +14,7 @@ pip install django-redis
 pip install shell_plus
 pip uninstall south # not use south in django 1.8, keep it may throws error in django-celery
 pip install django-celery
+pip install django-braces
 
 ### Database:
 Postgresql 9.3 or 9.4 with postgis
