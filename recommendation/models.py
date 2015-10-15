@@ -92,7 +92,7 @@ class RecommendItem(models.Model):
     downCount = models.IntegerField(default=0)
     
     # 周边的推荐
-    around = ArroundManager()
+    around = AroundManager()
    
     # 评论 rative_name from Comment
     """self.comments"""
