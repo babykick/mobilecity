@@ -38,9 +38,16 @@ class BaiduMap:
     
     
     @classmethod
-    def search_detail(self):
+    def search_detail(self, uid):
+        # 官方的map api，但是结果不详细
+        api_url = 'http://api.map.baidu.com/place/v2/detail'
+        # 百度地图官方网页上用的url，返回html,更详细，包含评论
+        api_url2 = 'http://map.baidu.com/detail?qt=ninf&uid=bf29b7023d290b8009b93a2b&detail=cater&from=list&ugc_ver=1'
+        # 去掉detail=cater返回json 
+        api_url3 = 'http://map.baidu.com/detail?qt=ninf&uid=5a8fb739999a70a54207c130'
+        
         s = requests.Session()
-        url = 'http://map.baidu.com/detail?qt=caterphoto&uid=cd9d05dd7e197daf84420eb6&type=list&ugc_ver=1'
+        url = 'http://map.baidu.com/detail?qt=caterphoto&uid=%s&type=list&ugc_ver=1' % uid
         r = requests.get(url)
         cookies = r.cookies
         doc = lxml.html.fromstring(r.text)
