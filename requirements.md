@@ -8,6 +8,7 @@ with:
 django-bootstrap3
 djangorestframework
 djangorestframework-oauth
+pip install django-social-auth
 pip install djangorestframework-gis
 pip install django-rest-swagger
 pip install django-redis

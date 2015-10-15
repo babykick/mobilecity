@@ -5,12 +5,19 @@ from .. import djangostandalonesetup
 from business.models import GeoEntity
 from scrapy.linkextractors import LinkExtractor
 
+
+
 class MeituanSpider(scrapy.Spider): 
     name = 'meituan_spider'
     allowed_domains = ["meituan.com"]
     start_urls = [
        "http://yy.meituan.com/category/meishi?mtt=1.index%2Ffloornew.nc.1.icwt533g"
     ]
+    
+    
+    def start_requests(self):
+        pass
+    
     
     def parse(self, response):
         for sel in response.xpath("//div[contains(concat(' ', @class, ' '), ' poi-tile-nodeal ')]"):

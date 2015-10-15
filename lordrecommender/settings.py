@@ -120,7 +120,8 @@ DATABASES = {
     # }
 }
 
-
+# User authentication
+#AUTH_USER_MODEL = 'users.User'
 
 # Setting for geodjango 
 GDAL_LIBRARY_PATH = os.path.join(os.environ['OSGEO4W_ROOT'], 'bin\gdal111.dll')

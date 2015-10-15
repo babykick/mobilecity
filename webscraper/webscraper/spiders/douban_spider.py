@@ -6,10 +6,15 @@ from scrapy.http import Request
 import random
 import pprint
 
+
 class DoubanSpider(scrapy.Spider): 
     name = 'douban_spider'
     book_pattern = "https://api.douban.com/v2/book/series/%s/books"
     
+    def __init__(self, keyword=None, *args, **kwargs):
+        super(DoubanSpider, self).__init__(*args, **kwargs)
+        self.keyword = keyword
+          
     def start_requests(self):
         for i in random.sample(range(1, 50, 1), 5):
             cate_url = self.book_pattern % i
@@ -21,7 +26,7 @@ class DoubanSpider(scrapy.Spider):
         book = random.choice(books)
         pprint.pprint(book) 
         item = ItemEntry()
-        item['category'] = u'图书'
+        item['category'] = self.keyword.decode('gb2312')
         item['title'] = book.get('title')
         item['summary'] = book.get('summary')
         item['content'] = book.get('summary')
