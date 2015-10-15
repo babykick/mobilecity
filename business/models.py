@@ -3,8 +3,9 @@ from django.contrib.gis.db import models as geomodels
 from django.db  import models 
 from django.contrib.gis.geos import Point, GEOSGeometry
 from api.baiduAPI import BaiduMap
- 
 
+
+ 
 class BaiduPOIManager(models.Manager):
     def get_queryset(self):
         pass
@@ -33,12 +34,12 @@ class POI(geomodels.Model):
    """
    # 名称
    name = geomodels.CharField(max_length=100)
-     
-   # 经纬度
-   coordinate = geomodels.PointField(null=True)
-   
+      
    # 城市
    city = geomodels.CharField(max_length=20, null=False)
+   
+   # 坐标
+   coordinate = geomodels.PointField(null=True)
    
    # 描述
    description = geomodels.CharField(max_length=200, null=True)

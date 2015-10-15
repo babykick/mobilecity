@@ -34,8 +34,8 @@ class RecommendItem(geomodels.Model):
     # 相关的POI id， 可选项，UGC的项目不一定是注册的POI
     poi = models.ForeignKey(POI, related_name="recommendations", null=True)
     
-    # 提交的坐标，用户提交的坐标都是随机的，所以要增加一个坐标字段
-    coordinate = geomodels.PointField(null=True) 
+    # 坐标
+    coordinate = geomodels.PointField(null=True)
     
     # 推荐标题
     title = models.CharField(max_length=500)
