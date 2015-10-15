@@ -12,7 +12,7 @@ from django.utils import timezone
 from business.models import POI
 from django.contrib.gis.db import models as geomodels
 from django.contrib.gis.geos import Point
-
+ 
 
 
 class AroundManager(models.Manager):
@@ -23,7 +23,7 @@ class AroundManager(models.Manager):
       
       
 
-class RecommendItem(models.Model):
+class RecommendItem(geomodels.Model):
     CATEGORY_CHOICES = (
         (u'美食', u'美食'),
         (u'服装', u'服装'),
@@ -90,6 +90,9 @@ class RecommendItem(models.Model):
     
     # 获贬数
     downCount = models.IntegerField(default=0)
+    
+    # default manager
+    objects = geomodels.GeoManager()
     
     # 周边的推荐
     around = AroundManager()
