@@ -10,7 +10,18 @@ from django.db.models import Max
 from datetime import datetime 
 from django.utils import timezone
 from business.models import POI
+from django.contrib.gis.db import models as geomodels
+from django.contrib.gis.geos import Point
 
+
+
+class AroundManager(models.Manager):
+    def search(self, point, dist=1000):
+        if not isinstance(point, Point):
+            point = Point(point)
+        return super(ArroundManager, self).get_queryset().filter(coordinate__distance_lte=(point, dist))
+      
+      
 
 class RecommendItem(models.Model):
     CATEGORY_CHOICES = (
@@ -20,8 +31,11 @@ class RecommendItem(models.Model):
         (u'图书', u'图书'),
     )
      
-    # 相关的POI id
+    # 相关的POI id， 可选项，UGC的项目不一定是注册的POI
     poi = models.ForeignKey(POI, related_name="recommendations", null=True)
+    
+    # 提交的坐标，用户提交的坐标都是随机的，所以要增加一个坐标字段
+    coordinate = geomodels.PointField(null=True) 
     
     # 推荐标题
     title = models.CharField(max_length=500)
@@ -29,7 +43,7 @@ class RecommendItem(models.Model):
     # 摘要
     summary = models.CharField(max_length=500, default="",blank=True)
     
-    # 内容
+    # 内容介绍
     content = models.CharField(max_length=1000, default="")
    
     # 图片列表字符串 
@@ -77,6 +91,8 @@ class RecommendItem(models.Model):
     # 获贬数
     downCount = models.IntegerField(default=0)
     
+    # 周边的推荐
+    around = ArroundManager()
    
     # 评论 rative_name from Comment
     """self.comments"""

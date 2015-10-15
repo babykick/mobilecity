@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point, GEOSGeometry
 from api.baiduAPI import BaiduMap
  
 
-class POIManager(models.Manager):
+class BaiduPOIManager(models.Manager):
     def get_queryset(self):
         pass
       
@@ -55,9 +55,9 @@ class POI(geomodels.Model):
    # default manager
    objects = geomodels.GeoManager()
    
-   # poi manager，用于merge百度map api poi查询结果和本地数据库查询结果,
+   # baidu poi manager，用于merge百度map api poi查询结果和本地数据库查询结果,
    # 返回周边的poi信息
-   arounds = POIManager() 
+   arounds = BaiduPOIManager() 
     
    def __unicode__(self):
       return self.name
