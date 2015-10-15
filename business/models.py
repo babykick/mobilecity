@@ -20,7 +20,7 @@ class BaiduPOIManager(models.Manager):
            # print item['location']
            uid = item.get('uid')
            # print uid
-           info = super(POIManager, self).get_queryset().filter(bdpoi_id=uid)
+           info = super(BaiduPOIManager, self).get_queryset().filter(bdpoi_id=uid)
            if info:
                info = info[0]
                item.update(POISerializer(info).data)
