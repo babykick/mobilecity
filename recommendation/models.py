@@ -16,6 +16,8 @@ from django.contrib.gis.geos import Point
 
 
 class AroundManager(models.Manager):
+    """ 搜索附近的用户推荐项目
+    """
     def search(self, point, dist=1000):
         if not isinstance(point, Point):
             point = Point(point)
