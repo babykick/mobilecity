@@ -21,7 +21,7 @@ from .tasks import add
 
 # First, define the Manager subclass.
 
-class RecommendList(APIView):
+class RecommendList(generics.ListAPIView):
     """
     List all recommendations, or create a new recommendation.<br>
     Example:  http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afeabcdef64be5457b3c669467adb  </BR></BR>
@@ -57,36 +57,36 @@ class RecommendList(APIView):
         "latestComments": [] # 最近5条评论 </br>
       },...]
     """
+    serializer_class = RcmdItemEntrySerializer
     permission_classes = (IsAuthenticated,)
     #authentication_classes = (SessionAuthentication, BasicAuthentication)
     authentication_classes = (TokenizedURLAuthentication,)
     # permission_classes = (permissions.IsAdminUser,)
     #renderer_classes = (JSONRenderer, )
+    paginate_by_param = 'n'
+    paginate_by = 10
+    max_paginate_by = 100
     
-
-    def get(self, request, format=None):
-        """
-           doc:  http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&token=d16a8d11c10afef6592264be5457b3c669467adb
-           json: http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afef6592264be5457b3c669467adb
-           TokenizedURLAuthentication gives out (request.auth, request.user)
-        """
-        page = request.GET.get('page', 1)
-        eachnum = request.GET.get('n', 10)
-        category = request.GET.get('category', None)
+    
+    def get_queryset(self):
+        category = self.kwargs.get('category', None)
         if category is not None:
-            rcmds = RecommendItem.objects.filter(category=category)
+            rcmd_set = RecommendItem.objects.filter(category=category)
         else:
-            rcmds = RecommendItem.objects.all()
-        rcmds = rcmds.order_by('-publishTime')
-        paginator = Paginator(rcmds, eachnum) # Show 25 contacts per page
-        try:
-            rs = paginator.page(page)
-        except EmptyPage:
-            rs = paginator.page(paginator.num_pages)
-        serializer = RcmdItemEntrySerializer(rs, many=True)
-        return Response(serializer.data)
+            rcmd_set = RecommendItem.objects.all()
+        return rcmd_set
+     
 
-   
+    def post(self, request, format='json'):
+        """ 新建RecommendItem
+            成功则返回对象的json，否则返回错误信息
+        """
+        serializer = RcmdDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class RecommendDetail(APIView):
     """
@@ -114,18 +114,7 @@ class RecommendDetail(APIView):
         serializer = RcmdDetailSerializer(r)
         return Response(serializer.data)
     
-    
-    def post(self, request, format=None):
-        """ 新建RecommendItem
-            成功则返回对象的json，否则返回错误信息
-        """
-        serializer = RcmdDetailSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+     
     def put(self, request, pk, format=None):
         """ 更新RecommendItem
             pk: 从url传递过来的id
@@ -185,5 +174,14 @@ class CommentList(generics.ListAPIView):
         pk = self.kwargs['pk']
         return Comment.objects.filter(object_id=pk)
     
-    
+    def post(self, request, pk, format=None):
+        """ Comment post
+            成功则返回对象的json，否则返回错误信息
+        """
+        print request.data
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

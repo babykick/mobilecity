@@ -38,6 +38,7 @@ class CommentSerializer(serializers.ModelSerializer):
                   'content',
                   'author',
                   'localPublishTime',
+                  'object_id',
                  )
         
 

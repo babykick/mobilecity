@@ -23,6 +23,7 @@ class Comment(models.Model):
      """
      # 内容
      content = models.CharField(max_length=500)
+     
      # 作者
      author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True, default=1)
      
@@ -36,8 +37,10 @@ class Comment(models.Model):
      
      # 发布时间 UTC
      publishTime = models.DateTimeField(auto_now_add=True, null=True)
+     
      # 获赞数
      upCount = models.IntegerField(default=0)
+     
      # 获贬数
      downCount = models.IntegerField(default=0)
      
@@ -55,10 +58,10 @@ class Comment(models.Model):
     
     
 class Tag(models.Model):
+    # 标签名称
     name = models.CharField(max_length=30)
-     # 推荐项
-    #recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="tags", null=True)
-    # generic relative, 可标签不同对象
+    
+    # generic relative, 可标签到不同对象
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,null=True)
     object_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'object_id')

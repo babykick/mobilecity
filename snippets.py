@@ -16,7 +16,29 @@
 ...                           object_id=b.id)
 
 
-
+  def get_deprecated(self, request, format=None):
+        """
+           doc:  http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&token=d16a8d11c10afef6592264be5457b3c669467adb
+           json: http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afef6592264be5457b3c669467adb
+           TokenizedURLAuthentication gives out (request.auth, request.user)
+        """
+        page = request.GET.get('page', 1)
+        eachnum = request.GET.get('n', 10)
+        category = request.GET.get('category', None)
+        if category is not None:
+            rcmds = RecommendItem.objects.filter(category=category)
+        else:
+            rcmds = RecommendItem.objects.all()
+        rcmds = rcmds.order_by('-publishTime')
+        paginator = Paginator(rcmds, eachnum) # Show 25 contacts per page
+        try:
+            rs = paginator.page(page)
+        except EmptyPage:
+            rs = paginator.page(paginator.num_pages)
+        serializer = RcmdItemEntrySerializer(rs, many=True)
+        return Response(serializer.data)
+    
+    
 def import_data():
     import os
     import django
