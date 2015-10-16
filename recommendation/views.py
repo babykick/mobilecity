@@ -18,6 +18,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from api.baiduAPI import BaiduMap
 from api.doubanAPI import DoubanAPI
 from .tasks import add
+from business.serializers import POISerializer
+from business.models import POI
 
 # First, define the Manager subclass.
 
@@ -88,7 +90,7 @@ class RecommendList(generics.ListAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class RecommendDetail(APIView):
+class RecommendDetail(generics.GenericAPIView):
     """
     Retrieve a recommendation with detailed information,
     or update/delete a recommendation instance.<br>
@@ -96,16 +98,20 @@ class RecommendDetail(APIView):
     http://111.8.186.228:8000/api/rcmdlist/530/?token=d16a8d11c10afef6592264be5457b3c669467adb
     
     """
+    serializer_class = RcmdDetailSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,  )
     authentication_classes = (TokenizedURLAuthentication,)
     
     
     def get_object(self, pk):
+        """ 从url获取需要详细的object
+        """
+        print "in"
         try:
             return RecommendItem.objects.get(pk=pk)
         except RecommendItem.DoesNotExist:
             raise Http404
-
+    
     def get(self, request, pk, format=None):
         """ 获取RecommendItem
             pk: 从url传递过来的id
@@ -138,23 +144,25 @@ class RecommendDetail(APIView):
 
 
 
-class POIDetail(APIView):
+class POIDetail(generics.GenericAPIView):
     """ 查询POI
         q: 关键字
     """
+    serializer_class = POISerializer
     permission_classes = (IsAuthenticatedOrReadOnly,  )
     authentication_classes = (TokenizedURLAuthentication,)
     
-    def post(self, request, format='json'):
-        keyword = request.POST.get('q')
-        cate = request.POST.get('category')
-        if cate in (u'美食', ):
-            ret = BaiduMap.search_POI(keyword)
-        elif cate in (u'图书', ):
-            ret = DoubanAPI.querybook(q=keyword)
-        elif cate in (u'电影', ):
-            ret = DoubanAPI.querymovie(q=keyword)
-        return Response(ret)
+    
+    def get_object(self, pk):
+        """ 从url获取需要详细的object
+        """
+        try:
+            return POI.objects.get(pk=pk)
+        except POI.DoesNotExist:
+            raise Http404
+    
+    def post(self, request, format=None):
+        raise NotImplemented
         
 
 class CommentList(generics.ListAPIView):
