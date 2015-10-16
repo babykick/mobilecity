@@ -36,7 +36,7 @@ gunicorn
 
 ### Web Front
 Bootstrap
-
+pip install markdown
 
 # Web scraper
 scrapy 1.0

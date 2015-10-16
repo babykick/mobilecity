@@ -25,16 +25,16 @@ from business.models import POI
 
 class RecommendList(generics.ListAPIView):
     """
-    List all recommendations, or create a new recommendation.<br>
+    ###List all recommendations, or create a new recommendation 
     Example:  http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afeabcdef64be5457b3c669467adb  </BR></BR>
-    API Parameters explain<br>
-    =======================<br>
+    API Parameters explain
+    =======================
     n: Item num in a page </BR>
     page: Page index, start from 1  </BR>
     format: json   </BR>
     token: required, as a developer, should be with the url at invoking, example: </BR></BR>
    
-    Return json list </br>
+    ###Return json list </br>
     ====================== </br>
      [{
         "id": 538,     # id </br>
@@ -92,9 +92,9 @@ class RecommendList(generics.ListAPIView):
 
 class RecommendDetail(generics.GenericAPIView):
     """
-    Retrieve a recommendation with detailed information,
-    or update/delete a recommendation instance.<br>
-    example:<br>
+    ### Retrieve a recommendation with detailed information, or update/delete a recommendation instance.
+   
+    example:
     http://111.8.186.228:8000/api/rcmdlist/530/?token=d16a8d11c10afef6592264be5457b3c669467adb
     
     """
@@ -166,7 +166,7 @@ class POIDetail(generics.GenericAPIView):
         
 
 class CommentList(generics.ListAPIView):
-    """ 评论列表，继承generic view,<br>
+    """ 评论列表，继承generic view,
         /api/comments/530/?pgsize=10&page=2
         
     """
