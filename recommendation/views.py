@@ -86,14 +86,7 @@ class RecommendList(APIView):
         serializer = RcmdItemEntrySerializer(rs, many=True)
         return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = RcmdItemEntrySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
+   
 
 class RecommendDetail(APIView):
     """
@@ -114,24 +107,45 @@ class RecommendDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+        """ 获取RecommendItem
+            pk: 从url传递过来的id
+        """
         r = self.get_object(pk)
         serializer = RcmdDetailSerializer(r)
-        # Test celery task
-        #add.delay(2, 2) 
         return Response(serializer.data)
+    
+    
+    def post(self, request, format=None):
+        """ 新建RecommendItem
+            成功则返回对象的json，否则返回错误信息
+        """
+        serializer = RcmdDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # def put(self, request, pk, format=None):
-    #     rcmd = self.get_object(pk)
-    #     serializer = RcmdSerializer(rcmd, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # 
-    # def delete(self, request, pk, format=None):
-    #     rcmd = self.get_object(pk)
-    #     rcmd.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, pk, format=None):
+        """ 更新RecommendItem
+            pk: 从url传递过来的id
+            成功则返回对象的json，否则返回错误信息
+        """
+        rcmd = self.get_object(pk)
+        serializer = RcmdDetailSerializer(rcmd, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    def delete(self, request, pk, format=None):
+        """ 删除RecommendItem
+            返回状态信息
+        """
+        rcmd = self.get_object(pk)
+        rcmd.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 

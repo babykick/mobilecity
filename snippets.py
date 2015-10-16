@@ -9,6 +9,13 @@
 
 """
 
+# 按content_type和object_id搜索
+>>> b = Bookmark.objects.get(url='https://www.djangoproject.com/')
+>>> bookmark_type = ContentType.objects.get_for_model(b)
+>>> TaggedItem.objects.filter(content_type__pk=bookmark_type.id,
+...                           object_id=b.id)
+
+
 
 def import_data():
     import os

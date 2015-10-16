@@ -89,8 +89,7 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'upCount',
                   'downCount',
                   #'tags',
-                  #'commentCount',
-                  #'latestComments',
+                  'commentCount',
                   )
 
 

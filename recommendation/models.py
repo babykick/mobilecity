@@ -69,6 +69,9 @@ class AroundManager(models.Manager):
     """ 搜索附近的用户推荐项目
     """
     def search(self, point, dist=1000):
+        """ point: 中心点坐标 tuple (lat, png)
+            dist: 到中心点距离
+        """
         if not isinstance(point, Point):
             point = Point(point)
         return super(ArroundManager, self).get_queryset().filter(coordinate__distance_lte=(point, dist))
@@ -146,11 +149,13 @@ class RecommendItem(geomodels.Model):
     # default manager
     objects = geomodels.GeoManager()
     
-    # 周边的推荐
+    # around manager
     around = AroundManager()
    
     # 评论 relative
-    comments = GenericRelation(Comment)
+    comments = GenericRelation(Comment,
+                               related_query_name='recommends'
+                               )
     
      # 标签 rative_name from Tag
     """self.tags"""
