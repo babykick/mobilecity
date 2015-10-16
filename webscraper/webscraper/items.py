@@ -11,7 +11,7 @@ import djangostandalonesetup
 from recommendation.models import RecommendItem
 
  
-class ItemEntry(DjangoItem):
+class RecommendItemEntry(DjangoItem):
     django_model = RecommendItem
 
 

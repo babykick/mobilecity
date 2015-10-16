@@ -62,7 +62,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'webscraper.pipelines.SaveItemToDBPipeline': 1,
+   'webscraper.pipelines.PopulateRecommendItemPipeline': 1,
    'webscraper.pipelines.SaveProjectsInfoPipeline': 2,
    'webscraper.pipelines.DownloadProjectDocsPipeline': 3,
 }

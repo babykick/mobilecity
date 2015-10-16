@@ -9,21 +9,26 @@ import csv
 import cStringIO
 from scrapy.pipelines.files import FilesPipeline
 from scrapy.http import Request
-from webscraper.items import ItemEntry
+from webscraper.items import RecommendItemEntry
 from scrapy.utils.project import get_project_settings
 from webscraper.items import ProjectItem, DocItem
 
  
  
-class SaveItemToDBPipeline(object):
+class PopulateRecommendItemPipeline(object):
+    """
+        把抓取到的RecommendItem存入数据库
+    """
     def process_item(self, item, spider):
-       if isinstance(item, ItemEntry):
+       if isinstance(item, RecommendItemEntry):
             item.save()
             print 'Recommendation item saved'
        return item  # pass to next pipeline
             
+            
 class SaveProjectsInfoPipeline(object):
-    # use CsvItemExporter
+    """ 存储比赛项目信息为csv
+    """
     def __init__(self):
         fields = ['rank', 'pubtime', 'title', 'summary', 'department', 'link']
         self.csvwriter = csv.DictWriter(open('items_out.csv', 'wb'), fields)
@@ -37,9 +42,8 @@ class SaveProjectsInfoPipeline(object):
             
             
 class DownloadProjectDocsPipeline(FilesPipeline):
-    """ Save file pipeline
+    """  存储比赛项目的文档到文件系统
     """
-  
     def get_media_requests(self, item, info):
         if isinstance(item, DocItem):
             for finfo in item['file_urls']:
