@@ -38,7 +38,7 @@
         serializer = RcmdItemEntrySerializer(rs, many=True)
         return Response(serializer.data)
     
-    
+     
 def import_data():
     import os
     import django
