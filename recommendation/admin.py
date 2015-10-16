@@ -13,23 +13,29 @@ def make_like_status_hot(modeladmin, request, queryset):
     queryset.update(likeStatus='HOT')
 make_like_status_hot.short_description = "Mark like status as HOT"
 
-# Inline 
-class TagInline(admin.TabularInline):
-    model = Tag
+# # Inline 
+# class TagInline(admin.TabularInline):
+#     model = Tag
   
 # Admin  
 class RecommendItemAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'content', 'summary', 'picOne', 'picTwo', 'picThr']
     ordering = ['publishTime']
     actions = [make_like_status_hot]
-    inlines = [TagInline]
+    #inlines = [TagInline]
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'content', 'recommendItem')
+    list_display = ('id',
+                    'content',
+                    'object_id'
+                    )
     
 class TagAdmin(admin.ModelAdmin):
     #inlines = [TagInline]
-    list_display = ["id", "name", 'recommendItem']
+    list_display = ("id",
+                    "name",
+                    #'recommendItem'
+                    )
     
 admin.site.register(RecommendItem, RecommendItemAdmin)
 admin.site.register(Comment, CommentAdmin)

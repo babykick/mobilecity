@@ -3,9 +3,25 @@ from rest_framework import serializers
 from .models import RecommendItem
 from .models import Comment, Tag
 from users.serializers import AuthorSerializer
-from business.models import Location
-from business.serializers import LocationSerializer
+from business.models import Location, POI
+from business.serializers import LocationSerializer, POISerializer
 
+ 
+class CommentedObjectRelatedField(serializers.RelatedField):
+    def to_representation(self, value):
+        """
+        Serialize bookmark instances using a bookmark serializer,
+        and note instances using a note serializer.
+        """
+        
+        if isinstance(value, RecommendItem):
+            serializer = RcmdDetailSerializer(value)
+        elif isinstance(value, POI):
+            serializer = POISerializer(value)
+        else:
+            raise Exception('Unexpected type of tagged object')
+
+        return serializer.data
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +45,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class RcmdItemEntrySerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
-    latestComments = CommentSerializer(many=True, read_only=True)
+    #latestComments = CommentSerializer(many=True, read_only=True)
     location = LocationSerializer(read_only=True)
     
     class Meta:
@@ -41,7 +57,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'picOneURL',
                   'picTwoURL',
                   'picThrURL',
-                  'hotestComment',
+                  #'hotestComment',
                   'localPublishTime',
                   'pubElapse',
                   'author',
@@ -49,8 +65,8 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'location',
                   'downCount',
                   'tags',
-                  'commentCount',
-                  'latestComments',
+                  #'commentCount',
+                  #'latestComments',
                   )
         
         
@@ -72,7 +88,7 @@ class RcmdDetailSerializer(serializers.ModelSerializer):
                   'location',
                   'upCount',
                   'downCount',
-                  'tags',
+                  #'tags',
                   #'commentCount',
                   #'latestComments',
                   )

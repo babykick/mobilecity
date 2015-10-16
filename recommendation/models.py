@@ -12,8 +12,58 @@ from django.utils import timezone
 from business.models import POI
 from django.contrib.gis.db import models as geomodels
 from django.contrib.gis.geos import Point
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType 
+from django.contrib.contenttypes.fields import GenericRelation
  
 
+class Comment(models.Model):
+     """
+         Comments
+     """
+     # 内容
+     content = models.CharField(max_length=500)
+     # 作者
+     author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True, default=1)
+     
+     # 推荐项
+     #recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="comments", null=True)
+     
+     # 评论关联对象外键，因为可以评论多种对象，所以使用泛型
+     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
+     object_id = models.PositiveIntegerField(null=True)
+     content_object = GenericForeignKey('content_type', 'object_id') # 用这个field赋值
+     
+     # 发布时间 UTC
+     publishTime = models.DateTimeField(auto_now_add=True, null=True)
+     # 获赞数
+     upCount = models.IntegerField(default=0)
+     # 获贬数
+     downCount = models.IntegerField(default=0)
+     
+     # 本地发布时间
+     @property
+     def localPublishTime(self):
+        if self.publishTime is not None:
+            return localtime(self.publishTime).strftime("%Y-%m-%d %H:%M:%S")
+        return self.publishTime
+    
+     class Meta:
+        ordering = ["publishTime"]
+        get_latest_by = 'publishTime'
+    
+    
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=30)
+     # 推荐项
+    #recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="tags", null=True)
+    # generic relative, 可标签不同对象
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,null=True)
+    object_id = models.PositiveIntegerField(null=True)
+    content_object = GenericForeignKey('content_type', 'object_id')
+     
+ 
 
 class AroundManager(models.Manager):
     """ 搜索附近的用户推荐项目
@@ -99,8 +149,8 @@ class RecommendItem(geomodels.Model):
     # 周边的推荐
     around = AroundManager()
    
-    # 评论 rative_name from Comment
-    """self.comments"""
+    # 评论 relative
+    comments = GenericRelation(Comment)
     
      # 标签 rative_name from Tag
     """self.tags"""
@@ -183,38 +233,4 @@ class RecommendItem(geomodels.Model):
         #ordering = ["publishTime"]
         get_latest_by = 'publishTime'
     
-    
-    
-class Comment(models.Model):
-     """
-         Comments
-     """
-     # 内容
-     content = models.CharField(max_length=500)
-     # 作者
-     author = models.ForeignKey(Author, verbose_name="comment author", related_name="comments", null=True, default=1)
-     # 推荐项
-     recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="comments", null=True)
-     # 发布时间 UTC
-     publishTime = models.DateTimeField(auto_now_add=True, null=True)
-     # 获赞数
-     upCount = models.IntegerField(default=0)
-     # 获贬数
-     downCount = models.IntegerField(default=0)
-     
-     # 本地发布时间
-     @property
-     def localPublishTime(self):
-        if self.publishTime is not None:
-            return localtime(self.publishTime).strftime("%Y-%m-%d %H:%M:%S")
-        return self.publishTime
-    
-     class Meta:
-        ordering = ["publishTime"]
-        get_latest_by = 'publishTime'
-    
-    
-class Tag(models.Model):
-    name = models.CharField(max_length=30)
-     # 推荐项
-    recommendItem = models.ForeignKey(RecommendItem, verbose_name="recommend item", related_name="tags", null=True)
+   

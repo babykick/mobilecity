@@ -169,7 +169,7 @@ class CommentList(generics.ListAPIView):
     
     def get_queryset(self):
         pk = self.kwargs['pk']
-        return Comment.objects.filter(recommendItem=pk)
+        return Comment.objects.filter(object_id=pk)
     
     
     
