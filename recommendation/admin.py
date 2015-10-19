@@ -19,7 +19,7 @@ make_like_status_hot.short_description = "Mark like status as HOT"
   
 # Admin  
 class RecommendItemAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'content', 'summary', 'picOne', 'picTwo', 'picThr']
+    list_display = ['id', 'title', 'content', 'summary', 'cloudImage', 'picOne', 'picTwo', 'picThr']
     ordering = ['publishTime']
     actions = [make_like_status_hot]
     #inlines = [TagInline]

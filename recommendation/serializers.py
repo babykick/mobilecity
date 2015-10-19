@@ -66,7 +66,7 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
                   'location',
                   'downCount',
                   'tags',
-                  #'commentCount',
+                  'commentCount',
                   #'latestComments',
                   )
         

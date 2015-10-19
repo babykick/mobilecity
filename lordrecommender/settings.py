@@ -233,3 +233,11 @@ LOGGING = {
 }
 
 
+# 国外云图床设置，用于开发阶段
+import cloudinary
+cloudinary.config( 
+  cloud_name = "filesbed", 
+  api_key = "277742969195684", 
+  api_secret = "0Yz5X0JQ5chKIjGc6i4MEHLWvhI" 
+)
+

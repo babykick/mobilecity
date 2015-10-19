@@ -1,6 +1,6 @@
 #coding=utf-8
 import scrapy
-from webscraper.items import ItemEntry
+from webscraper.items import RecommendItemEntry
 import ujson
 from scrapy.http import Request
 import random

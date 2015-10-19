@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404
+from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -10,11 +12,10 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework import generics
+from rest_framework.parsers import FileUploadParser
 from users.auth import TokenizedURLAuthentication
 from recommendation.models import RecommendItem, Comment
 from recommendation.serializers import RcmdItemEntrySerializer, RcmdDetailSerializer, CommentSerializer
-from django.http import HttpResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from api.baiduAPI import BaiduMap
 from api.doubanAPI import DoubanAPI
 from .tasks import add
@@ -68,7 +69,7 @@ class RecommendList(generics.ListAPIView):
     paginate_by_param = 'n'
     paginate_by = 10
     max_paginate_by = 100
-    
+    #parser_classes = (FileUploadParser, )
     
     def get_queryset(self):
         category = self.kwargs.get('category', None)
@@ -88,6 +89,14 @@ class RecommendList(generics.ListAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+     
+    # def put(self, request, filename, format=None):
+    #     file_obj = request.data['file']
+    #     # ...
+    #     # do some stuff with uploaded file
+    #     # ...
+    #     return Response(status=204)
 
 
 class RecommendDetail(generics.GenericAPIView):

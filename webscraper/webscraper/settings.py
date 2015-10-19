@@ -15,6 +15,14 @@ SPIDER_MODULES = ['webscraper.spiders']
 NEWSPIDER_MODULE = 'webscraper.spiders'
 
 
+# custom settings
+DOWNLOAD_DELAY = 2
+RANDOMIZE_DOWNLOAD_DELAY = True
+#USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"
+COOKIES_ENABLES = False # 防止网站利用cookies追踪
+HTTP_PROXY = "http://127.0.0.1:8087"
+
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'webscraper (+http://www.yourdomain.com)'
 
@@ -50,7 +58,12 @@ NEWSPIDER_MODULE = 'webscraper.spiders'
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 543,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 543,
+    'webscraper.middlewares.RotateUserAgentMiddleware': 543,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'webscraper.middlewares.ProxyMiddleware': 500,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 550,
+    
 }
 
 # Enable or disable extensions

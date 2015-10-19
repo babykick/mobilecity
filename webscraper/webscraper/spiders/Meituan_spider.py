@@ -1,8 +1,8 @@
 #coding=utf-8
 import scrapy
-from webscraper.items import ItemEntry
+from webscraper.items import RecommendItemEntry
 from .. import djangostandalonesetup
-from business.models import GeoEntity
+ 
 from scrapy.linkextractors import LinkExtractor
 
 
@@ -22,7 +22,7 @@ class MeituanSpider(scrapy.Spider):
     def parse(self, response):
         for sel in response.xpath("//div[contains(concat(' ', @class, ' '), ' poi-tile-nodeal ')]"):
             if sel:
-                item = ItemEntry()
+                item = RecommendItemEntry()
                 item['title'] = sel.xpath(".//div[@class='basic cf']/a/text()").extract()[0]
                 item['summary'] = item['title']
                 item['content'] = item['title']

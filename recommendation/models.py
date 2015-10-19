@@ -15,7 +15,10 @@ from django.contrib.gis.geos import Point
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType 
 from django.contrib.contenttypes.fields import GenericRelation
- 
+from cloudinary.models import CloudinaryField 
+
+
+
 
 class Comment(models.Model):
      """
@@ -90,13 +93,13 @@ class RecommendItem(geomodels.Model):
     )
      
     # 相关的POI id， 可选项，UGC的项目不一定是注册的POI
-    poi = models.ForeignKey(POI, related_name="recommendations", null=True)
+    poi = models.ForeignKey(POI, related_name="recommendations", blank=True, null=True)
     
     # 坐标
     coordinate = geomodels.PointField(null=True)
     
     # 推荐标题
-    title = models.CharField(max_length=500)
+    title = models.CharField(verbose_name=u"标题", max_length=500)
     
     # 摘要
     summary = models.CharField(max_length=500, default="",blank=True)
@@ -105,7 +108,13 @@ class RecommendItem(geomodels.Model):
     content = models.CharField(max_length=1000, default="")
    
     # 图片列表字符串 
-    picListString = models.CharField(max_length=100, default="",blank=True)
+    picListString = models.CharField(max_length=100, default="", blank=True)
+    
+    # 图片field
+    #mainImage = models.ImageField(verbose_name="main_image", default="", blank=True)
+    
+    # 云图
+    cloudImage = CloudinaryField('cloud_image', null=True)
     
     # 图片1 URL 
     picOne = models.CharField(max_length=100, default="",blank=True)
