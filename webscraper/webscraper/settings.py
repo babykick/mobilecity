@@ -16,8 +16,8 @@ NEWSPIDER_MODULE = 'webscraper.spiders'
 
 
 # custom settings
-DOWNLOAD_DELAY = 2
-RANDOMIZE_DOWNLOAD_DELAY = True
+#DOWNLOAD_DELAY = 2
+#RANDOMIZE_DOWNLOAD_DELAY = True
 #USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"
 COOKIES_ENABLES = False # 防止网站利用cookies追踪
 HTTP_PROXY = "http://127.0.0.1:8087"
