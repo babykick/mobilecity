@@ -106,9 +106,6 @@ class RecommendItem(geomodels.Model):
     
     # 内容介绍
     content = models.CharField(max_length=1000, default="")
-   
-    # 图片列表字符串 
-    picListString = models.CharField(max_length=100, default="", blank=True)
     
     # 图片field
     #mainImage = models.ImageField(verbose_name="main_image", default="", blank=True)
@@ -127,9 +124,6 @@ class RecommendItem(geomodels.Model):
     
     # 图片 列表 
     picList = models.CharField(max_length=100, default="",blank=True)
-    
-    # 图片类型是否为大图 
-    isLarge = models.CharField(max_length=100, default="",blank=True)
     
     # 阅读状态 ，读过的话显示灰色背景 
     readStatus = models.CharField(max_length=100, default="",blank=True)
