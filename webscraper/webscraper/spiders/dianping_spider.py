@@ -3,7 +3,7 @@ import scrapy
 from scrapy import Request
 import urlparse
 from webscraper.items import DianpingItem
-
+import re
 
 class SpiderUtilsMixin(object):
     def extract_first_or_None(self, selector):
@@ -76,15 +76,31 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
         item['region'] = self.extract_first_or_None(response.xpath('//div[contains(@class, "address")]/a/span/text()'))
         item['address'] = self.extract_first_or_None(response.xpath('//div[contains(@class, "address")]/span[@class="item"]/text()'))
         item['phone']  = self.extract_first_or_None(response.xpath('//p[contains(@class, "tel")]/span[@class="item"]/text()')) 
-      
+        
+        # 推荐
         recommends = []
-        for a in response.xpath('//a'):
-            if a.re('dish'):
-                dish = a.xpath("./@href").extract_first()
-                name = self.extract_first_or_None(a.xpath("./text()"))
-                recommends.append({'dish': dish, 'name':name})
+        text = re.search('<p class="recommend-name">.*?</p>', response.body_as_unicode(), re.DOTALL)
+        if text:
+            text = text.group()
+            sel = scrapy.Selector(text=text, type="html")
+            for a in sel.css('.item'):
+                   dish = a.xpath("@href").extract_first()
+                   name = self.extract_first_or_None(a.xpath("text()"))
+                   recommends.append({'dish': dish, 'name':name, 'img':None})
         item['recommends'] = recommends
         
+        text = re.search('<ul class="recommend-photo clearfix">.*?</ul>', response.body_as_unicode(), re.DOTALL)
+        if text:
+            text = text.group()
+            sel = scrapy.Selector(text=text, type="html")
+            for li in sel.css('.item'):
+                img = li.xpath('./img/@src').extract_first()
+                name = li.css('.name').xpath('text()').extract_first().strip()
+                for r in recommends:
+                    if r['name'] == name:
+                        r['img'] = img;
+                        break
+                    
         specials_url = response.xpath('//p[contains(@class, "nug-shop-ab-special_a")]/a[contains(@class, "J-service")]/@href')
         
         if specials_url:
