@@ -114,7 +114,7 @@ class RecommendItem(geomodels.Model):
     #mainImage = models.ImageField(verbose_name="main_image", default="", blank=True)
     
     # 云图
-    cloudImage = CloudinaryField('cloud_image', null=True)
+    cloudImage = CloudinaryField('cloud_image', blank=True, null=True)
     
     # 图片1 URL 
     picOne = models.CharField(max_length=100, default="",blank=True)

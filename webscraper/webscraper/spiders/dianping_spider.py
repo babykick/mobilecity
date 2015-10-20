@@ -18,8 +18,10 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
     # )
     root_domain = "http://www.dianping.com/"
     
-    
-    
+    def __init__(self, topage=None, *args, **kwargs):
+        self.topage = topage
+        super(DianpingSpiderSpider, self).__init__(*args, **kwargs) 
+         
     def start_requests(self, city="yueyang"):
         self.city = city
         url = 'http://www.dianping.com/mylist/%s' % city
@@ -34,7 +36,10 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
     
     def parse(self, response):
         self.log("parse how many pages")
-        last_page = 1 # response.xpath("//div/div[contains(@class, 'Pages')]/a[position()=(last()-1)]/text()").extract_first()
+        if self.topage is None:
+            last_page = response.xpath("//div/div[contains(@class, 'Pages')]/a[position()=(last()-1)]/text()").extract_first()
+        else:
+            last_page = self.topage
         for i in range(1, int(last_page) + 1, 1):
             self.log("process page %s" % i)
             url = 'http://www.dianping.com/mylist/%s?pg=%s' % (self.city, i)
@@ -86,7 +91,7 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
             for a in sel.css('.item'):
                    dish = a.xpath("@href").extract_first()
                    name = self.extract_first_or_None(a.xpath("text()"))
-                   recommends.append({'dish': dish, 'name':name, 'img':None})
+                   recommends.append({'url': dish, 'name':name, 'img':None})
         item['recommends'] = recommends
         # 查找对应的图片
         text = re.search('<ul class="recommend-photo clearfix">.*?</ul>', response.body_as_unicode(), re.DOTALL)
