@@ -89,7 +89,7 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
             text = text.group()
             sel = scrapy.Selector(text=text, type="html")
             for a in sel.css('.item'):
-                   dish = a.xpath("@href").extract_first()
+                   dish = urlparse.urljoin(self.root_domain, a.xpath("@href").extract_first())
                    name = self.extract_first_or_None(a.xpath("text()"))
                    recommends.append({'url': dish, 'name':name, 'img':None})
         item['recommends'] = recommends

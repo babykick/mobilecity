@@ -16,49 +16,8 @@ class BaiduMap:
         官方文档：
         POI: http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-placeapi
     """
-    token = MAIN_TOKEN
-    url = "http://api.map.baidu.com/place/v2/search"
-    
-    
-    @classmethod
-    def search_POI(self, q, city):
-        """ 搜索poi
-            q: 搜索关键字，如公厕，饭店，餐馆，洗浴
-        """
-        
-        params = {'query': q,  
-                  'output':'json',
-                  'ak': self.token,
-                  'scope': 2,
-                  'region': city
-        }
-        ret = requests.get(self.url, params=params).text
-        jsonobj = json.loads(ret)
-        return jsonobj
-    
-    
-    @classmethod
-    def search_detail(self, uid):
-        # 官方的map api，但是结果不详细
-        api_url = 'http://api.map.baidu.com/place/v2/detail'
-        # 百度地图官方网页上用的url，返回html,更详细，包含评论
-        api_url2 = 'http://map.baidu.com/detail?qt=ninf&uid=bf29b7023d290b8009b93a2b&detail=cater&from=list&ugc_ver=1'
-        # 去掉detail=cater返回json 
-        api_url3 = 'http://map.baidu.com/detail?qt=ninf&uid=5a8fb739999a70a54207c130'
-        
-        s = requests.Session()
-        url = 'http://map.baidu.com/detail?qt=caterphoto&uid=%s&type=list&ugc_ver=1' % uid
-        r = requests.get(url)
-        cookies = r.cookies
-        doc = lxml.html.fromstring(r.text)
-        div = doc.xpath("//div[contains(@class, 'more-comments')]")[0]
-        #dzdp, meituan, dcms, globalview, qqfood
-        links = div.xpath("./span/a/@href")
-        dzdp, meituan, dcms, globalview, qqfood = links
-        print meituan
-        print s.get(meituan, cookies=cookies).content 
-        
-    
+     
+   
     @classmethod
     def search_distance(self, q, loc, radius):
         """ 搜索周边
@@ -71,16 +30,78 @@ class BaiduMap:
                
         """
         url = "http://api.map.baidu.com/place/v2/search"
-        params = {'query': q, # 饭店
+        params = {'query': q,  
                   'location': "%s,%s" % tuple(loc), #39.915,116.404,
                   'radius':radius,
                   'output':'json',
-                  'ak': self.token,
+                  'ak': MAIN_TOKEN,
                   'scope': 2
         }
         ret = requests.get(self.url, params=params).text
         return json.loads(ret)
 
+    
+    @classmethod
+    def search_POI(self, query, region):
+        """ 搜索poi
+            q: 搜索关键字，如公厕，饭店，餐馆，洗浴
+        """
+        url = "http://api.map.baidu.com/place/v2/search"
+    
+        params = {'query': query,  
+                  'output':'json',
+                  'ak': MAIN_TOKEN,
+                  'scope': 2,
+                  'region': region
+        }
+        ret = requests.get(url, params=params).text
+        return json.loads(ret)
+    
+    
+    @classmethod
+    def suggestion(self, query, region):
+        url = 'http://api.map.baidu.com/place/v2/suggestion'  
+        ret = requests.get(url,
+                           params = {
+                            'query': query,  
+                            'output':'json',
+                            'ak': MAIN_TOKEN,
+                            'region': region
+                          }).text
+        return json.loads(ret)
+        
+         
+    @classmethod
+    def search_detail(self, uid):
+        # 官方的map api，但是结果不详细
+        url = 'http://api.map.baidu.com/place/v2/detail'
+        ret = requests.get(url,
+                           params = {
+                            'uid': uid,  
+                            'output':'json',
+                            'ak': MAIN_TOKEN,
+                            'scope': 2
+                          }).text
+        return json.loads(ret)
+        
+        
+    def search_detail2(self, uid):
+         # 百度地图官方网页上用的url，返回html,更详细，包含评论
+        #api_url2 = 'http://map.baidu.com/detail?qt=ninf&uid=bf29b7023d290b8009b93a2b&detail=cater&from=list&ugc_ver=1'
+        # 去掉detail=cater返回json 
+        #api_url3 = 'http://map.baidu.com/detail?qt=ninf&uid=5a8fb739999a70a54207c130'
+        s = requests.Session()
+        url = 'http://map.baidu.com/detail?qt=caterphoto&uid=%s&type=list&ugc_ver=1' % uid
+        r = requests.get(url)
+        cookies = r.cookies
+        doc = lxml.html.fromstring(r.text)
+        div = doc.xpath("//div[contains(@class, 'more-comments')]")[0]
+        #dzdp, meituan, dcms, globalview, qqfood
+        links = div.xpath("./span/a/@href")
+        dzdp, meituan, dcms, globalview, qqfood = links
+        print meituan
+        print s.get(meituan, cookies=cookies).content 
+   
 
 class BaiduAPIStore:
     """ 百度APIStore, api集合
