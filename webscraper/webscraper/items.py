@@ -26,6 +26,7 @@ class DianpingItem(scrapy.Item):
     specials_url = scrapy.Field()
     recommends = scrapy.Field()
     reason = scrapy.Field()
+    comments = scrapy.Field()
     
  
 class RecommendItemEntry(DjangoItem):

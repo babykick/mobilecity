@@ -77,7 +77,7 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
         item['address'] = self.extract_first_or_None(response.xpath('//div[contains(@class, "address")]/span[@class="item"]/text()'))
         item['phone']  = self.extract_first_or_None(response.xpath('//p[contains(@class, "tel")]/span[@class="item"]/text()')) 
         
-        # 推荐
+        # 推荐项
         recommends = []
         text = re.search('<p class="recommend-name">.*?</p>', response.body_as_unicode(), re.DOTALL)
         if text:
@@ -88,7 +88,7 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
                    name = self.extract_first_or_None(a.xpath("text()"))
                    recommends.append({'dish': dish, 'name':name, 'img':None})
         item['recommends'] = recommends
-        
+        # 查找对应的图片
         text = re.search('<ul class="recommend-photo clearfix">.*?</ul>', response.body_as_unicode(), re.DOTALL)
         if text:
             text = text.group()
@@ -100,7 +100,7 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
                     if r['name'] == name:
                         r['img'] = img;
                         break
-                    
+        item['comments'] = response.css('.comment-item').css('.content').css('p.desc::text').extract()           
         specials_url = response.xpath('//p[contains(@class, "nug-shop-ab-special_a")]/a[contains(@class, "J-service")]/@href')
         
         if specials_url:
@@ -109,7 +109,7 @@ class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):
            yield Request(url=specials_url, callback=self.parse_specials, meta={'item': item})
         else:
            item['specials_url'] = None
-  
+        
         yield item
         
     def parse_specials(self, response):
