@@ -22,42 +22,48 @@ from .tasks import add
 from business.serializers import POISerializer
 from business.models import POI
 
-# First, define the Manager subclass.
+
+
+
 
 class RecommendList(generics.ListAPIView):
     """
-    ###List all recommendations, or create a new recommendation 
-    Example:  http://127.0.0.1:8000/api/rcmdlist/?n=5&page=2&format=json&token=d16a8d11c10afeabcdef64be5457b3c669467adb  </BR></BR>
-    API Parameters explain
-    =======================
-    n: Item num in a page </BR>
-    page: Page index, start from 1  </BR>
-    format: json   </BR>
-    token: required, as a developer, should be with the url at invoking, example: </BR></BR>
+    ### 查询所有周边推荐
+    * http://localhost:8000/api/rcmdlist/?loc=113.5959367,28.69592534&q=%E7%BE%8E%E9%A3%9F&radius=1000&token=d16a8d11c10afef6592264be5457b3c669467adb
+    * loc: 经纬度
+    * q: 查询关键字
+    * radius: 半径
    
-    ###Return json list </br>
-    ====================== </br>
+    ### API Parameters explain
+    =======================
+    * n: Item num in a page 
+    * page: Page index, start from 1  
+    * format: json   
+    * token: required, as a developer, should be with the url at invoking, example: 
+   
+    #### Return json list 
+    ====================== 
      [{
-        "id": 538,     # id </br>
-        "title": "牛太郎时尚烧烤火锅",   # 标题   </br>
-        "content": "牛太郎时尚烧烤火锅",  # 内容  </br>
-        "summary": "牛太郎时尚烧烤火锅",  # 摘要  </br>
-        "picOneURL": "http://p1.meituan.net/350.214/deal/__18252036__7392151.jpg", # 图片一</br>
-        "picTwoURL": "http://p1.meituan.net/350.214/deal/__18252036__7392151.jpg", # 图片二</br>
-        "picThrURL": "http://p1.meituan.net/350.214/deal/__18252036__7392151.jpg", # 图片三 </br>
-        "hotestComment": null,   # 最火评论 </br>
-        "localPublishTime": "2015-08-05T11:28:54.097+08:00", # 当地发布时间  </br>
-        "author": {    #作者信息</br>
-            "id": 1,   </br>
-            "nickname": "推主X",    </br>
-            "avatar": "http://img3.douban.com/icon/u3823403-2.jpg", </br>
-            "level": 100 </br>
+        "id": 538,     # id 
+        "title": "牛太郎时尚烧烤火锅",   # 标题   
+        "content": "牛太郎时尚烧烤火锅",  # 内容  
+        "summary": "牛太郎时尚烧烤火锅",  # 摘要  
+        "picOneURL": "http://p1.meituan.net/350.214/deal/__18252036__7392151.jpg", # 图片一
+        "picTwoURL": "http://p1.meituan.net/350.214/deal/__18252036__7392151.jpg", # 图片二
+        "picThrURL": "http://p1.meituan.net/350.214/deal/__18252036__7392151.jpg", # 图片三 
+        "hotestComment": null,   # 最火评论 
+        "localPublishTime": "2015-08-05T11:28:54.097+08:00", # 当地发布时间  
+        "author": {    #作者信息
+            "id": 1,   
+            "nickname": "推主X",    
+            "avatar": "http://img3.douban.com/icon/u3823403-2.jpg", 
+            "level": 100 
         },
-        "upCount": 78,  # 赞数</br>
-        "downCount": 3,  # 贬数</br>
-        "tags": [],   # 标签</br>
-        "commentCount": 0, # 评论数 </br>
-        "latestComments": [] # 最近5条评论 </br>
+        "upCount": 78,  # 赞数
+        "downCount": 3,  # 贬数
+        "tags": [],   # 标签
+        "commentCount": 0, # 评论数 
+        "latestComments": [] # 最近5条评论 
       },...]
     """
     serializer_class = RcmdItemEntrySerializer
@@ -71,13 +77,23 @@ class RecommendList(generics.ListAPIView):
     max_paginate_by = 100
     #parser_classes = (FileUploadParser, )
     
+    
     def get_queryset(self):
-        category = self.kwargs.get('category', None)
-        if category is not None:
-            rcmd_set = RecommendItem.objects.filter(category=category)
-        else:
-            rcmd_set = RecommendItem.objects.all()
-        return rcmd_set
+        q = self.request.GET.get('q')
+        loc = map(float, self.request.GET.get('loc').split(','))
+        radius = self.request.GET.get('radius', 1000)
+        if q and loc and radius:
+             return RecommendItem.around.search(q, loc, radius)
+    
+    
+    def by_category(self):
+        pass
+        # 
+        # if category is not None:
+        #     rcmd_set = RecommendItem.objects.filter(category=category)
+        # else:
+        #     rcmd_set = RecommendItem.objects.all()
+        # return rcmd_set
      
 
     def post(self, request, format='json'):

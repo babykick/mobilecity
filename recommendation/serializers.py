@@ -52,13 +52,14 @@ class RcmdItemEntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = RecommendItem
         fields = ('id',
+                  'uid',
                   'title',
                   'summary',
                   'category',
                   'picOneURL',
                   'picTwoURL',
                   'picThrURL',
-                  #'hotestComment',
+                  'isLarge',
                   'localPublishTime',
                   'pubElapse',
                   'author',

@@ -5,9 +5,14 @@ import urlparse
 from webscraper.items import DianpingItem
 import re
 
+
+
+
 class SpiderUtilsMixin(object):
     def extract_first_or_None(self, selector):
         return selector.extract_first().strip() if selector else None
+    
+    
     
     
 class DianpingSpiderSpider(scrapy.Spider, SpiderUtilsMixin):

@@ -1,4 +1,5 @@
 #coding=utf-8
+import random
 from django.db import models
 from django.conf import settings
 from users.models import Author
@@ -16,7 +17,8 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType 
 from django.contrib.contenttypes.fields import GenericRelation
 from cloudinary.models import CloudinaryField 
-
+from api.baiduAPI import BaiduMap
+import pytz
 
 
 
@@ -74,15 +76,32 @@ class Tag(models.Model):
 class AroundManager(models.Manager):
     """ 搜索附近的用户推荐项目
     """
-    def search(self, point, dist=1000):
-        """ point: 中心点坐标 tuple (lat, png)
+    def search(self, q, loc, radius):
+        """ 融合百度POI数据和自有数据
+            point: 中心点坐标 tuple (lat, png)
             dist: 到中心点距离
         """
-        if not isinstance(point, Point):
-            point = Point(point)
-        return super(ArroundManager, self).get_queryset().filter(coordinate__distance_lte=(point, dist))
+        if not isinstance(loc, Point):
+            point = Point(loc)
+        base = super(AroundManager, self)
+        local = base.get_queryset().filter(coordinate__distance_lte=(point, radius))
+        remote  = []
+        pois = BaiduMap.search_distance(q, reversed(loc), radius)
+        for res in pois['results']:
+          item = RecommendItem(title=res['name']+'(test)', summary=u'推荐理由：xxxxxx')
+          item.publishTime = datetime.now(pytz.utc)
+          item.id = None
+          item.uid = res['uid']
+          item.category = q
+          item.picOne = 'http://res.cloudinary.com/filesbed/image/upload/v1445245936/sample.jpg'
+          item.picTwo = 'http://res.cloudinary.com/filesbed/image/upload/v1445245936/sample.jpg'
+          item.picThr = 'http://res.cloudinary.com/filesbed/image/upload/v1445245936/sample.jpg'
+          item.coordinate = Point(res['location']['lng'], res['location']['lat'])
+          item.isLarge = random.choice([True, False])
+          remote.append(item)
+        return list(local) +  remote
       
-      
+       
 
 class RecommendItem(geomodels.Model):
     CATEGORY_CHOICES = (
@@ -94,6 +113,9 @@ class RecommendItem(geomodels.Model):
      
     # 相关的POI id， 可选项，UGC的项目不一定是注册的POI
     poi = models.ForeignKey(POI, related_name="recommendations", blank=True, null=True)
+    
+    # 百度uid
+    uid = models.CharField(max_length=25, null=True, blank=True)
     
     # 坐标
     coordinate = geomodels.PointField(null=True)
@@ -115,6 +137,9 @@ class RecommendItem(geomodels.Model):
     
     # 图片1 URL 
     picOne = models.CharField(max_length=100, default="",blank=True)
+    
+    # 是否大图
+    isLarge = models.BooleanField(default=False)
     
     # 图片2 URL 
     picTwo = models.CharField(max_length=100, default="",blank=True)
