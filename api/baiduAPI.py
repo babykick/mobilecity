@@ -37,7 +37,7 @@ class BaiduMap:
                   'ak': MAIN_TOKEN,
                   'scope': 2
         }
-        ret = requests.get(self.url, params=params).text
+        ret = requests.get(url, params=params).text
         return json.loads(ret)
 
     

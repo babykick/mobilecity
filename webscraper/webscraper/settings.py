@@ -11,7 +11,7 @@
 import os
 BOT_NAME = 'webscraper'
 
-SPIDER_MODULES = ['webscraper.spiders']
+SPIDER_MODULES = ['webscraper.spiders', 'webscraper.spiders.infospiders']
 NEWSPIDER_MODULE = 'webscraper.spiders'
 
 
